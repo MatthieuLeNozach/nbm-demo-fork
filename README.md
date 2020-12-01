@@ -3,20 +3,18 @@
 ![SpeciesfromSound_birdfalloutRalphEldridgemachiassealisland_20200921160702_20200921141043__1_](/uploads/ec07a2b80dd785cfb1494efa40d25890/SpeciesfromSound_birdfalloutRalphEldridgemachiassealisland_20200921160702_20200921141043__1_.jpg)
 
 Millions of bird are migrating by night everywhere on Earth - When conditions are not favorable, some are stopping where they can, as on the Machias Seal Island, this night of May 2011, the 24th (Picture from Ralph Eldridge)
-Problem
+
+**PROBLEM**
 
 Twice a year, millions of birds are migrating on every continents, this phenomenon is called migration and is well documented. However, nocturnal migration has been little studied because of the difficulty to follow birds by night and to identify them uniquely by the sound. Nowadays most of the flight call for the northern hemisphere species at least, are well documented and many researchers and birders are recording continuously migration activity by night, representing tons of data to treat. You understood the problem then : how to analyse hours of night recording automatically by identifying the sequence of interest, extracting it, making it corresponding with a species and store the data somewhere (and linking it to the weather ?) ?
-Idea
-This wonderful question has been studied at different steps, our job is to find a way to :
 
-1/ Find and extract an audio sequence of interest during night migration and to store it properly (hour, characteristics). This will help people to first identify them directly without browsing the whole sequence
+**PROJECT** 
+
+This wonderful question has been studied at different steps, our job is to explore a way to :
+
+1/ Find and extract an audio sequence of interest during night migration and to store it properly (hour, characteristics, locations, weather). This will help people to first identify them directly without browsing the whole sequence
 
 2/ Explore the characteristics of the sound and making it correspond to a species. Artificial intelligence !
-
-Image alt: image Capture_decran_20200921_a_221022.jpg (0.5MB)
-
-
-Night migration flight call identification principle
 
 3/ Store the data properly. Indeed, once the bird has been identified, it is important to store its occurence somewhere. Imagine, putting all the observations of citizen recording in real time in a database and making it available to science ?
 
@@ -24,10 +22,7 @@ The construction of a GeoNature module could be a solution ? Xeno-Canto partners
 
 4/ And... finally.. all the interest is to put the observation in a context and particularly a climatic one : what is the weather and how is it linked to the data. Questions that could be answered with an information system.
 
-Image alt: image Capture_decran_20200921_a_222406.jpg (0.4MB)
 
-The absence of wind is great to have a good quality of recording. However, storms and westerly winds are particularly interesting to observe night migration because the bring lot of informations and unusual migrants which routes have been changed, allowing us to put this phenomenon in perspective
-Papers
 Salamon et al, 2016, Towards the Automatic Classification of Avian Flight Calls for Bioacoustic Monitoring : https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5120805/
 
 The sound approach, 2020, The Sound Approach guide to nocturnal flight calls : https://soundapproach.co.uk/the-sound-approach-guide-to-nocturnal-flight-calls/
@@ -44,10 +39,19 @@ Based on recommendations from current recordists, we’ve summarised the differe
 Data
 
 Software plan
-Therefore a software could be created and the process is as following :1/ Record a whole night with your microphone2/ Put your recording on your computer3/ Open the software and put your recording on it4/ Process5/ After few times, the software tells you each sequence it found6/ It associates each sequence with a species it it can. If not possible it tells you.7/ Therefore your have a table with as many lines as you have sequences and three columns : sequence, species identified and a third one : validation8/ Validation is the most important part : you have the choice either to let it as "not checked", validate it or not.If you validate it, you bring more data to the AI. If not, you can correct it by the species you identified9/ You have a submission button that send all your data to the database with is linked a collaborative platform (Trektellen in Europe ? eBird worldwide after having completed your metadata).10/ The database received all your sequencies and store them on Xeno-Canto for example, with an API. Moreover, it learns more and more how to recognize species.
+Therefore a software could be created and the process is as following :
+
+    1/ Record a whole night with your microphone
+    2/ Put your recording on your computer
+    3/ Open the software and put your recording on it
+    4/ Process
+    5/ After few times, the software tells you each sequence it found
+    6/ It associates each sequence with a species it it can. If not possible it tells you
+    7/ Therefore your have a table with as many lines as you have sequences and three columns : sequence, species identified and a third one : validation
+    8/ Validation is the most important part : you have the choice either to let it as "not checked", validate it or not.If you validate it, you bring more data to the AI. If not, you can correct it by the species you identified
+    9/ You have a submission button that send all your data to the database with is linked a collaborative platform (Trektellen in Europe ? eBird worldwide after having completed your metadata).
+    10/ The database received all your sequencies and store them on Xeno-Canto for example, with an API. Moreover, it learns more and more how to recognize species.
 
 Other plan
 
-1/ Recorders cartography
-
-As Trektellen does, we could imagine a cover from all recorders :
+1/ Recorders cartography. As Trektellen does, we could imagine a cover from all recorders
