@@ -52,16 +52,3 @@ Editor :
 
 Licence : OpenSource - GPL-3.0
 Copyleft 2020-20XX - NBM Community - BioPhonia - Natural Solutions 
-
-A rajouter dans issues et milestones : 
-Other plan
-
-1/ Recorders cartography. As Trektellen does, we could imagine a cover from all recorders
-
-
-    After few times, the software tells you each sequence it found
-    It associates each sequence with a species if it can (and a probability). 
-    Therefore your have a table with as many lines as you have sequences and three columns : sequence, species identified and a third one : validation
-    Validation is the most important part : you have the choice either to let it as "not checked", validate it or not.If you validate it, you bring more data to the AI. If not, you can correct it by the species you identified
-    You have a submission button that send all your data to the database with is linked a collaborative platform (Trektellen in Europe ? eBird worldwide after having completed your metadata).
-    The database received all your sequencies and store them on Xeno-Canto for example, with an API. Moreover, it learns more and more how to recognize species.
