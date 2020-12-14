@@ -50,5 +50,6 @@ Editor :
 
 **Licence** 
 
-Licence : OpenSource - GPL-3.0
-Copyleft 2020-20XX - NBM Community - BioPhonia - Natural Solutions 
+• Licence : OpenSource - GPL-3.0
+• Copyleft 2020-20XX - NBM Community - BioPhonia - Natural Solutions
+ 
