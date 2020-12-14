@@ -9,60 +9,59 @@ You understood the problem then : how to analyse hours of night recording automa
 
 Millions of bird are migrating by night everywhere on Earth - When conditions are not favorable, some are stopping where they can, as on the Machias Seal Island, this night of May 2011, the 24th (Picture from Ralph Eldridge)
 
-**THE PROJECT**
+**BEGINNING OF THE PROJECT**
 
 To answer this question we gathered two companies, Natural Solutions (https://www.natural-solutions.eu/) and BioPhonia (http://www.biophonia.fr/) and propose a challenge in the context of the Hack4Nature (https://www.hackfornature.com/).
 
 Therefore a community of birders, bioaccousticians and developers started the project to discuss about the topic and how it can be treated. 
 
-We opened a Discord chat you can join with this link :
- 
-by identifying the sequence of interest, extracting it, making it corresponding with a species and store the data somewhere (and linking it to the weather ?) ?
+We opened a Discord chat you can join with this link (in french) : https://discord.gg/95SNguK3tP 
 
-**PROJECT** 
+**THE PROJECT** 
 
-This wonderful question has been studied at different steps, our job is to explore a way to :
+With the bioaccousticians groupe we identified many issues that have to be explored : 
+1/ Can we detect a sound recorded from different background, different recorders in different places and at different dates ? 
+2/ Can we separate a bird call from other biophonia or anthropophonia sounds ?
+3/ Can we identify the species ? 
 
-1/ Find and extract an audio sequence of interest during night migration and to store it properly (hour, characteristics, locations, weather). This will help people to first identify them directly without browsing the whole sequence
+AI is able to do so, with good algorithm, lot of training and annotated data. 
+As always with AI, the quantity and the quality of data is the main issue. 
 
-2/ Explore the characteristics of the sound and making it correspond to a species. Artificial intelligence !
+Then, the first step is to construct a database that is under Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) licence (https://creativecommons.org/licenses/by-sa/4.0/) and can be reusable by any people wanted to work with bird sounds. 
+The database is for the moment a servor to store the soundfiles you can find at this link : http://91.121.179.208/nextcloud/index.php/s/SW3BG4DJ8Y5MXqp
 
-3/ Store the data properly. Indeed, once the bird has been identified, it is important to store its occurence somewhere. Imagine, putting all the observations of citizen recording in real time in a database and making it available to science ?
+However, we will create a PostGre database (https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/milestones/3) that must be linked with a web platform in order to birders be able to enter data more easily and bioaccousticians to extract them. The features for the plateform are described and discussed here : https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/milestones/1 
 
-The construction of a GeoNature module could be a solution ? Xeno-Canto partnership ?
+From these data, bioaccousticians will be able to start training their AI. With many existing projects worlwide, we don't want to create something new but want to adapt and improve existing AI :  
+    For the detection, here are the discussions :
+    For the separation between bird sounds, here are the discussions :
+    For the identification, here are the discussions : 
+All together, here are the explored topics for the AI : 
 
-4/ And... finally.. all the interest is to put the observation in a context and particularly a climatic one : what is the weather and how is it linked to the data. Questions that could be answered with an information system.
+When the first results of the AI will be on, the next challenge will be to implement this AI in an editor birders can download on their computer to process their night. Here are the discussions for this editor : 
 
+**Technologies**
 
-Salamon et al, 2016, Towards the Automatic Classification of Avian Flight Calls for Bioacoustic Monitoring : https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5120805/
+Annotations database : 
 
-The sound approach, 2020, The Sound Approach guide to nocturnal flight calls : https://soundapproach.co.uk/the-sound-approach-guide-to-nocturnal-flight-calls/
+AI : 
 
-Trektellen, , A protocol for standardized nocturnal flight call monitoring : https://www.trektellen.nl/static/doc/Protocol_for_standardised_nocturnal_flight_call_monitoring_v01.pdf
-Links
-The full story of an extraordinary night of migration on the American continent : http://www.thenaturalistsnotebook.com/our-blog/migrating-bird-fallout-on-machias-seal-island
+Editor : 
 
-‘Nocmig’ (or Night Flight Call / NFC recording as it’s known in North America) is the nocturnal equivalent of visible migration watching, and typically employs sound recording equipment to capture the flight calls of migrating birds. Whether you’re interested in new birds for your garden list or keen to record migration more systematically, knowing where to start can seem baffling. Here we aim to collate information and tips about the developing – and captivating! – world of nocmig.With a modest investment in some recording equipment (as little as £10) and some free software to process recordings, you can start to identify birds migrating over your location each night. You’ll be amazed at the range of species you’ve been missing – you may have heard Redwings on calm autumn evenings but you should be able to add Blackbird, Song Thrush, Fieldfare and perhaps Ring Ouzel, waterbirds such as Coot, Moorhen and Water Rail, and passage waders like Whimbrel and Golden Plover. If you’re really lucky there are rarities like Bittern, Common Scoter and Ortolan Bunting for the finding. If you need more motivation, read more here.
+**Licence** 
 
-Based on recommendations from current recordists, we’ve summarised the different equipment options available and offer tips for how, where and when to record. We provide step-by-step instructions for using free audio software to process your night-long recordings to find bird vocalisations of interest. And if you’re lucky enough to record a bird you don’t recognise, we maintain links to the latest identification information.This is very much a ‘work in progress’, so if there something obvious missing please tell us.Contributors and acknowledgmentsThese pages are written and maintained by Simon Gillings and Nick Moran. As relative newcomers to the nocmig world we’ve learnt a lot from experimentation and informed by tips from seasoned ‘nocmiggers’. In particular, we thank Joost van Bruggen, Patrick Franke, Nick Hopper, Mark Lewis, James Lidster, Tim Jones, Paul Morton and Magnus Robb. https://nocmig.com/
+Licence : OpenSource - GPL-3.0
+Copyleft 2020-20XX - NBM Community - BioPhonia - Natural Solutions 
 
-
-Data
-
-Software plan
-Therefore a software could be created and the process is as following :
-
-    1/ Record a whole night with your microphone
-    2/ Put your recording on your computer
-    3/ Open the software and put your recording on it
-    4/ Process
-    5/ After few times, the software tells you each sequence it found
-    6/ It associates each sequence with a species it it can. If not possible it tells you
-    7/ Therefore your have a table with as many lines as you have sequences and three columns : sequence, species identified and a third one : validation
-    8/ Validation is the most important part : you have the choice either to let it as "not checked", validate it or not.If you validate it, you bring more data to the AI. If not, you can correct it by the species you identified
-    9/ You have a submission button that send all your data to the database with is linked a collaborative platform (Trektellen in Europe ? eBird worldwide after having completed your metadata).
-    10/ The database received all your sequencies and store them on Xeno-Canto for example, with an API. Moreover, it learns more and more how to recognize species.
-
+A rajouter dans issues et milestones : 
 Other plan
 
 1/ Recorders cartography. As Trektellen does, we could imagine a cover from all recorders
+
+
+    After few times, the software tells you each sequence it found
+    It associates each sequence with a species if it can (and a probability). 
+    Therefore your have a table with as many lines as you have sequences and three columns : sequence, species identified and a third one : validation
+    Validation is the most important part : you have the choice either to let it as "not checked", validate it or not.If you validate it, you bring more data to the AI. If not, you can correct it by the species you identified
+    You have a submission button that send all your data to the database with is linked a collaborative platform (Trektellen in Europe ? eBird worldwide after having completed your metadata).
+    The database received all your sequencies and store them on Xeno-Canto for example, with an API. Moreover, it learns more and more how to recognize species.
