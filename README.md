@@ -1,12 +1,23 @@
 # NBM - Nocturnal Bird Migration
 
+**THE PROBLEM**
+
+Twice a year, millions of birds are migrating on every continents, this phenomenon is called migration and is well documented. However, nocturnal migration has been little studied because of the difficulty to follow birds by night and to identify them uniquely by the sound. Nowadays most of the flight callS for the northern hemisphere species at least, are well documented and many researchers and birders are recording continuously migration activity by night, representing tons of data to treat. 
+You understood the problem then : how to analyse hours of night recording automatically ? 
+
 ![SpeciesfromSound_birdfalloutRalphEldridgemachiassealisland_20200921160702_20200921141043__1_](/uploads/ec07a2b80dd785cfb1494efa40d25890/SpeciesfromSound_birdfalloutRalphEldridgemachiassealisland_20200921160702_20200921141043__1_.jpg)
 
 Millions of bird are migrating by night everywhere on Earth - When conditions are not favorable, some are stopping where they can, as on the Machias Seal Island, this night of May 2011, the 24th (Picture from Ralph Eldridge)
 
-**PROBLEM**
+**THE PROJECT**
 
-Twice a year, millions of birds are migrating on every continents, this phenomenon is called migration and is well documented. However, nocturnal migration has been little studied because of the difficulty to follow birds by night and to identify them uniquely by the sound. Nowadays most of the flight call for the northern hemisphere species at least, are well documented and many researchers and birders are recording continuously migration activity by night, representing tons of data to treat. You understood the problem then : how to analyse hours of night recording automatically by identifying the sequence of interest, extracting it, making it corresponding with a species and store the data somewhere (and linking it to the weather ?) ?
+To answer this question we gathered two companies, Natural Solutions (https://www.natural-solutions.eu/) and BioPhonia (http://www.biophonia.fr/) and propose a challenge in the context of the Hack4Nature (https://www.hackfornature.com/).
+
+Therefore a community of birders, bioaccousticians and developers started the project to discuss about the topic and how it can be treated. 
+
+We opened a Discord chat you can join with this link :
+ 
+by identifying the sequence of interest, extracting it, making it corresponding with a species and store the data somewhere (and linking it to the weather ?) ?
 
 **PROJECT** 
 
