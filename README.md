@@ -33,7 +33,7 @@ The database is for the moment a servor to store the soundfiles you can find at 
 However, we will create a PostGre database (https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/milestones/3) that must be linked with a web platform in order to birders be able to enter data more easily and bioaccousticians to extract them. The features for the plateform are described and discussed here : https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/milestones/1 
 
 From these data, bioaccousticians will be able to start training their AI. With many existing projects worlwide, we don't want to create something new but want to adapt and improve existing AI :  
-    For the detection, here are the discussions :  </br>
+    For the detection, here are the discussions :  <br>
     For the separation between bird sounds, here are the discussions :
     For the identification, here are the discussions : 
 All together, here are the explored topics for the AI : 
