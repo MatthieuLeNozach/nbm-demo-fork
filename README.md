@@ -44,7 +44,11 @@ https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/blob/master/BIRD
 Then, the first step is to construct a database that is under Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) licence (https://creativecommons.org/licenses/by-sa/4.0/) and can be reusable by any people wanted to work with bird sounds. 
 The database is for the moment a servor to store the soundfiles you can find at this link : http://91.121.179.208/nextcloud/index.php/s/SW3BG4DJ8Y5MXqp
 
-However, we will create a PostGre database (https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/milestones/3) that must be linked with a web platform in order to birders be able to enter data more easily and bioaccousticians to extract them. The features for the plateform are described and discussed here : https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/milestones/1 
+However, we will create a PostGre database (https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/milestones/3) that must be linked with a web platform in order to birders be able to enter data more easily and bioaccousticians to extract them. 
+This is how **developers** start contributing !  
+The features for the plateform are described and discussed here : https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/milestones/1 
+
+
 
 From these data, bioaccousticians will be able to start training their AI. With many existing projects worlwide, we don't want to create something new but want to adapt and improve existing AI :  
     For the detection, here are the discussions :  https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/milestones/7
