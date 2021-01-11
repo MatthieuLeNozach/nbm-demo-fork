@@ -1,6 +1,6 @@
 # NBM - Nocturnal Bird Migration
 
-**THE PROBLEM**
+## THE PROBLEM ##
 
 Twice a year, millions of birds are migrating on every continents, this phenomenon is called migration and is well documented. However, nocturnal migration has been little studied because of the difficulty to follow birds by night and to identify them uniquely by the sound. Nowadays most of the flight callS for the northern hemisphere species at least, are well documented and many researchers and birders are recording continuously migration activity by night, representing tons of data to treat. 
 You understood the problem then : how to analyse hours of night recording automatically ? 
@@ -10,7 +10,7 @@ You understood the problem then : how to analyse hours of night recording automa
 
 Millions of bird are migrating by night everywhere on Earth - When conditions are not favorable, some are stopping where they can, as on the Machias Seal Island, this night of May 2011, the 24th (Picture from Ralph Eldridge)
 
-**BEGINNING OF THE PROJECT**
+## BEGINNING OF THE PROJECT ##
 
 To answer this question we gathered two companies, Natural Solutions (https://www.natural-solutions.eu/) and BioPhonia (http://www.biophonia.fr/) and propose a challenge in the context of the Hack4Nature (https://www.hackfornature.com/).
 
@@ -18,7 +18,7 @@ Therefore a community of birders, bioaccousticians and developers started the pr
 
 We opened a Discord chat you can join with this link (in french) : https://discord.gg/95SNguK3tP 
 
-**THE PROJECT** 
+## THE PROJECT ##
 
 With the bioaccousticians groupe we identified many issues that have to be explored : <br>
 1/ Can we detect a sound recorded from different background, different recorders in different places and at different dates ? 
@@ -53,7 +53,7 @@ All together, here are the explored topics for the AI :
 
 When the first results of the AI will be on, the next challenge will be to implement this AI in an editor birders can download on their computer to process their night. Here are the discussions for this editor : 
 
-**Technologies**
+## Technologies ##
 
 Annotations database : 
 
@@ -61,7 +61,7 @@ AI :
 
 Editor : 
 
-**Licence** 
+## Licence ## 
 
 • Licence : OpenSource - GPL-3.0
 • Copyleft 2020-20XX - NBM Community - BioPhonia - Natural Solutions
