@@ -20,7 +20,7 @@ We opened a Discord chat you can join with this link (in french) : https://disco
 
 ## THE PROJECT ##
 
-With the bioaccousticians groupe we identified many issues that have to be explored : <br>
+With the *bioaccousticians groupe* we identified many issues that have to be explored : <br>
 1/ Can we detect a sound recorded from different background, different recorders in different places and at different dates ? 
 <br>
 2/ Can we separate a bird call from other biophonia or anthropophonia sounds ? 
