@@ -14,7 +14,11 @@ Millions of bird are migrating by night everywhere on Earth - When conditions ar
 
 To answer this question we gathered two companies, Natural Solutions (https://www.natural-solutions.eu/) and BioPhonia (http://www.biophonia.fr/) and propose a challenge in the context of the Hack4Nature (https://www.hackfornature.com/).
 
-Therefore a community of birders, bioaccousticians and developers started the project to discuss about the topic and how it can be treated. 
+Therefore a **community of birders, bioaccousticians and developers** started the project to discuss about the topic and how it can be treated. 
+At its scale, everyone, can participate ! You can see how with the contributing.md files displayed for each groupe. <br>
+Birders : <br>
+Developers : <br>
+AI data scientist/developer/bioaccousticians : <br>
 
 We opened a Discord chat you can join with this link (in french) : https://discord.gg/95SNguK3tP 
 
@@ -33,9 +37,9 @@ With the **bioaccousticians groupe** we identified many issues that have to be e
 AI is able to do so, with good algorithm, lot of training and annotated data. 
 As always with AI, the quantity and the quality of data is the main issue. 
 
-It is why we need you **birders** ! 
-Want to participate to this project and don't know how ? Follow the link below ! 
-https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/blob/master/BIRDERS_CONTRIBUTING.md
+It is why we need you **birders** ! <br>
+Want to participate to this project and don't know how ? Follow the link below ! <br>
+https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/blob/master/BIRDERS_CONTRIBUTING.md <br>
 
 Then, the first step is to construct a database that is under Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) licence (https://creativecommons.org/licenses/by-sa/4.0/) and can be reusable by any people wanted to work with bird sounds. 
 The database is for the moment a servor to store the soundfiles you can find at this link : http://91.121.179.208/nextcloud/index.php/s/SW3BG4DJ8Y5MXqp
