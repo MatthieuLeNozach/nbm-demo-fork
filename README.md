@@ -9,7 +9,7 @@ You understood the problem then : how to analyse hours of night recording automa
 
 ![SpeciesfromSound_birdfalloutRalphEldridgemachiassealisland_20200921160702_20200921141043__1_](/uploads/ec07a2b80dd785cfb1494efa40d25890/SpeciesfromSound_birdfalloutRalphEldridgemachiassealisland_20200921160702_20200921141043__1_.jpg) 
 <img src="/uploads/ec07a2b80dd785cfb1494efa40d25890/SpeciesfromSound_birdfalloutRalphEldridgemachiassealisland_20200921160702_20200921141043__1_.jpg"  width="480" height="240">
-
+<img align="right" src="/uploads/ec07a2b80dd785cfb1494efa40d25890/SpeciesfromSound_birdfalloutRalphEldridgemachiassealisland_20200921160702_20200921141043__1_.jpg">
 
 
 Millions of bird are migrating by night everywhere on Earth - When conditions are not favorable, some are stopping where they can, as on the Machias Seal Island, this night of May 2011, the 24th (Picture from Ralph Eldridge)
