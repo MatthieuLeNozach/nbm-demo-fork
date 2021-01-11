@@ -20,7 +20,7 @@ We opened a Discord chat you can join with this link (in french) : https://disco
 
 ## THE PROJECT ##
 
-With the *bioaccousticians groupe* we identified many issues that have to be explored : <br>
+With the **bioaccousticians groupe** we identified many issues that have to be explored : <br>
 1/ Can we detect a sound recorded from different background, different recorders in different places and at different dates ? 
 <br>
 2/ Can we separate a bird call from other biophonia or anthropophonia sounds ? 
@@ -33,7 +33,7 @@ With the *bioaccousticians groupe* we identified many issues that have to be exp
 AI is able to do so, with good algorithm, lot of training and annotated data. 
 As always with AI, the quantity and the quality of data is the main issue. 
 
-It is why we need you birders ! 
+It is why we need you **birders** ! 
 Want to participate to this project and don't know how ? Follow the link below ! 
 https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/blob/master/BIRDERS_CONTRIBUTING.md
 
