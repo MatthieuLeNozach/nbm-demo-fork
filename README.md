@@ -27,8 +27,14 @@ With the bioaccousticians groupe we identified many issues that have to be explo
 3/ Can we identify the species ?
 <br>
 
+![SpeciesfromSound_Capture_decran_20200921_a_221022_20200921220823_20200921201138](/uploads/bb19c399eb66f97eab18b6b86ab26234/SpeciesfromSound_Capture_decran_20200921_a_221022_20200921220823_20200921201138.jpg)
+
 AI is able to do so, with good algorithm, lot of training and annotated data. 
 As always with AI, the quantity and the quality of data is the main issue. 
+
+It is why we need you birders ! 
+Want to participate to this project and don't know how ? Follow the link below ! 
+https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/blob/master/BIRDERS_CONTRIBUTING.md
 
 Then, the first step is to construct a database that is under Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) licence (https://creativecommons.org/licenses/by-sa/4.0/) and can be reusable by any people wanted to work with bird sounds. 
 The database is for the moment a servor to store the soundfiles you can find at this link : http://91.121.179.208/nextcloud/index.php/s/SW3BG4DJ8Y5MXqp
