@@ -6,9 +6,15 @@ Don't hesitate to propose any improvement to it !
 
 ## First step : Record nocturnal migration ! ##
 
+Image à droite 
+
 ## Second step : Annotate your sound file ! ## 
 
+Image à droite 
+
 ## Third step : Upload your annoation and sound files ! ##
+
+Image à droite 
 
 For the moment it is : 
 
