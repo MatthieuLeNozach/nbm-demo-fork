@@ -13,4 +13,6 @@ Find the issue or create an issue (suggesting the appropriate milestone) for a f
 
 ## Second step : Create a merge request to the issue, if not done ## 
 
-## Third step : 
+## Third step : Pull the branch and develop 
+
+## Fourth step : 
