@@ -16,7 +16,7 @@ To answer this question we gathered two companies, Natural Solutions (https://ww
 
 <br><br><br>
 
-<img align="left" width="450" height="180" src="/uploads/7ad014a872620614846256079ef1fe9c/logo_BioPhonia.jpg">
+<img width="450" height="180" src="/uploads/7ad014a872620614846256079ef1fe9c/logo_BioPhonia.jpg">
 <img align="right" width="450" height="180" src="/uploads/e974f8f4715b4bbb5d766e5f97d4e821/logo_NS_fond-blanc.webp">
 
 <br>
