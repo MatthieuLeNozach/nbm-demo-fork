@@ -17,6 +17,7 @@ To answer this question we gathered two companies, Natural Solutions (https://ww
 ![logo_BioPhonia](/uploads/7ad014a872620614846256079ef1fe9c/logo_BioPhonia.jpg)
 <img align="right" width="500" height="180" src="/uploads/e974f8f4715b4bbb5d766e5f97d4e821/logo_NS_fond-blanc.webp">
 
+<br>
 Therefore a **community of birders, bioaccousticians and developers** started the project to discuss about the topic and how it can be treated. 
 At its scale, everyone, can participate ! You can see how with the contributing.md files displayed for each groupe. <br>
 Birders : <br>
