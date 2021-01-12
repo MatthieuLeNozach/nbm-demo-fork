@@ -21,9 +21,9 @@ To answer this question we gathered two companies, Natural Solutions (https://ww
 
 Therefore a **community of birders, bioaccousticians and developers** started the project to discuss about the topic and how it can be treated. 
 At its scale, everyone, can participate ! You can see how with the contributing.md files displayed for each groupe. <br>
-Birders : <br>
-Developers : <br>
-AI data scientist/developer/bioaccousticians : <br>
+Birders : https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/blob/master/BIRDERS_CONTRIBUTING.md <br>
+Developers : https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/blob/master/DEVELOPERS_CONTRIBUTING.md <br>
+AI data scientist/developer/bioaccousticians : https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/blob/master/AI_CONTRIBUTING.md <br>
 
 We opened a Discord chat you can join with this link (in french) : https://discord.gg/95SNguK3tP 
 
