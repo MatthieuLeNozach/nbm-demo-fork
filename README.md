@@ -30,6 +30,8 @@ We opened a Discord chat you can join with this link (in french) : https://disco
 
 ## THE PROJECT ##
 
+### For bioaccousticians ###
+
 Normally, after having put the recording ont its computer, a birder open it with a software that transform the sound file into a spectrogramm. 
 Then, the birder browses the audio sequence until he/she detects a sound, plays it and identify what bird it is (when it is a bird) ! 
 
@@ -53,33 +55,43 @@ All together, here are the explored topics for the AI : https://app.wisemapping.
 Here is a scheme : 
 ![SpeciesfromSound_Capture_decran_20200921_a_221022_20200921220823_20200921201138](/uploads/bb19c399eb66f97eab18b6b86ab26234/SpeciesfromSound_Capture_decran_20200921_a_221022_20200921220823_20200921201138.jpg)
 
-AI is able to do so, with good algorithm, lot of training and annotated data. 
-As always with AI, the quantity and the quality of data is the main issue. 
+### For birders ###
+
+AI is able to do so with good algorithm, lot of training and annotated data. 
+As always with AI, **the quantity and the quality of data is the main issue**. 
 
 It is why we need you **birders** ! <br>
 Want to participate to this project and don't know how ? Follow the link below ! <br>
 https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/blob/master/BIRDERS_CONTRIBUTING.md <br>
 
-Then, the first step is to construct a database that is under Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) licence (https://creativecommons.org/licenses/by-sa/4.0/) and can be reusable by any people wanted to work with bird sounds. 
+The first step is to construct a strong database  (under Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) licence (https://creativecommons.org/licenses/by-sa/4.0/)) that can be used for the project and can be reusable by any people wanted to work with bird sounds. 
 The database is for the moment a servor to store the soundfiles you can find at this link : http://91.121.179.208/nextcloud/index.php/s/SW3BG4DJ8Y5MXqp
 
-However, we will create a PostGre database (https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/milestones/3) that must be linked with a web platform in order to birders be able to enter data more easily and bioaccousticians to extract them. 
+### For developers ###
+
+However, this is not practical to only have a storage servor. We need to create a PostGre database (https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/milestones/3) that must be linked with a web platform in order to birders be able to enter data more easily and bioaccousticians to extract them. 
+
 This is how **developers** start contributing !  
-The features for the plateform are described and discussed here : https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/milestones/1 
 
+The features for the annotation platform are described and discussed here : https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/milestones/1 
 
+In the mean time, developers can start the final platform/application that will allow anyone to have a NBM sotfware on its computer to analyse soundfiles : 
 
-From these data, bioaccousticians will be able to start training their AI.
+(Scheme how we represent it + Milestone)
 
-When the first results of the AI will be on, the next challenge will be to implement this AI in an editor birders can download on their computer to process their night. Here are the discussions for this editor : 
+Indeed, when the first results from the AI, trained by sound files, developers will have an idea of what and how to implement it, next step ! 
 
 ## Technologies ##
 
 Annotations database : 
 
+Annotations platform : 
+
 AI : 
 
 Editor : 
+
+Central platform : 
 
 ## Licence ## 
 
