@@ -5,11 +5,11 @@
 ## THE PROBLEM ##
 <img align="right" width="600" height="270" src="/uploads/ec07a2b80dd785cfb1494efa40d25890/SpeciesfromSound_birdfalloutRalphEldridgemachiassealisland_20200921160702_20200921141043__1_.jpg">
 
-Twice a year, millions of birds are migrating on every continents, this phenomenon is called migration and is well documented. However, nocturnal migration has been little studied because of the difficulty to follow birds by night and to identify them uniquely by the sound. Nowadays most of the flight callS for the northern hemisphere species at least, are well documented and many researchers and birders are recording continuously migration activity by night, representing tons of data to treat. 
+Twice a year, millions of birds are migrating on every continents, this phenomenon is called migration and is well documented. However, nocturnal migration has been little studied because of the difficulty to follow birds by night and to identify them uniquely by the sound. Nowadays most of the flight calls for the northern hemisphere species at least, are well documented and many researchers and birders are recording continuously migration activity by night, representing tons of data to treat. 
 You understood the problem then : how to analyse hours of night recording automatically ? 
 
 Millions of bird are migrating by night everywhere on Earth - When conditions are not favorable, some are stopping where they can, as on the Machias Seal Island, this night of May 2011, the 24th (Picture from Ralph Eldridge)
-
+<br>
 ## BEGINNING OF THE PROJECT ##
 
 To answer this question we gathered two companies, Natural Solutions (https://www.natural-solutions.eu/) and BioPhonia (http://www.biophonia.fr/) and propose a challenge in the context of the Hack4Nature (https://www.hackfornature.com/).
@@ -20,6 +20,7 @@ To answer this question we gathered two companies, Natural Solutions (https://ww
 <br>
 
 Therefore a **community of birders, bioaccousticians and developers** started the project to discuss about the topic and how it can be treated. 
+
 At its scale, everyone, can participate ! You can see how with the contributing.md files displayed for each groupe. <br>
 Birders : https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/blob/master/BIRDERS_CONTRIBUTING.md <br>
 Developers : https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/blob/master/DEVELOPERS_CONTRIBUTING.md <br>
@@ -29,7 +30,10 @@ We opened a Discord chat you can join with this link (in french) : https://disco
 
 ## THE PROJECT ##
 
-With the **bioaccousticians groupe** we identified many issues that have to be explored : <br>
+Normally, after having put the recording ont its computer, a birder open it with a software that transform the sound file into a spectrogramm. 
+Then, the birder browses the audio sequence until he/she detects a sound, plays it and identify what bird it is (when it is a bird) ! 
+
+Therefore, with the **bioaccousticians groupe** we identified many issues that have to be explored : <br>
 1/ Can we detect a sound recorded from different background, different recorders in different places and at different dates ? 
 <br>
 2/ Can we separate a bird call from other biophonia or anthropophonia sounds ? 
@@ -37,6 +41,16 @@ With the **bioaccousticians groupe** we identified many issues that have to be e
 3/ Can we identify the species ?
 <br>
 
+With many existing projects worlwide, we don't want to create something new but want to use, adapt and improve existing AI :  
+    For the detection, here are the discussions :  https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/milestones/7
+    <br>
+    For the separation between bird sounds, here are the discussions :  https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/milestones/5
+    <br>
+    For the identification, here are the discussions : https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/milestones/6
+    <br>
+All together, here are the explored topics for the AI : https://app.wisemapping.com/c/maps/1073690/public 
+
+Here is a scheme : 
 ![SpeciesfromSound_Capture_decran_20200921_a_221022_20200921220823_20200921201138](/uploads/bb19c399eb66f97eab18b6b86ab26234/SpeciesfromSound_Capture_decran_20200921_a_221022_20200921220823_20200921201138.jpg)
 
 AI is able to do so, with good algorithm, lot of training and annotated data. 
@@ -55,14 +69,7 @@ The features for the plateform are described and discussed here : https://gitlab
 
 
 
-From these data, bioaccousticians will be able to start training their AI. With many existing projects worlwide, we don't want to create something new but want to adapt and improve existing AI :  
-    For the detection, here are the discussions :  https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/milestones/7
-    <br>
-    For the separation between bird sounds, here are the discussions :  https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/milestones/5
-    <br>
-    For the identification, here are the discussions : https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/milestones/6
-    <br>
-All together, here are the explored topics for the AI : 
+From these data, bioaccousticians will be able to start training their AI.
 
 When the first results of the AI will be on, the next challenge will be to implement this AI in an editor birders can download on their computer to process their night. Here are the discussions for this editor : 
 
