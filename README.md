@@ -14,8 +14,8 @@ Millions of bird are migrating by night everywhere on Earth - When conditions ar
 
 To answer this question we gathered two companies, Natural Solutions (https://www.natural-solutions.eu/) and BioPhonia (http://www.biophonia.fr/) and propose a challenge in the context of the Hack4Nature (https://www.hackfornature.com/).
 
+<img align= "right" width="450" height="180" src="/uploads/e974f8f4715b4bbb5d766e5f97d4e821/logo_NS_fond-blanc.webp">
 <img width="450" height="180" src="/uploads/7ad014a872620614846256079ef1fe9c/logo_BioPhonia.jpg">
-<img width="450" height="180" src="/uploads/e974f8f4715b4bbb5d766e5f97d4e821/logo_NS_fond-blanc.webp">
 
 <br>
 
