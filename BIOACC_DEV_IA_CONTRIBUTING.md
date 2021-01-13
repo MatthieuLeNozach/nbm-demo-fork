@@ -19,14 +19,28 @@ When creating an issue, be sure that it can be undarstood by everyone.
 ## Second step : Create a merge request to the issue, if not done ## 
 
 When you click on an issue, there is the possibility to create a merge request. : 
+
+<br>
+<br>
+<br>
+
 ![Example_MR](/uploads/eaab6dd3e7b974a58625724ad97b582b/Example_MR.png)
+
+<br>
+<br>
 
 This will create you a development branch if it is not already existing. 
 
 ## Third step : Pull the branch, develop and push 
 
-Then it is git flow as explained here : ![git_operations](/uploads/dc22b4838d6fc0ba7cb5cec4ef6fb9ff/git_operations.png)
+Then it is git flow as explained here :
+<br>
+<br>
+<br> ![git_operations](/uploads/dc22b4838d6fc0ba7cb5cec4ef6fb9ff/git_operations.png)
 (Source : http://www.silanus.fr/nsi/premiere/git/git.html)
+
+<br>
+<br>
 
 First : Pull the branch to your local repo, git checkout it to your working environment, develop and then take it back to the NBM repository (add --> commit --> push). 
 
