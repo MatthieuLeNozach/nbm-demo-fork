@@ -2,9 +2,9 @@ How to Contribute as a developer/IA data scientist/bioaccoustician ?
 
 NBM is an open source project everyone can contribute at. 
 
-If you are a developer/IA data scientist/bioaccoustician, we hope this document makes the process for contributing clear and answers questions you may have. Don't hesitate to propose any improvement to it ! 
+If you are a developer/IA data scientist/bioaccoustician, we hope this document makes the contribution process clear and answers questions you may have. Don't hesitate to propose any improvement to it ! 
 
-1. Find/create the you want to work on 
+1. Find/create the issue you want to work on 
 2. Create a merge request, if not done 
 3. Pull the branch, develop and push 
 
@@ -14,7 +14,7 @@ The project is structured in **milestones** : general objective to reach.
 These milestones gather **issues** of functionnality to be developed. 
 
 Find the issue or create an issue (suggesting the appropriate milestone) for a functionnality, a part of code you want to develop. 
-When creating an issue, be sure that it can be undarstood by everyone. 
+When creating an issue, be sure that it can be understood by everyone. 
 
 ## Second step : Create a merge request to the issue, if not done ## 
 
@@ -29,7 +29,7 @@ When you click on an issue, there is the possibility to create a merge request. 
 <br>
 <br>
 
-This will create you a development branch if it is not already existing. 
+This will create you a development branch if it does not already exist. 
 
 ## Third step : Pull the branch, develop and push 
 
