@@ -6,7 +6,7 @@ Don't hesitate to propose any improvement to it !
 
 ## First step : Record nocturnal migration ! ##
 
-Image à droite 
+![Recording_setting](/uploads/ed9fdd4398a8f82d268dd4abd66831ea/Recording_setting.jpg)
 
 ## Second step : Annotate your sound file ! ## 
 
