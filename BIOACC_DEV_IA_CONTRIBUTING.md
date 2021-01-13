@@ -13,7 +13,7 @@ If you are a developer/IA data scientist/bioaccoustician, we hope this document 
 The project is structured in **milestones** : general objective to reach. 
 These milestones gather **issues** of functionnality to be developed. 
 
-Find the issue or create an issue (suggesting the appropriate milestone) for a functionnality, a part of code you want to develop. 
+Find the issue or create an issue for a functionnality, a part of code you want to develop. 
 When creating an issue, be sure that it can be understood by everyone. 
 
 ## Second step : Create a merge request to the issue, if not done ## 
