@@ -14,7 +14,7 @@ The project is structured in **milestones** : general objective to reach.
 These milestones gather **issues** of functionnality to be developed. 
 
 Find the issue or create an issue for a functionnality, a part of code you want to develop. 
-When creating an issue, be sure that it can be understood by everyone by choosing understanble title / through a short description
+When creating an issue, make sure that it can be understood by everyone with an understanble title and a short description.
 
 ## Second step : Create a merge request to the issue, if not done ## 
 
