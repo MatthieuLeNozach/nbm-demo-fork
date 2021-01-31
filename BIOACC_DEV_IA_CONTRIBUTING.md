@@ -16,7 +16,7 @@ These milestones gather **issues** of functionnality to be developed.
 Find the issue or create an issue for a functionnality, a part of code you want to develop. 
 When creating an issue, make sure that it can be understood by everyone with an understanble title and a short description.
 
-## Second step : Create a merge request to the issue, if not done ## 
+## Second step : Create a merge request FROM THE DEV BRANCH to the issue, if not done ## 
 
 When you click on an issue, there is the possibility to create a merge request. : 
 
