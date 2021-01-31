@@ -11,7 +11,7 @@ COPY ./ /app/
 
 ARG FRONTEND_ENV=production
 
-ENV VUE_APP_ENV=${FRONTEND_ENV}
+ENV NEXT_APP_ENV=${FRONTEND_ENV}
 
 # Comment out the next line to disable tests
 RUN npm run test:unit
