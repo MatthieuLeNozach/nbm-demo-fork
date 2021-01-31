@@ -6,13 +6,14 @@ library(bioacoustics)
 
 #Set Working directory (were are all your files txt, wav or mp3)
 
-setwd("D:/BioPhonia/MathurinAubry")
+path_to_files = "Enter path to the folder containing" #Think about moving this to config file later 
+setwd(path_to_files)
 
 #If sound files are in mp3, convert them in wav with : 
 mp32wav(samp.rate = 44.1, parallel = 2)
 
 #List all .txt files in the folder
-all_files <- list.files("D:/BioPhonia/MathurinAubry/", pattern = "*.txt")
+all_files <- list.files(path_to_files, pattern = "*.txt")
 
 #Read the .txt files with all the label extract from Audacity
 essai<-lapply(all_files, read.audacity)
@@ -43,6 +44,6 @@ x5$sound.files <-str_replace(x5$file, ".txt", ".wav")
 # norm : Logical indicating whether wave objects must be normalized first using the function normalize. Additional arguments can be passed to normalize using `...`.` Default is FALSE. See normalize for available options.
 
 
-cut_sels(x5, mar= 0.05, path="D:/BioPhonia/MathurinAubry/", dest.path = "D:/BioPhonia/MathurinAubry/", labels = c("selec", "label"))
+cut_sels(x5, mar= 0.05, path=path_to_files, dest.path =path_to_files, labels = c("selec", "label"))
 
 
