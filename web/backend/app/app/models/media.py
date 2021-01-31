@@ -20,8 +20,8 @@ class Media(Base):
         nullable=False,
         default=MediaType.SOUND.value,
     )
-    file_url = Column(String, unique=False, index=True, nullable=True)
-    file_source = Column(String, unique=False, index=True, nullable=True)
+    file_url = Column(String, unique=False, index=False, nullable=True)
+    file_source = Column(String, unique=False, index=False, nullable=True)
     meta = Column(JSONB, nullable=True)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)

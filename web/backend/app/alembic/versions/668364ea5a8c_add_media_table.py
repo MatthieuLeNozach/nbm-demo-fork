@@ -32,8 +32,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['origin_id'], ['media.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_media_file_source'), 'media', ['file_source'], unique=False)
-    op.create_index(op.f('ix_media_file_url'), 'media', ['file_url'], unique=False)
     op.create_index(op.f('ix_media_id'), 'media', ['id'], unique=False)
     op.create_index(op.f('ix_media_owner_id'), 'media', ['owner_id'], unique=False)
     op.create_index(op.f('ix_media_origin_id'), 'media', ['origin_id'], unique=False)
@@ -46,7 +44,5 @@ def downgrade():
     op.drop_index(op.f('ix_media_origin_id'), table_name='media')
     op.drop_index(op.f('ix_media_owner_id'), table_name='media')
     op.drop_index(op.f('ix_media_id'), table_name='media')
-    op.drop_index(op.f('ix_media_file_url'), table_name='media')
-    op.drop_index(op.f('ix_media_file_source'), table_name='media')
     op.drop_table('media')
     # ### end Alembic commands ###
