@@ -18,7 +18,7 @@ class Media(Base):
     type = Column(
         Enum(MediaType, values_callable=lambda obj: [e.value for e in obj]),
         nullable=False,
-        default=MediaType.UNDEFINED.value,
+        default=MediaType.SOUND.value,
     )
     file_url = Column(String, unique=False, index=True, nullable=True)
     file_source = Column(String, unique=False, index=True, nullable=True)
