@@ -13,8 +13,8 @@ class MediaType(str, Enum):
 
 # Shared properties
 class MediaBase(BaseModel):
-    file_url: Optional[str] = None
-    file_blob: Optional[str] = None
+    file_url: str
+    file_source: str
     type: MediaType = Field(...)
     created_at: datetime = Field(...)
     updated_at: datetime = Field(...)
@@ -22,7 +22,11 @@ class MediaBase(BaseModel):
 
 # Properties to receive on media creation
 class MediaCreate(MediaBase):
-    title: str
+    file_url: str
+    file_source: str
+    type: MediaType = Field(...)
+    created_at: datetime = Field(...)
+    updated_at: datetime = Field(...)
 
 
 # Properties to receive on Media update
@@ -34,7 +38,9 @@ class MediaUpdate(MediaBase):
 class MediaInDBBase(MediaBase):
     id: int
     file_url: str
-    file_blob: str
+    file_source: str
+    created_at: datetime = Field(...)
+    updated_at: datetime = Field(...)
     owner_id: int
     class Config:
         orm_mode = True

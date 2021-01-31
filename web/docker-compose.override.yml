@@ -1,6 +1,5 @@
 version: "3.3"
 services:
-
   proxy:
     ports:
       - "80:80"
@@ -27,6 +26,9 @@ services:
       - traefik.enable=true
       - traefik.http.routers.${STACK_NAME?Variable not set}-traefik-public-http.rule=Host(`${DOMAIN?Variable not set}`)
       - traefik.http.services.${STACK_NAME?Variable not set}-traefik-public.loadbalancer.server.port=80
+  db:
+    ports:
+      - "5432:5432"
 
   pgadmin:
     ports:
