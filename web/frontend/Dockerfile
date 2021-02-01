@@ -1,28 +1,32 @@
-# Stage 0, "build-stage", based on Node.js, to build and compile the frontend
-FROM tiangolo/node-frontend:10 as build-stage
+# Base on offical Node.js Alpine image
+FROM node:alpine
 
-WORKDIR /app
+# Set working directory
+WORKDIR /usr/app
 
-COPY package*.json /app/
+# Install PM2 globally
+RUN npm install --global pm2
 
-RUN npm install
+# Copy package.json and package-lock.json before other files
+# Utilise Docker cache to save re-installing dependencies if unchanged
+COPY ./package*.json ./
 
-COPY ./ /app/
+# Install dependencies
+RUN npm install 
+# RUN npm install --production
 
-ARG FRONTEND_ENV=production
+# Copy all files
+COPY ./ ./
 
-ENV NEXT_APP_ENV=${FRONTEND_ENV}
-
-# Comment out the next line to disable tests
-RUN npm run test:unit
-
+# Build app
 RUN npm run build
 
+# Expose the listening port
+EXPOSE 3000
 
-# Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
-FROM nginx:1.15
+# Run container as non-root (unprivileged) user
+# The node user is provided in the Node.js Alpine base image
+USER node
 
-COPY --from=build-stage /app/dist/ /usr/share/nginx/html
-
-COPY --from=build-stage /nginx.conf /etc/nginx/conf.d/default.conf
-COPY ./nginx-backend-not-found.conf /etc/nginx/extra-conf.d/backend-not-found.conf
+# Run npm start script with PM2 when container starts
+CMD [ "pm2-runtime", "npm", "--", "start" ]
