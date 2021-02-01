@@ -4,21 +4,27 @@ NBM is an open source project everyone can contribute at.
 
 If you are a developer/IA data scientist/bioaccoustician, we hope this document makes the contribution process clear and answers questions you may have. Don't hesitate to propose any improvement to it ! 
 
-1. Find/create the issue you want to work on 
-2. Create a merge request, if not done 
-3. Pull the branch, develop and push 
+Requirements :
+     • Download Git on your computer : https://git-scm.com/downloads
+     • Git clone the repository on your machine : git clone https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration.git
+     • Having one code editor (such as VSCode, Atom or whatever) will help you a lot 
 
-## First step : Find/create the issue you want to work on ## 
+Then follow the step : 
+1. GitLab : Find/create the issue you want to work on 
+2. GitLab : Create a merge request, if not done 
+3. Your computer : Pull the branch, develop and push 
+
+## First step : GitLab - Find/create the issue you want to work on ## 
 
 The project is structured in **milestones** : general objective to reach. 
-These milestones gather **issues** of functionnality to be developed. 
+These milestones gather **issues** or functionnalities than can be developed. 
 
 Find the issue or create an issue for a functionnality, a part of code you want to develop. 
 When creating an issue, make sure that it can be understood by everyone with an understanble title and a short description.
 
-## Second step : Create a merge request FROM THE DEV BRANCH to the issue, if not done ## 
+## Second step : GitLab - Create a merge request to the issue, if not done ## 
 
-When you click on an issue, there is the possibility to create a merge request. : 
+When you click on an issue, there is the possibility to create a Merge Request (MR) : 
 
 <br>
 <br>
@@ -29,11 +35,26 @@ When you click on an issue, there is the possibility to create a merge request. 
 <br>
 <br>
 
-This will create you a development branch if it does not already exist. 
+When creating the MR, there is a possibility to create an associate branch. Create the branch if it does not exist. 
 
-## Third step : Pull the branch, develop and push 
+**If you are a developer, please create the merge request from the dev branch.**
+**If you are a bioaccoustician, please create the merge request from the AI branch.** 
 
-Then it is git flow as explained here :
+This created branch is a copy of the last points/improvements/developments reached by the origin branch ("dev" or "AI"). 
+
+## Third step : Go to your development environment
+
+Go to your VSCode or other code editor. 
+
+First : git checkout "the branch that you have created for your merge request" 
+Optionnal : if it has been a while that you have created the merge request or someone else work on the same issue you do (not good) : 
+Pull the origin branch ("dev" or "AI")
+
+Second : Develop, add, modify, delete, change everything you need to have a working functionnality 
+
+Third : this is git flow (git add then git commit and finally git push (to the good branch))
+
+For those who are not used to git, part of the flow is explained here :
 <br>
 <br>
 <br> ![git_operations](/uploads/dc22b4838d6fc0ba7cb5cec4ef6fb9ff/git_operations.png)
@@ -44,5 +65,9 @@ Then it is git flow as explained here :
 <br>
 <br>
 
-First : Pull the branch to your local repo, git checkout it to your working environment, develop and then take it back to the NBM repository (add --> commit --> push). 
+## Fourth step : GitLab - Mark your Merge Request as ready and wait for validation 
 
+A MR must be validated at least one time for an AI one and twice for a development one. 
+To propose your MR to the community, set your/the MR as ready ("Mark as ready").
+
+Adrien Pajot, for the NBM community 
