@@ -9,7 +9,6 @@ Requirements : <br>
      • Git clone the repository on your machine : git clone https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration.git <br>
      • Having one code editor (such as VSCode, Atom or whatever) will help you a lot <br>
 <br>
-
 Then follow the step : 
 1. GitLab : Find/create the issue you want to work on 
 2. GitLab : Create a merge request, if not done 
