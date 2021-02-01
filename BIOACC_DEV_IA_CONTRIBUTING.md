@@ -5,10 +5,9 @@ NBM is an open source project everyone can contribute at.
 If you are a developer/IA data scientist/bioaccoustician, we hope this document makes the contribution process clear and answers questions you may have. Don't hesitate to propose any improvement to it ! 
 
 Requirements :
-     • Download Git on your computer : https://git-scm.com/downloads
-     • Git clone the repository on your machine : git clone https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration.git
-     • Having one code editor (such as VSCode, Atom or whatever) will help you a lot 
-
+     • Download Git on your computer : https://git-scm.com/downloads <br>
+     • Git clone the repository on your machine : git clone https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration.git <br>
+     • Having one code editor (such as VSCode, Atom or whatever) will help you a lot <br>
 Then follow the step : 
 1. GitLab : Find/create the issue you want to work on 
 2. GitLab : Create a merge request, if not done 
