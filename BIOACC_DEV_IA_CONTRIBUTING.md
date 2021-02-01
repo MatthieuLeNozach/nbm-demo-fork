@@ -28,7 +28,7 @@ When you click on an issue, there is the possibility to create a Merge Request (
 
 When creating the MR, there is a possibility to create an associate branch. Create the branch if it does not exist. 
 
-
+![MR_example](/uploads/99df84f7b6eb2f357fc7b4d58699f691/MR_example.png)
 
 **If you are a developer, please create the merge request from the dev branch.**
 **If you are a bioaccoustician, please create the merge request from the AI branch.** 
