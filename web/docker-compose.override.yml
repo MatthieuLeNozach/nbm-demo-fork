@@ -75,10 +75,9 @@ services:
         INSTALL_JUPYTER: ${INSTALL_JUPYTER-true}
 
   frontend:
-    ports:
-      - "3000:3000"
     build:
       context: ./frontend
+      dockerfile: Dockerfile.dev
       args:
         FRONTEND_ENV: dev
     labels:
@@ -86,6 +85,10 @@ services:
       - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}
       - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.rule=PathPrefix(`/`)
       - traefik.http.services.${STACK_NAME?Variable not set}-frontend.loadbalancer.server.port=3000
+    volumes:
+      - ./frontend:/usr/app
+      - /usr/app/node_modules
+      - /usr/app/.next
 
 networks:
   traefik-public:
