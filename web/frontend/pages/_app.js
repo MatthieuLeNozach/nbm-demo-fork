@@ -22,6 +22,7 @@ export default class MyApp extends App {
         <Head>
           <title>My page</title>
           <meta
+            key="viewport"
             name="viewport"
             content="minimum-scale=1, initial-scale=1, width=device-width"
           />
