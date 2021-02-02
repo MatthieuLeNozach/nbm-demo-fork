@@ -1,5 +1,5 @@
-const About = (props) => {
-  return <div>About page</div>;
-};
+function About() {
+  return <div>About!</div>;
+}
 
 export default About;
