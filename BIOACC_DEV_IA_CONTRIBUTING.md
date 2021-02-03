@@ -22,8 +22,10 @@ These milestones gather **issues** or functionnalities than can be developed.
 Find the issue or create an issue for a functionnality, a part of code you want to develop. 
 When creating an issue, make sure that it can be understood by everyone with an understanble title and a short description.
 
-## Second step : GitLab - Create a merge request to the issue, if not done ## <img align="right" width="600" height="250" src="/uploads/59bbe0b5d87f7a7ac10f48552ed83764/MR_example.png">
+## Second step : GitLab - Create a merge request to the issue, if not done ## 
 
+<img align="right" width="600" height="250" src="/uploads/59bbe0b5d87f7a7ac10f48552ed83764/MR_example.png">
+<br><br><br><br>
 When you click on an issue, there is the possibility to create a Merge Request (MR), top right.
 
 When creating the MR, there is a possibility to create an associate branch. Create the branch from the **dev** branch if it does not exist.
