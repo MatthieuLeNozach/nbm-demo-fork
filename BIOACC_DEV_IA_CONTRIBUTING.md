@@ -24,7 +24,7 @@ When creating an issue, make sure that it can be understood by everyone with an 
 
 ## Second step : GitLab - Create a merge request to the issue, if not done ## 
 
-<img align="right" width="600" height="400" src="/uploads/99df84f7b6eb2f357fc7b4d58699f691/MR_example.png">
+<img align="right" width="600" height="400" src="/uploads/59bbe0b5d87f7a7ac10f48552ed83764/MR_example.png">
 
 When you click on an issue, there is the possibility to create a Merge Request (MR), top right.
 
