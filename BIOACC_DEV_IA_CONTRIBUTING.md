@@ -48,7 +48,7 @@ For those who are not used to git, part of the flow is explained here :
 <br>
 <br>
 <br> 
-<img align="right" width="600" height="250" src="//uploads/dc22b4838d6fc0ba7cb5cec4ef6fb9ff/git_operations.png">
+<img align="right" width="600" height="250" src="/uploads/dc22b4838d6fc0ba7cb5cec4ef6fb9ff/git_operations.png">
 
 <br>
 (Source : http://www.silanus.fr/nsi/premiere/git/git.html)
