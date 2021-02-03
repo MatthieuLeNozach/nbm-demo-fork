@@ -50,8 +50,6 @@ For those who are not used to git, part of the flow is explained here :
 
 (Source : http://www.silanus.fr/nsi/premiere/git/git.html)
 
-<br>
-<br>
 
 ## Fourth step : GitLab - Mark your Merge Request as ready and wait for validation 
 
