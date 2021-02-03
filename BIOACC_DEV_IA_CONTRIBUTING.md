@@ -34,7 +34,7 @@ This created branch is a copy of the last points/improvements/developments reach
 <br><br>
 ## Third step : Go to your development environment
 
-<img align="right" width="600" height="250" src="/uploads/dc22b4838d6fc0ba7cb5cec4ef6fb9ff/git_operations.png">
+<img align="right" width="400" height="250" src="/uploads/dc22b4838d6fc0ba7cb5cec4ef6fb9ff/git_operations.png">
 
 Go to your VSCode or other code editor. 
 
