@@ -29,7 +29,7 @@ When you click on an issue, there is the possibility to create a Merge Request (
 When creating the MR, there is a possibility to create an associate branch. Create the branch from the **dev** branch if it does not exist.
 
 This created branch is a copy of the last points/improvements/developments reached by the origin branch ("dev" or "AI"). 
-
+<br><br>
 ## Third step : Go to your development environment
 
 Go to your VSCode or other code editor. 
