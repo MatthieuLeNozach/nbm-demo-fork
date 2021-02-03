@@ -34,6 +34,8 @@ This created branch is a copy of the last points/improvements/developments reach
 <br><br>
 ## Third step : Go to your development environment
 
+<img align="right" width="600" height="250" src="/uploads/dc22b4838d6fc0ba7cb5cec4ef6fb9ff/git_operations.png">
+
 Go to your VSCode or other code editor. 
 
 First : git checkout "the branch that you have created for your merge request" 
@@ -44,13 +46,8 @@ Second : Develop, add, modify, delete, change everything you need to have a work
 
 Third : this is git flow (git add then git commit and finally git push (to the good branch))
 
-For those who are not used to git, part of the flow is explained here :
-<br>
-<br>
-<br> 
-<img align="right" width="600" height="250" src="/uploads/dc22b4838d6fc0ba7cb5cec4ef6fb9ff/git_operations.png">
+For those who are not used to git, part of the flow is explained here : 
 
-<br>
 (Source : http://www.silanus.fr/nsi/premiere/git/git.html)
 
 <br>
