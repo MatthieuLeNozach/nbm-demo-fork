@@ -24,13 +24,11 @@ When creating an issue, make sure that it can be understood by everyone with an 
 
 ## Second step : GitLab - Create a merge request to the issue, if not done ## 
 
+<img align="right" width="600" height="270" src="/uploads/99df84f7b6eb2f357fc7b4d58699f691/MR_example.png">
+
 When you click on an issue, there is the possibility to create a Merge Request (MR), top right.
 
-When creating the MR, there is a possibility to create an associate branch. Create the branch if it does not exist. 
-
-<img align="right" width="600" height="270" src="/uploads/99df84f7b6eb2f357fc7b4d58699f691/MR_example.png">
-**If you are a developer, please create the merge request from the dev branch.**
-**If you are a bioaccoustician, please create the merge request from the AI branch.** 
+When creating the MR, there is a possibility to create an associate branch. Create the branch from the **dev** branch if it does not exist.
 
 This created branch is a copy of the last points/improvements/developments reached by the origin branch ("dev" or "AI"). 
 
