@@ -25,13 +25,13 @@ When creating an issue, make sure that it can be understood by everyone with an 
 ## Second step : GitLab - Create a merge request to the issue, if not done ## 
 
 <img align="right" width="600" height="250" src="/uploads/59bbe0b5d87f7a7ac10f48552ed83764/MR_example.png">
-<br><br><br><br>
+<br><br>
 When you click on an issue, there is the possibility to create a Merge Request (MR), top right.
 
 When creating the MR, there is a possibility to create an associate branch. Create the branch from the **dev** branch if it does not exist.
 
 This created branch is a copy of the last points/improvements/developments reached by the origin branch ("dev" or "AI"). 
-<br><br><br><br>
+<br><br>
 ## Third step : Go to your development environment
 
 Go to your VSCode or other code editor. 
