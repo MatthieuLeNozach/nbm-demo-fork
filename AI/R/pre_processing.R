@@ -3,33 +3,34 @@ library(tidyverse)
 library(data.table)
 library(warbleR)
 library(bioacoustics)
+library(soundgen)
 
 #Set Working directory (were are all your files txt, wav or mp3)
 
-path_to_files = "Enter path to the folder containing" #Think about moving this to config file later 
-setwd(path_to_files)
+setwd("D:/BioPhonia/MathurinAubry")
 
 #If sound files are in mp3, convert them in wav with : 
 mp32wav(samp.rate = 44.1, parallel = 2)
 
 #List all .txt files in the folder
-all_files <- list.files(path_to_files, pattern = "*.txt")
+all_files <- list.files("D:/BioPhonia/MathurinAubry/", pattern = "*.txt")
 
 #Read the .txt files with all the label extract from Audacity
-essai<-lapply(all_files, read.audacity)
+essai<-lapply(all_files, read.audacity, format="dir")
+
 
 #Bin all the data frame into a super dataframe, add a unique number and the name of the soundfile
 x<-do.call("rbind", essai)
 write.table(x)
 x2<-setDT(x, keep.rownames = TRUE)[]
-x3<-rename(x2, selec=rn)
-x4<-rename(x3, start=t1)
-x5<-rename(x4, end=t2)
-x5$sound.files <-str_replace(x5$file, ".txt", ".wav")
+
+setnames(x2, old = c('rn', 't1', 't2','f1', 'f2'), new =c('selec', 'start', 'end', 'bottom.freq', 'top.freq'))
+
+x2$sound.files <-str_replace(x2$file, ".txt", ".wav")
 
 #extract audio clip and rename each clip with annoation name and the unique number.
 # 
-# fonction utilisée : 
+# fonction utilis�e : 
 # cut_sels(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL, pb = TRUE,
 #          labels = c("sound.files", "selec"), overwrite = FALSE, norm = FALSE, ...)
 
@@ -44,6 +45,11 @@ x5$sound.files <-str_replace(x5$file, ".txt", ".wav")
 # norm : Logical indicating whether wave objects must be normalized first using the function normalize. Additional arguments can be passed to normalize using `...`.` Default is FALSE. See normalize for available options.
 
 
-cut_sels(x5, mar= 0.05, path=path_to_files, dest.path =path_to_files, labels = c("selec", "label"))
+cut_sels(x2, mar= 0.05, path="D:/BioPhonia/MathurinAubry/", dest.path = "D:/BioPhonia/MathurinAubry/", labels = c("selec", "label"))
+
+
+
+#Create spectro images for all files  (https://marce10.github.io/warbleR/reference/specreator.html)
+specreator(x2, flim = c(0, 11), ovlp = 90, )
 
 
