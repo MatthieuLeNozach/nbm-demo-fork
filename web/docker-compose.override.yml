@@ -2,7 +2,7 @@ version: "3.3"
 services:
   proxy:
     ports:
-      - "80:80"
+      - "8999:80"
       - "8090:8080"
     command:
       # Enable Docker in Traefik, so that it reads labels from Docker services
@@ -87,8 +87,6 @@ services:
       - traefik.http.services.${STACK_NAME?Variable not set}-frontend.loadbalancer.server.port=3000
     volumes:
       - ./frontend:/usr/app
-      - /usr/app/node_modules
-      - /usr/app/.next
 
 networks:
   traefik-public:

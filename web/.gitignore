@@ -3,4 +3,4 @@
 docker-stack.yml
 **/.DS_Store
 **/.next
-../node_modules
+**/node_modules
