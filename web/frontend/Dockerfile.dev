@@ -9,6 +9,8 @@ COPY package*.json /usr/app/
 RUN npm install
 
 # Copying source files
+RUN npm run build
+
 COPY . .
 
 EXPOSE 3000
