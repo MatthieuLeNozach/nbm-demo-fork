@@ -87,6 +87,8 @@ services:
       - traefik.http.services.${STACK_NAME?Variable not set}-frontend.loadbalancer.server.port=3000
     volumes:
       - ./frontend:/usr/app
+      - /usr/app/node_modules
+      - /usr/app/.next
 
 networks:
   traefik-public:
