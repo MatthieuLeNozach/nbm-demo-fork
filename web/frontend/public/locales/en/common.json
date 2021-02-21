@@ -9,6 +9,7 @@
   "labels": "Labels",
   "species": "Species",
   "sites": "Sites",
+  "logout": "Log out", 
   "exploreRecordings" : "Explore recordings",
   "addNewRecordings" : "Add new recordings",
   "welcomeOnNBM" : "Welcome on NBM"
