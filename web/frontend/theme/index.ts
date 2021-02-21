@@ -16,6 +16,10 @@ const theme = createMuiTheme({
     text: {
       primary: '#FFFFFF',
       secondary: '#FFFFFF',
+    },
+    action: {
+      active: "rgba(103, 143, 175, 1)",
+      hover:  "rgba(103, 143, 175, 1)",
     }
   }
 });

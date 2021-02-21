@@ -8,5 +8,9 @@
   "recordings": "Recordings",
   "labels": "Labels",
   "species": "Species",
-  "sites": "Sites"
+  "sites": "Sites",
+  "exploreRecordings" : "Explore recordings",
+  "addNewRecordings" : "Add new recordings",
+  "welcomeOnNBM" : "Welcome on NBM"
 }
+

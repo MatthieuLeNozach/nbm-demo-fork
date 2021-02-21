@@ -9,5 +9,8 @@
   "labels": "Annotations",
   "species": "Espèces",
   "sites": "Sites",
-  "contributors": "Contributeurs"
+  "contributors": "Contributeurs",
+  "exploreRecordings" : "Explorer les enregistrements",
+  "addNewRecordings" : "Soumettre un nouvel enregistrement",
+  "welcomeOnNBM" : "Bienvenue sur NBM"
 }
