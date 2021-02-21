@@ -1,0 +1,13 @@
+{
+  "welcome": "Bienvenue",
+  "signIn": "Se connecter",
+  "login": "Identifiant",
+  "password": "Mot de passe",
+  "forgotPassword": "Mot de passe oublié ?",
+  "signUp": "Pas encore de compte ? Inscrivez-vous !",
+  "recordings": "Enregistrements",
+  "labels": "Annotations",
+  "species": "Espèces",
+  "sites": "Sites",
+  "contributors": "Contributeurs"
+}
