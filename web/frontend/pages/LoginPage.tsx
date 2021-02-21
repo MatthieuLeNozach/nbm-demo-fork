@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { theme } from '../theme/index';
 import DoveSvg from '@/assets/svgs/DoveSvg';
 import SwallowSvg from '@/assets/svgs/SwallowSvg';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoginPage = () => {
-
+  const { t } = useTranslation();
   const classes = useStyles(theme);
 
   return (
@@ -74,7 +75,7 @@ const LoginPage = () => {
       </Grid>
       <Grid item xs={12} sm={8} md={6} component={Paper} elevation={6} square className={classes.rightPanel}>
         <div className={classes.paper}>
-          <Typography component="h1" variant="h5" className={classes.hasTextWhite}>Se Connecter</Typography>
+          <Typography component="h1" variant="h5" className={classes.hasTextWhite}>{t("signIn")}</Typography>
           <form className={classes.form}>
             <TextField
               color="secondary"
@@ -83,7 +84,7 @@ const LoginPage = () => {
               required
               fullWidth
               id="identifiant"
-              label="Identifiant"
+              label={t("login")}
               name="identifiant"
               autoComplete="email"
               autoFocus
@@ -95,7 +96,7 @@ const LoginPage = () => {
               required
               fullWidth
               name="mot-de-passe"
-              label="Mot de passe"
+              label={t("password")}
               type="mot-de-passe"
               id="mot-de-passe"
               autoComplete="current-password"
@@ -106,17 +107,17 @@ const LoginPage = () => {
               color="primary"
               className={classes.submit}
             >
-              Connexion
+            {t("signIn")}
           </Button>
             <Grid container direction="column" alignItems="center">
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Mot de passe oublié ?
+                  {t("forgotPassword")}
               </Link>
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Pas encore de compte? Inscrivez-vous"}
+                  {t("signUp")}
                 </Link>
               </Grid>
             </Grid>
