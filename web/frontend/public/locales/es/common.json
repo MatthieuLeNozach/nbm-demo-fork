@@ -3,11 +3,14 @@
   "signIn": "Iniciar sesión",
   "login": "Usuario",
   "password": "Contraseña",
-  "forgotPassword": "¿HasHas olvidado tu contraseña?",
+  "forgotPassword": "¿Has olvidado tu contraseña?",
   "signUp": "Crear cuenta",
   "recordings": "Grabaciones",
   "labels": "Anotacións",
   "species": "Especies",
   "sites": "Sitios",
-  "contributors": "Colaboradores"
+  "contributors": "Colaboradores",
+  "exploreRecordings" : "Ver las grabaciones",
+  "addNewRecordings" : "Añadir nuevas grabaciones",
+  "welcomeOnNBM" : "Bienvenido en NBM"
 }
