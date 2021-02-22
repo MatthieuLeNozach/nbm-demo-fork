@@ -5,6 +5,7 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Dashboard from "../components/Dashboard/index";
 import { useTranslation } from "react-i18next";
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   image: {
@@ -64,10 +65,15 @@ const useStyles = makeStyles((theme) => ({
 const WelcomePage = () => {
   const classes = useStyles(theme);
   const { t } = useTranslation();
+  const router = useRouter();
 
   return (
     <Paper className={classes.image}>
-      <Button variant="contained" className={classes.button1}>
+      <Button
+        variant="contained"
+        className={classes.button1}
+        onClick={() => router.push("/signin")}
+      >
         {t("signIn")}
       </Button>
       <Container className={classes.container}>
@@ -93,12 +99,12 @@ const WelcomePage = () => {
           <Grid item>
             <Grid container>
               <Grid item>
-                <Button variant="contained" className={classes.button2}>
+                <Button variant="contained" className={classes.button2} onClick={() => router.push("/signin")}>
                   {t("exploreRecordings")}
                 </Button>
               </Grid>
               <Grid item>
-                <Button variant="contained" className={classes.button3}>
+                <Button variant="contained" className={classes.button3} onClick={() => router.push("/signin")}>
                   {t("addNewRecordings")}
                 </Button>
               </Grid>
