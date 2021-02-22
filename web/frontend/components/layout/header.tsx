@@ -2,6 +2,7 @@ import { Grid, makeStyles, Button, Box } from "@material-ui/core";
 import { theme } from "@/theme/index";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/components/Providers/AuthProvider";
 
 const useStyles = makeStyles({
   header: {
@@ -14,13 +15,7 @@ const LayoutHeader = () => {
   const classes = useStyles();
   const router = useRouter();
   const { t } = useTranslation();
-
-  const handlerOnClickSingOut = () => {
-    console.log("onClick handlerOnClickSingOut");
-    // TODO détruire la session
-    console.log("il faut détruire le token");
-    router.push("/welcome");
-  };
+  const { logout } = useAuth();
 
   const handlerOnClickHome = () => {
     console.log("onClick handlerOnClickHome");
@@ -45,7 +40,7 @@ const LayoutHeader = () => {
             alignItems="center"
           >
             <Grid item>
-              <Button name="Sign out" onClick={handlerOnClickSingOut}>
+              <Button name="Sign out" onClick={logout}>
                 {t("logout")}
               </Button>
             </Grid>

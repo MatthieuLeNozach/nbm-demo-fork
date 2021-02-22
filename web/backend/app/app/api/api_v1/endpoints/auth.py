@@ -3,6 +3,8 @@ from typing import Any
 
 from fastapi import APIRouter, Body, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.encoders import jsonable_encoder
+
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
@@ -14,6 +16,11 @@ from app.utils import (
     generate_password_reset_token,
     send_reset_password_email,
     verify_password_reset_token,
+)
+
+from app.schemas import (
+    UserRegister,
+    UserWithToken,
 )
 
 router = APIRouter()
@@ -94,3 +101,47 @@ def reset_password(
     db.add(user)
     db.commit()
     return {"msg": "Password updated successfully"}
+
+@router.post("/register", response_model=schemas.UserWithToken)
+def register(
+    *,
+    db: Session = Depends(deps.get_db), 
+    user_in: UserRegister
+) -> UserWithToken:
+
+    user_in_db = crud.user.get_by_email(db, email=user_in.email)
+    if user_in_db is not None:
+        print(user_in_db.__dict__)
+    """
+    Register, get an access token and profile data
+    """
+    if user_in_db:
+        raise HTTPException(
+            status_code=400,
+            detail="The user with this username already exists in the system.",
+        )
+
+    if user_in.password != user_in.password_confirmation:
+        raise HTTPException(
+            status_code=400,
+            detail="Password and password confirmation did not match",
+        )
+
+    user_out = crud.user.register(
+        db, user_in=user_in
+    )
+    if not (user_out):
+        raise HTTPException(
+            status_code=500,
+            detail="Something goes wrong",
+        )
+    print(user_out)
+    print(user_out.__dict__)
+    access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = security.create_access_token(
+            user_out.id, expires_delta=access_token_expires)
+    user_data = jsonable_encoder(user_out)
+    return {
+        **user_data,
+        'access_token': access_token
+    }

@@ -16,6 +16,11 @@ class UserCreate(UserBase):
     email: EmailStr
     password: str
 
+class UserRegister(UserBase):
+    email: EmailStr
+    password: str
+    password_confirmation: str
+
 
 # Properties to receive via API on update
 class UserUpdate(UserBase):
@@ -37,3 +42,7 @@ class User(UserInDBBase):
 # Additional properties stored in DB
 class UserInDB(UserInDBBase):
     hashed_password: str
+
+class UserWithToken(UserInDBBase):
+    id: int
+    access_token: str

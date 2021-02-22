@@ -2,10 +2,12 @@ from typing import Any, Dict, Optional, Union
 
 from sqlalchemy.orm import Session
 
+from fastapi.encoders import jsonable_encoder
+
 from app.core.security import get_password_hash, verify_password
 from app.crud.base import CRUDBase
 from app.models.user import User
-from app.schemas.user import UserCreate, UserUpdate
+from app.schemas.user import UserCreate, UserUpdate, UserRegister, UserWithToken
 
 
 class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
@@ -44,6 +46,24 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         if not verify_password(password, user.hashed_password):
             return None
         return user
+
+    def register(self, db: Session, *, user_in: UserRegister) -> User:
+        obj_in_data = jsonable_encoder(user_in)
+        obj_in_data.pop("password", None)
+        obj_in_data.pop("password_confirmation", None)
+        obj_in_data["hashed_password"] = get_password_hash(user_in.password)
+        db_obj = self.model(**obj_in_data)
+        # db_obj = User(
+        #     email=user_in.email,
+        #     hashed_password=get_password_hash(user_in.password),
+        #     full_name=user_in.full_name,
+        #     is_superuser=user_in.is_superuser,
+        # )
+        print(db_obj)
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
 
     def is_active(self, user: User) -> bool:
         return user.is_active
