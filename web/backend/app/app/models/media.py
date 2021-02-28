@@ -14,18 +14,18 @@ if TYPE_CHECKING:
 
 class Media(Base):
     id = Column(Integer, primary_key=True, index=True)
-    origin_id = Column(Integer, ForeignKey("media.id"), index=True)
+    origin_id = Column(Integer, ForeignKey("media.id"), index=True) # id of the parent media if exists 
     type = Column(
         Enum(MediaType, values_callable=lambda obj: [e.value for e in obj]),
         nullable=False,
         default=MediaType.SOUND.value,
-    )
-    file_url = Column(String, unique=False, index=False, nullable=True)
-    file_source = Column(String, unique=False, index=False, nullable=True)
-    meta = Column(JSONB, nullable=True)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-    derivates = relationship("Media", backref="origin", remote_side=[id])
-    owner_id = Column(Integer, ForeignKey("user.id"), index=True)
-    owner = relationship("User", back_populates="mediae")
-    device_id = Column(Integer, ForeignKey("device.id"), index=True)
+    ) #sound, image, video or other type of media
+    file_url = Column(String, unique=False, index=False, nullable=True) #url where the media is stored, url must allow download 
+    file_source = Column(String, unique=False, index=False, nullable=True) #Gaëtan ? 
+    meta = Column(JSONB, nullable=True) #Gaëtan ? 
+    created_at = Column(DateTime) # creation date 
+    updated_at = Column(DateTime) # update date 
+    derivates = relationship("Media", backref="origin", remote_side=[id]) #Gaëtan ? 
+    owner_id = Column(Integer, ForeignKey("user.id"), index=True) #user of the platform that owns the file 
+    owner = relationship("User", back_populates="mediae") # Gaëtan ? 
+    device_id = Column(Integer, ForeignKey("device.id"), index=True) 

@@ -20,10 +20,13 @@ if TYPE_CHECKING:
     from .item import Item  # noqa: F401
 
 
-class Media_label(Base):
+class MediaLabel(Base):
     id = Column(Integer, primary_key=True, index=True)
     media_id = Column(Integer, ForeignKey("media.id"), index=True)
+    created_by = Column(Integer, ForeignKey("user.id"), index=True)
     created_at = Column(DateTime)
+    updated_by = Column(Integer, ForeignKey("user.id"), index=True)
+    updated_at = Column(DateTime)
     begin_time = Column(Float, index=True)
     end_time = Column(Float, index=True)
     low_freq = Column(Float, index=True)
