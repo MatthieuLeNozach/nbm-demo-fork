@@ -1,15 +1,6 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy import (
-    Boolean,
-    Column,
-    Float,
-    Integer,
-    String,
-    ForeignKey,
-    DateTime,
-    Enum,
-)
+from sqlalchemy import Boolean, Column, Float, Integer, String, ForeignKey, DateTime, Enum 
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import JSONB
 
@@ -19,13 +10,12 @@ from app.schemas import MediaType
 if TYPE_CHECKING:
     from .item import Item  # noqa: F401
 
-
 class Site(Base):
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("user.id"), index=True)
+    user_id = Column(Integer, ForeignKey("user.id"), index=True) #a site is created by a user 
     created_at = Column(DateTime)
     longitude = Column(Float, index=True)
     latitude = Column(Float, index=True)
     name = Column(String, index=True)
-    public_private = Column(String, index=True)
-    masked_coord = Column(Boolean, index=True)
+    public_private = Column(String, index=True) # a site can be public and used by everyone or private (therefore masked)
+    locality_precision = Column(Float, index = True) #a person can choose a radius of precision with which the site will be visible for others
