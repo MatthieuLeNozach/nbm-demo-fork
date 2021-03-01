@@ -1,5 +1,5 @@
 from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
-
+from datetime import datetime
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
@@ -34,6 +34,8 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
         obj_in_data = jsonable_encoder(obj_in)
         db_obj = self.model(**obj_in_data)  # type: ignore
+        if (hasattr(db_obj, 'created_at')):
+            db_obj.created_at = datetime.utcnow()
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
@@ -54,6 +56,10 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         for field in obj_data:
             if field in update_data:
                 setattr(db_obj, field, update_data[field])
+
+        if (hasattr(db_obj, 'updated_at')):
+            db_obj.updated_at = datetime.utcnow()
+
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)

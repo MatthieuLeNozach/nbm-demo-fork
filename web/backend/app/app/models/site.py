@@ -12,10 +12,13 @@ if TYPE_CHECKING:
 
 class Site(Base):
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("user.id"), index=True) #a site is created by a user 
-    created_at = Column(DateTime)
+    created_by = Column(Integer, ForeignKey("user.id"), index=True) #a site is created by a user 
+    updated_by = Column(Integer, ForeignKey("user.id"), index=True)
+    created_at = Column(DateTime) 
+    updated_at = Column(DateTime)
     longitude = Column(Float, index=True)
     latitude = Column(Float, index=True)
     name = Column(String, index=True)
-    public_private = Column(String, index=True) # a site can be public and used by everyone or private (therefore masked)
+    is_private = Column(Boolean(), default=False) # Is this site visible to anyone ?
     locality_precision = Column(Float, index = True) #a person can choose a radius of precision with which the site will be visible for others
+    mediae = relationship("Media", back_populates="site")

@@ -7,13 +7,14 @@ from app.crud.base import CRUDBase
 from app.models.medialabel import MediaLabel
 from app.schemas.medialabel import MediaLabelCreate, MediaLabelUpdate
 
+from datetime import datetime
 
 class CRUDMediaLabel(CRUDBase[MediaLabel, MediaLabelCreate, MediaLabelUpdate]):
     def create_with_owner(
         self, db: Session, *, obj_in: MediaLabelCreate, owner_id: int
     ) -> MediaLabel:
         obj_in_data = jsonable_encoder(obj_in)
-        db_obj = self.model(**obj_in_data, created_by=owner_id)
+        db_obj = self.model(**obj_in_data, created_by=owner_id, created_at=datetime.utcnow())
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
