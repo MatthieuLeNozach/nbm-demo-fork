@@ -1,5 +1,6 @@
+import React from "react";
 import { Grid, makeStyles, Box } from "@material-ui/core";
-import { theme } from "@/theme/index";
+import { theme } from "@/theme";
 import Bird from "../Icon/Bird";
 import Annotation from "../Icon/Annotation";
 import Site from "../Icon/Site";
@@ -11,7 +12,6 @@ const useStyles = makeStyles({
   dashboard: {
     backgroundColor: theme.palette.secondary.main,
     borderRadius: "5px",
-    width: "100vh",
     textAlign: "left",
     color: theme.palette.secondary.contrastText,
   },
@@ -21,10 +21,12 @@ const useStyles = makeStyles({
     },
   },
   item: {
-    borderRight: "1px solid #ddd",
+    [theme.breakpoints.up("md")]: {
+      borderRight: "1px solid #ddd",
+    },
   },
   box: {
-    width: "5rem",
+    minWidth: "6.5rem",
   },
 });
 
