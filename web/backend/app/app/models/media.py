@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Boolean, Column, Integer, String, ForeignKey, DateTime, Enum
+from sqlalchemy import Boolean, Column, Integer, String, ForeignKey, DateTime, Enum, Time
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import JSONB
 
