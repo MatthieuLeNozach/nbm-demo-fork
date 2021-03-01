@@ -8,33 +8,33 @@ from app.api import deps
 
 router = APIRouter()
 
-@router.get("/", response_model=List[schemas.Media])
-def read_mediae(
+@router.get("/", response_model=List[schemas.Site])
+def read_sites(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
-    Retrieve Mediae.
+    Retrieve Sites.
     """
     if crud.user.is_superuser(current_user):
-        mediae = crud.media.get_multi(db, skip=skip, limit=limit)
+        sites = crud.site.get_multi(db, skip=skip, limit=limit)
     else:
-        mediae = crud.media.get_multi_by_creator(
-            db=db, created_by=current_user.id, skip=skip, limit=limit
+        sites = crud.site.get_multi_by_user(
+            db=db, user_id=current_user.id, skip=skip, limit=limit
         )
-    return mediae
+    return sites
 
-@router.post("/", response_model=schemas.Media)
-def create_media(
+@router.post("/", response_model=schemas.Site)
+def create_site(
     *,
     db: Session = Depends(deps.get_db),
-    media_in: schemas.MediaCreate,
+    site_in: schemas.SiteCreate,
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
-    Create new media.
+    Create new site.
     """
-    media = crud.media.create_with_creator(db=db, obj_in=media_in, created_by=current_user.id)
-    return media
+    site = crud.site.create_with_user(db=db, obj_in=site_in, user_id=current_user.id)
+    return site

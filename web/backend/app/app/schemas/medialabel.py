@@ -9,7 +9,6 @@ from enum import Enum
  
 # Shared properties
 class MediaLabelBase(BaseModel):
-    created_at: datetime = Field(...)
     begin_time: float
     end_time: float
     low_freq: float
@@ -26,10 +25,15 @@ class MediaLabelUpdate(MediaLabelBase):
 
 # Properties shared by models stored in DB
 class MediaLabelInDBBase(MediaLabelBase):
-    id: int 
+    id: int
+    media_id: int
     created_by: int
+    created_at: datetime
+    updated_by: Optional[int]
+    updated_at: Optional[datetime]
+
     class Config:
-        orm_mode = True 
+        orm_mode = True
 
 
 # Properties to return to client

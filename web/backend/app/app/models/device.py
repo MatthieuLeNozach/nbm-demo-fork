@@ -13,4 +13,5 @@ if TYPE_CHECKING:
 
 class Device(Base):
     id = Column(Integer, primary_key=True, index=True)
-    device_model = Column(String, index=True)
+    device_model = Column(String, index=True, unique=True)
+    mediae = relationship("Media", back_populates="device")
