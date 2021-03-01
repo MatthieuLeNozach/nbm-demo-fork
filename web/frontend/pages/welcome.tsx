@@ -1,6 +1,7 @@
-import { Button, Grid, Container, Box } from "@material-ui/core";
+import React from "react";
+import { Button, Grid, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { theme } from "../theme/index";
+import { theme } from "@/theme";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Dashboard from "../components/Dashboard/index";
@@ -8,57 +9,49 @@ import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme) => ({
-  image: {
-    height: "100vh",
+  backgroundImage: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    minHeight: "100vh",
+    minWidth: "100vw",
+    opacity: "0.7",
     backgroundImage: 'url("/images/jackson-hendry-eodA_8CTOFo-unsplash.jpg")',
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundAttachment: "fixed",
-    //filter: "contrast(0.7)",
+  },
+  globalWrapper: {
+    backgroundColor: "white",
+  },
+  globalGrid: {
     position: "relative",
+    minHeight: "100vh",
+    zIndex: 1,
   },
-  container: {
-    height: "100%",
-  },
-  button1: {
-    position: "absolute",
-    right: "5rem",
-    top: "5rem",
+  signInButton: {
+    [theme.breakpoints.up("sm")]: {
+      position: "absolute",
+      right: "2rem",
+      top: "2rem",
+    },
+    position: "relative",
+    zIndex: 2,
     backgroundColor: "rgba(7, 33, 54, 1)",
     color: "#FFFFFF",
+    margin: "10px",
   },
-  button2: {
-    position: "static",
-    width: "199px",
-    height: "80px",
-    left: "0px",
-    top: "0px",
-    textAlign: "center",
-    letterSpacing: "0.46px",
-    margin: "0px 10px",
-    backgroundColor: "rgba(103, 143, 175, 1)",
-    color: "#FFFFFF",
-    //fontFamily: "Roboto",
-    fontStyle: "normal",
+  bottomButtons: {
     fontSize: "15px",
     lineHeight: "26px",
-  },
-  button3: {
-    position: "static",
-    width: "199px",
-    height: "80px",
-    left: "0px",
-    top: "0px",
-    textAlign: "center",
-    letterSpacing: "0.46px",
-    margin: "0px 10px",
-    backgroundColor: "rgba(103, 143, 175, 1)",
     color: "#FFFFFF",
-    fontFamily: "Roboto",
-    fontStyle: "normal",
-    fontSize: "15px",
-    lineHeight: "26px",
+    backgroundColor: theme.palette.action.active,
+    margin: "10px 25px",
+    width: "243px",
+    minHeight: "68px",
+    textAlign: "center",
+    // fontFamily: "Roboto",
   },
 }));
 
@@ -68,17 +61,27 @@ const WelcomePage = () => {
   const router = useRouter();
 
   return (
-    <Paper className={classes.image}>
-      <Button
-        variant="contained"
-        className={classes.button1}
-        onClick={() => router.push("/signin")}
-      >
-        {t("signIn")}
-      </Button>
-      <Container className={classes.container}>
+    <div className={classes.globalWrapper}>
+      <Container>
         <Grid
-          className={classes.container}
+            item
+            container
+            direction="row"
+            justify="center"
+            alignItems="center"
+        >
+          <Grid item>
+            <Button
+                variant="contained"
+                className={classes.signInButton}
+                onClick={() => router.push("/signin")}
+            >
+              {t("signIn")}
+            </Button>
+          </Grid>
+        </Grid>
+        <Grid
+          className={classes.globalGrid}
           container
           direction="column"
           justify="center"
@@ -88,31 +91,38 @@ const WelcomePage = () => {
             <Typography variant="h4">{t("welcomeOnNBM")}</Typography>
           </Grid>
           <Grid item>
-            <Box m={10}></Box>
+            <Dashboard />
           </Grid>
-          <Grid item>
-            <Dashboard></Dashboard>
-          </Grid>
-          <Grid item>
-            <Box m={10}></Box>
-          </Grid>
-          <Grid item>
-            <Grid container>
-              <Grid item>
-                <Button variant="contained" className={classes.button2} onClick={() => router.push("/signin")}>
-                  {t("exploreRecordings")}
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button variant="contained" className={classes.button3} onClick={() => router.push("/signin")}>
-                  {t("addNewRecordings")}
-                </Button>
-              </Grid>
+          <Grid
+            item
+            container
+            direction="row"
+            justify="center"
+            alignItems="center"
+          >
+            <Grid item>
+              <Button
+                variant="contained"
+                className={classes.bottomButtons}
+                onClick={() => router.push("/signin")}
+              >
+                {t("exploreRecordings")}
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                className={classes.bottomButtons}
+                onClick={() => router.push("/signin")}
+              >
+                {t("addNewRecordings")}
+              </Button>
             </Grid>
           </Grid>
         </Grid>
       </Container>
-    </Paper>
+      <Paper className={classes.backgroundImage} />
+    </div>
   );
 };
 
