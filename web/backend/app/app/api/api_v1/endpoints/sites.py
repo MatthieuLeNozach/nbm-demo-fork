@@ -21,8 +21,8 @@ def read_sites(
     if crud.user.is_superuser(current_user):
         sites = crud.site.get_multi(db, skip=skip, limit=limit)
     else:
-        sites = crud.site.get_multi_by_user(
-            db=db, user_id=current_user.id, skip=skip, limit=limit
+        sites = crud.site.get_multi_public(
+            db=db, skip=skip, limit=limit
         )
     return sites
 
@@ -36,5 +36,19 @@ def create_site(
     """
     Create new site.
     """
-    site = crud.site.create_with_user(db=db, obj_in=site_in, user_id=current_user.id)
+    site = crud.site.create(db=db, obj_in=site_in, created_by=current_user.id)
+    return site
+
+@router.get("/{id}", response_model=schemas.Site)
+def read_site(
+    *,
+    db: Session = Depends(deps.get_db),
+    id: int,
+) -> Any:
+    """
+    Get site by ID.
+    """
+    site = crud.site.get(db=db, id=id)
+    if not site:
+        raise HTTPException(status_code=404, detail="Site not found")
     return site

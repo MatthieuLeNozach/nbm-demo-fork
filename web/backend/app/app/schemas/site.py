@@ -17,7 +17,10 @@ class SiteCreate(SiteBase):
 
 # Properties to receive on site update
 class SiteUpdate(SiteBase):
-    pass
+    name: Optional[str]
+    longitude: Optional[float]
+    latitude: Optional[float]
+    is_private: Optional[bool]
 
 
 # Properties shared by models stored in DB
@@ -25,8 +28,8 @@ class SiteInDBBase(SiteBase):
     id: int
     created_by: int
     created_at: datetime
-    updated_by: Optional[int]
-    updated_at: Optional[datetime]
+    updated_by: int = None
+    updated_at: datetime = None
 
     class Config:
         orm_mode = True

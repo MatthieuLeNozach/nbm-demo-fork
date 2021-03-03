@@ -5,9 +5,8 @@ from sqlalchemy.orm import relationship
 
 from app.db.base_class import Base
 
-if TYPE_CHECKING:
+if TYPE_CHECKING: # pragma: no cover
     from .item import Item  # noqa: F401
-
 
 class User(Base):
     id = Column(Integer, primary_key=True, index=True)

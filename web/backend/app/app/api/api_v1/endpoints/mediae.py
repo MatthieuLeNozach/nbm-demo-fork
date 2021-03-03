@@ -13,18 +13,13 @@ def read_mediae(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
+    created_by: int = None,
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
     Retrieve Mediae.
     """
-    if crud.user.is_superuser(current_user):
-        mediae = crud.media.get_multi(db, skip=skip, limit=limit)
-    else:
-        mediae = crud.media.get_multi_by_creator(
-            db=db, created_by=current_user.id, skip=skip, limit=limit
-        )
-    return mediae
+    return crud.media.get_multi(db, skip=skip, limit=limit, created_by=created_by)
 
 @router.post("/", response_model=schemas.Media)
 def create_media(
@@ -36,5 +31,19 @@ def create_media(
     """
     Create new media.
     """
-    media = crud.media.create_with_creator(db=db, obj_in=media_in, created_by=current_user.id)
+    media = crud.media.create(db=db, obj_in=media_in, created_by=current_user.id)
+    return media
+
+@router.get("/{id}", response_model=schemas.Media)
+def read_media(
+    *,
+    db: Session = Depends(deps.get_db),
+    id: int,
+) -> Any:
+    """
+    Get media by ID.
+    """
+    media = crud.media.get(db=db, id=id)
+    if not media:
+        raise HTTPException(status_code=404, detail="Media not found")
     return media

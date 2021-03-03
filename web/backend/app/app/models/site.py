@@ -7,8 +7,8 @@ from sqlalchemy.dialects.postgresql import JSONB
 from app.db.base_class import Base
 from app.schemas import MediaType
 
-if TYPE_CHECKING:
-    from .item import Item  # noqa: F401
+if TYPE_CHECKING: # pragma: no cover
+    from .media import Media  # noqa: F401
 
 class Site(Base):
     id = Column(Integer, primary_key=True, index=True)
@@ -21,4 +21,4 @@ class Site(Base):
     name = Column(String, index=True) #name of site
     is_private = Column(Boolean(), default=False) # true if this site is invisible for everyone
     locality_precision = Column(Float, index = True) #a person can choose a radius of precision with which the site will be visible for others
-    mediae = relationship("Media", back_populates="site") #list of mediae recorded in this site
+    mediae = relationship("Media", back_populates="site")

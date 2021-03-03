@@ -8,8 +8,11 @@ from sqlalchemy.dialects.postgresql import JSONB
 from app.db.base_class import Base
 from app.schemas import MediaType
 
-if TYPE_CHECKING:
+if TYPE_CHECKING: # pragma: no cover
     from .item import Item  # noqa: F401
+    from .user import User  # noqa: F401
+    from .site import Site  # noqa: F401
+    from .device import Device  # noqa: F401
 
 
 class Media(Base):
