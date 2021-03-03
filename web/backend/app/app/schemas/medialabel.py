@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 
 from enum import Enum
 
- 
+
 # Shared properties
 class MediaLabelBase(BaseModel):
     begin_time: float
@@ -21,6 +21,11 @@ class MediaLabelCreate(MediaLabelBase):
 
 # Properties to receive on MediaLabel update
 class MediaLabelUpdate(MediaLabelBase):
+    begin_time: Optional[float]
+    end_time: Optional[float]
+    low_freq: Optional[float]
+    high_freq: Optional[float]
+    label: Optional[str]
     pass
 
 # Properties shared by models stored in DB
@@ -29,8 +34,8 @@ class MediaLabelInDBBase(MediaLabelBase):
     media_id: int
     created_by: int
     created_at: datetime
-    updated_by: Optional[int]
-    updated_at: Optional[datetime]
+    updated_by: int = None
+    updated_at: datetime = None
 
     class Config:
         orm_mode = True

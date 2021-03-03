@@ -1,6 +1,6 @@
 from typing import Optional
 
-from datetime import datetime
+from datetime import datetime, date, time
 
 from pydantic import BaseModel, Field
 
@@ -16,6 +16,11 @@ class MediaBase(BaseModel):
     file_url: str
     file_source: str
     type: MediaType
+    site_id: int
+    begin_date: datetime
+    origin_id: Optional[int]
+    device_id: Optional[int]
+    duration: Optional[time]
 
 # Properties to receive on media creation
 class MediaCreate(MediaBase):
@@ -23,15 +28,20 @@ class MediaCreate(MediaBase):
 
 # Properties to receive on Media update
 class MediaUpdate(MediaBase):
-    pass
+    file_url: Optional[str]
+    file_source: Optional[str]
+    type: Optional[MediaType]
+    site_id: Optional[int]
+    begin_date: Optional[datetime]
 
 # Properties shared by models stored in DB
 class MediaInDBBase(MediaBase):
     id: int
     created_by: int
     created_at: datetime
-    updated_by: Optional[int]
-    updated_at: Optional[datetime]
+    updated_by: int = None
+    updated_at: datetime = None
+    meta: Optional[str]
     class Config:
         orm_mode = True
 

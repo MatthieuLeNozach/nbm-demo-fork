@@ -18,13 +18,7 @@ def read_medialabels(
     """
     Retrieve medialabels.
     """
-    if crud.user.is_superuser(current_user):
-        medialabels = crud.medialabel.get_multi(db, skip=skip, limit=limit)
-    else:
-        medialabels = crud.medialabel.get_multi_by_owner(
-            db=db, owner_id=current_user.id, skip=skip, limit=limit
-        )
-    return medialabels
+    return crud.medialabel.get_multi(db, skip=skip, limit=limit)
 
 @router.post("/", response_model=schemas.MediaLabel)
 def create_medialabel(
@@ -36,7 +30,7 @@ def create_medialabel(
     """
     Create new medialabel.
     """
-    medialabel = crud.medialabel.create_with_owner(db=db, obj_in=medialabel_in, owner_id=current_user.id)
+    medialabel = crud.medialabel.create(db=db, obj_in=medialabel_in, created_by=current_user.id)
     return medialabel
 
 
@@ -54,9 +48,9 @@ def update_medialabel(
     medialabel = crud.medialabel.get(db=db, id=id)
     if not medialabel:
         raise HTTPException(status_code=404, detail="MediaLabel not found")
-    if not crud.user.is_superuser(current_user) and (medialabel.owner_id != current_user.id):
-        raise HTTPException(status_code=400, detail="Not enough permissions")
-    medialabel = crud.medialabel.update(db=db, db_obj=medialabel, obj_in=medialabel_in)
+    if not crud.user.is_superuser(current_user) and (medialabel.created_by != current_user.id):
+        raise HTTPException(status_code=403, detail="Not enough permissions")
+    medialabel = crud.medialabel.update(db=db, db_obj=medialabel, obj_in=medialabel_in, updated_by=current_user.id)
     return medialabel
 
 
@@ -73,8 +67,6 @@ def read_medialabel(
     medialabel = crud.medialabel.get(db=db, id=id)
     if not medialabel:
         raise HTTPException(status_code=404, detail="MediaLabel not found")
-    if not crud.user.is_superuser(current_user) and (medialabel.owner_id != current_user.id):
-        raise HTTPException(status_code=400, detail="Not enough permissions")
     return medialabel
 
 
@@ -91,7 +83,7 @@ def delete_medialabel(
     medialabel = crud.medialabel.get(db=db, id=id)
     if not medialabel:
         raise HTTPException(status_code=404, detail="MediaLabel not found")
-    if not crud.user.is_superuser(current_user) and (medialabel.owner_id != current_user.id):
-        raise HTTPException(status_code=400, detail="Not enough permissions")
+    if not crud.user.is_superuser(current_user) and (medialabel.created_by != current_user.id):
+        raise HTTPException(status_code=403, detail="Not enough permissions")
     medialabel = crud.medialabel.remove(db=db, id=id)
     return medialabel

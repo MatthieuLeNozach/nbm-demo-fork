@@ -3,12 +3,12 @@ from sqlalchemy.orm import Session
 from app import crud
 from app.schemas.item import ItemCreate, ItemUpdate
 from app.tests.utils.user import create_random_user
-from app.tests.utils.utils import random_lower_string
+from app.tests.utils.faker import fake
 
 
 def test_create_item(db: Session) -> None:
-    title = random_lower_string()
-    description = random_lower_string()
+    title = fake.sentence()
+    description = fake.text()
     item_in = ItemCreate(title=title, description=description)
     user = create_random_user(db)
     item = crud.item.create_with_owner(db=db, obj_in=item_in, owner_id=user.id)
@@ -18,8 +18,8 @@ def test_create_item(db: Session) -> None:
 
 
 def test_get_item(db: Session) -> None:
-    title = random_lower_string()
-    description = random_lower_string()
+    title = fake.sentence()
+    description = fake.text()
     item_in = ItemCreate(title=title, description=description)
     user = create_random_user(db)
     item = crud.item.create_with_owner(db=db, obj_in=item_in, owner_id=user.id)
@@ -32,12 +32,12 @@ def test_get_item(db: Session) -> None:
 
 
 def test_update_item(db: Session) -> None:
-    title = random_lower_string()
-    description = random_lower_string()
+    title = fake.sentence()
+    description = fake.text()
     item_in = ItemCreate(title=title, description=description)
     user = create_random_user(db)
     item = crud.item.create_with_owner(db=db, obj_in=item_in, owner_id=user.id)
-    description2 = random_lower_string()
+    description2 = fake.text()
     item_update = ItemUpdate(description=description2)
     item2 = crud.item.update(db=db, db_obj=item, obj_in=item_update)
     assert item.id == item2.id
@@ -47,8 +47,8 @@ def test_update_item(db: Session) -> None:
 
 
 def test_delete_item(db: Session) -> None:
-    title = random_lower_string()
-    description = random_lower_string()
+    title = fake.sentence()
+    description = fake.text()
     item_in = ItemCreate(title=title, description=description)
     user = create_random_user(db)
     item = crud.item.create_with_owner(db=db, obj_in=item_in, owner_id=user.id)

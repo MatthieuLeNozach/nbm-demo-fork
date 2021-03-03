@@ -16,6 +16,7 @@ class ItemCreate(ItemBase):
 
 # Properties to receive on item update
 class ItemUpdate(ItemBase):
+    title: Optional[str]
     pass
 
 

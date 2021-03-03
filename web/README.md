@@ -131,39 +131,10 @@ Nevertheless, if it doesn't detect a change but a syntax error, it will just sto
 ...this previous detail is what makes it useful to have the container alive doing nothing and then, in a Bash session, make it run the live reload server.
 
 ### Backend tests
-
-To test the backend run:
-
-```console
-$ DOMAIN=backend sh ./scripts/test.sh
-```
-
-The file `./scripts/test.sh` has the commands to generate a testing `docker-stack.yml` file, start the stack and test it.
-
-The tests run with Pytest, modify and add tests to `./backend/app/app/tests/`.
-
-If you use GitLab CI the tests will run automatically.
-
-#### Local tests
-
-Start the stack with this command:
-
-```Bash
-DOMAIN=backend sh ./scripts/test-local.sh
-```
-
 The `./backend/app` directory is mounted as a "host volume" inside the docker container (set in the file `docker-compose.dev.volumes.yml`).
-You can rerun the test on live code:
+To test the backend in docker environment run (when `docker-compose up` was launched):
 
 ```Bash
-docker-compose exec backend /app/tests-start.sh
-```
-
-#### Test running stack
-
-If your stack is already up and you just want to run the tests, you can use:
-
-```bash
 docker-compose exec backend /app/tests-start.sh
 ```
 
@@ -174,6 +145,16 @@ For example, to stop on first error:
 ```bash
 docker-compose exec backend bash /app/tests-start.sh -x
 ```
+
+To test the backend in local environment run:
+
+```console
+$ DOMAIN=backend sh ./scripts/test.sh
+```
+
+The tests run with Pytest, modify and add tests to `./backend/app/app/tests/`.
+
+If you use GitLab CI the tests will run automatically.
 
 #### Test Coverage
 

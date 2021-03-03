@@ -1,5 +1,3 @@
-from typing import TYPE_CHECKING
-
 from sqlalchemy import (
     Boolean,
     Column,
@@ -15,10 +13,6 @@ from sqlalchemy.dialects.postgresql import JSONB
 
 from app.db.base_class import Base
 from app.schemas import MediaType
-
-if TYPE_CHECKING:
-    from .item import Item  # noqa: F401
-
 
 class MediaLabel(Base):
     id = Column(Integer, primary_key=True, index=True)

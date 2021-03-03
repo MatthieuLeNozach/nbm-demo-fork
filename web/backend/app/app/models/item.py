@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 
 from app.db.base_class import Base
 
-if TYPE_CHECKING:
+if TYPE_CHECKING: # pragma: no cover
     from .user import User  # noqa: F401
 
 
