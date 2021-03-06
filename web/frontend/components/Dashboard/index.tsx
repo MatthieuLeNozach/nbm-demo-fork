@@ -30,40 +30,44 @@ const useStyles = makeStyles({
   },
 });
 
-const Dashboard = () => {
+const Dashboard = ({
+  mediae = "N/A",
+  medialabels = "N/A",
+  species = "N/A",
+  sites = "N/A",
+  users,
+}) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  // TODO replace test par un call a l'api
-  const test = 123;
 
   const items = [
     {
       icon: <Record />,
-      total: test,
+      total: mediae,
       label: t("recordings"),
     },
     {
       icon: <Annotation />,
-      total: test,
+      total: medialabels,
       label: t("labels"),
     },
     {
       icon: <Bird />,
-      total: test,
+      total: species,
       label: t("species"),
     },
     {
       icon: <Site />,
-      total: test,
+      total: sites,
       label: t("sites"),
     },
     {
       icon: <User />,
-      total: test,
+      total: users,
       label: t("contributors"),
     },
   ];
-
+  console.log(items[2].total);
   return (
     <Box my={5} p={5} className={classes.dashboard}>
       <Grid
@@ -74,20 +78,22 @@ const Dashboard = () => {
         justify="center"
         spacing={5}
       >
-        {items.map((item) => (
-          <Grid className={classes.item} item key={`${item.label}`}>
-            <Grid
-              className={classes.box}
-              container
-              direction="column"
-              alignItems="center"
-            >
-              <Grid item>{item.icon}</Grid>
-              <Grid item> {item.total} </Grid>
-              <Grid item>{item.label} </Grid>
+        {items
+          .filter((item) => typeof item.total !== "undefined")
+          .map((item) => (
+            <Grid className={classes.item} item key={`${item.label}`}>
+              <Grid
+                className={classes.box}
+                container
+                direction="column"
+                alignItems="center"
+              >
+                <Grid item>{item.icon}</Grid>
+                <Grid item> {item.total} </Grid>
+                <Grid item>{item.label} </Grid>
+              </Grid>
             </Grid>
-          </Grid>
-        ))}
+          ))}
       </Grid>
     </Box>
   );

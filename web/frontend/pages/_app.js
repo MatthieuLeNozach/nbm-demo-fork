@@ -3,26 +3,24 @@ import Head from "next/head";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { UserProvider } from "@/components/Providers/UserContext";
-import { AuthProvider, useAuth } from "@/components/Providers/AuthProvider";
+import { AuthProvider } from "@/components/Providers/AuthProvider";
 import { theme } from "@/theme";
 import i18n from "@/i18n";
 import { I18nextProvider } from "react-i18next";
 import { useRouter } from "next/router";
+import { SWRConfig } from "swr";
 
 function MyApp({ Component, pageProps }) {
-  React.useEffect(() => {
+  const router = useRouter();
+
+  useEffect(() => {
+    i18n.changeLanguage(router.locale);
+
     const jssStyles = document.querySelector("#jss-server-side");
 
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
-  }, []);
-
-  const router = useRouter();
-
-  useEffect(() => {
-    console.log(router.locale);
-    i18n.changeLanguage(router.locale);
   }, [router.locale]);
 
   return (
@@ -41,7 +39,24 @@ function MyApp({ Component, pageProps }) {
             <ThemeProvider theme={theme}>
               {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
               <CssBaseline />
-              <Component {...pageProps} />
+              <SWRConfig
+                value={{
+                  fetcher: (url, token = null, options = {}) => {
+                    if (token) {
+                      options.headers = {
+                        Authorization: "Bearer " + token,
+                      };
+                    }
+
+                    return fetch(
+                      "http://localhost:8999/api/v1" + url,
+                      options
+                    ).then((res) => res.json());
+                  },
+                }}
+              >
+                <Component {...pageProps} />
+              </SWRConfig>
             </ThemeProvider>
           </UserProvider>
         </AuthProvider>

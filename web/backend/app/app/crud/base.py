@@ -3,7 +3,7 @@ from datetime import datetime
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-
+from sqlalchemy.sql import func
 from app.db.base_class import Base
 
 ModelType = TypeVar("ModelType", bound=Base)
@@ -78,3 +78,13 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         db.delete(obj)
         db.commit()
         return obj
+
+    def count(
+        self, db: Session,
+        *,
+        created_by: Optional[int] = None
+    ) -> int:
+        query = db.query(func.count(self.model.id))
+        if (created_by is not None):
+            query = query.filter(self.model.created_by == created_by)
+        return query.scalar()

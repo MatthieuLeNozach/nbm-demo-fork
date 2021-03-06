@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { theme } from "../theme/index";
 import DoveSvg from "@/assets/svgs/DoveSvg";
 import SwallowSvg from "@/assets/svgs/SwallowSvg";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/components/Providers/AuthProvider";
 import { useUser } from "@/components/Providers/UserContext";
 import { useRouter } from "next/router";
@@ -66,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RegisterPage = () => {
+  const { t } = useTranslation();
   const classes = useStyles(theme);
   const { login, user } = useAuth();
   const router = useRouter();
@@ -112,8 +114,20 @@ const RegisterPage = () => {
               margin="normal"
               required
               fullWidth
-              id="identifiant"
-              label="Identifiant"
+              id="fullName"
+              label={t("fullName")}
+              name="fullName"
+              autoComplete="current-fullName"
+              autoFocus
+            />
+            <TextField
+              color="secondary"
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label={t("email")}
               name="identifiant"
               autoComplete="email"
               autoFocus
@@ -124,10 +138,22 @@ const RegisterPage = () => {
               margin="normal"
               required
               fullWidth
-              name="mot-de-passe"
-              label="Mot de passe"
-              type="mot-de-passe"
-              id="mot-de-passe"
+              name="password"
+              label={t("password")}
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <TextField
+              color="secondary"
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="confirmPassword"
+              label={t("confirmPassword")}
+              type="password"
+              id="password"
               autoComplete="current-password"
             />
             <Button
@@ -145,7 +171,7 @@ const RegisterPage = () => {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/login" variant="body2">
+                <Link href="/signin" variant="body2">
                   {"Déjà inscrit? Connectez-vous"}
                 </Link>
               </Grid>
