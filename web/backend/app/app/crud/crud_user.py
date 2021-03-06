@@ -51,15 +51,9 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         obj_in_data = jsonable_encoder(user_in)
         obj_in_data.pop("password", None)
         obj_in_data.pop("password_confirmation", None)
+        obj_in_data["is_superuser"] = False
         obj_in_data["hashed_password"] = get_password_hash(user_in.password)
         db_obj = self.model(**obj_in_data)
-        # db_obj = User(
-        #     email=user_in.email,
-        #     hashed_password=get_password_hash(user_in.password),
-        #     full_name=user_in.full_name,
-        #     is_superuser=user_in.is_superuser,
-        # )
-        print(db_obj)
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)

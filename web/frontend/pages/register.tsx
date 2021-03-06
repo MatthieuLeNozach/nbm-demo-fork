@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -7,15 +7,14 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import { theme } from "../theme/index";
+import { theme } from "@/theme";
 import DoveSvg from "@/assets/svgs/DoveSvg";
 import SwallowSvg from "@/assets/svgs/SwallowSvg";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/components/Providers/AuthProvider";
-import { useUser } from "@/components/Providers/UserContext";
 import { useRouter } from "next/router";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   root: {
     height: "100vh",
     color: theme.palette.primary.main,
@@ -64,22 +63,38 @@ const useStyles = makeStyles((theme) => ({
   hasTextWhite: {
     color: "white",
   },
-}));
+});
 
 const RegisterPage = () => {
   const { t } = useTranslation();
   const classes = useStyles(theme);
-  const { login, user } = useAuth();
+  const { register, user } = useAuth();
   const router = useRouter();
-
-  useEffect(() => {}, []);
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
   useEffect(() => {
-    console.log(user);
     if (user) {
-      router.push("/authorized");
+      router.push("/home");
     }
   }, [user]);
+
+  const handleCreateUser = (event) => {
+    register({
+      email: email,
+      is_active: true,
+      is_superuser: false,
+      full_name: fullName,
+      password: password,
+      password_confirmation: passwordConfirmation,
+    }).then((registrationResponse) => {
+      alert(registrationResponse.message);
+    });
+
+    event.preventDefault();
+  };
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -105,9 +120,9 @@ const RegisterPage = () => {
             variant="h5"
             className={classes.hasTextWhite}
           >
-            Créer un compte NBM
+            {t("registerOnNBM")}
           </Typography>
-          <form className={classes.form}>
+          <form className={classes.form} onSubmit={handleCreateUser}>
             <TextField
               color="secondary"
               variant="outlined"
@@ -119,6 +134,7 @@ const RegisterPage = () => {
               name="fullName"
               autoComplete="current-fullName"
               autoFocus
+              onChange={(event) => setFullName(event.target.value)}
             />
             <TextField
               color="secondary"
@@ -128,9 +144,10 @@ const RegisterPage = () => {
               fullWidth
               id="email"
               label={t("email")}
-              name="identifiant"
+              name="login"
               autoComplete="email"
               autoFocus
+              onChange={(event) => setEmail(event.target.value)}
             />
             <TextField
               color="secondary"
@@ -143,6 +160,7 @@ const RegisterPage = () => {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(event) => setPassword(event.target.value)}
             />
             <TextField
               color="secondary"
@@ -153,8 +171,9 @@ const RegisterPage = () => {
               name="confirmPassword"
               label={t("confirmPassword")}
               type="password"
-              id="password"
+              id="confirmPassword"
               autoComplete="current-password"
+              onChange={(event) => setPasswordConfirmation(event.target.value)}
             />
             <Button
               type="submit"
@@ -162,17 +181,17 @@ const RegisterPage = () => {
               color="primary"
               className={classes.submit}
             >
-              Créer mon compte
+              {t("register")}
             </Button>
             <Grid container direction="column" alignItems="center">
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Mot de passe oublié ?
+                  {t("forgotPassword")}
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="/signin" variant="body2">
-                  {"Déjà inscrit? Connectez-vous"}
+                  {t("alreadyRegistered")}
                 </Link>
               </Grid>
             </Grid>
