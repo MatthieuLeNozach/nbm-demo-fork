@@ -7,15 +7,14 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import { theme } from "../theme/index";
+import { theme } from "@/theme";
 import DoveSvg from "@/assets/svgs/DoveSvg";
 import SwallowSvg from "@/assets/svgs/SwallowSvg";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/components/Providers/AuthProvider";
-import { useUser } from "@/components/Providers/UserContext";
 import { useRouter } from "next/router";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   root: {
     height: "100vh",
     color: theme.palette.primary.main,
@@ -64,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   hasTextWhite: {
     color: "white",
   },
-}));
+});
 
 const SigninPage = () => {
   const { t } = useTranslation();
@@ -90,13 +89,16 @@ const SigninPage = () => {
   };
 
   // Trigger API call to login user
-  const loginUser = (event) => {
+  const loginUser = async (event) => {
     event.preventDefault(); // don't redirect the page
     const credentials = {
       username: username,
       password: password,
     };
-    login(credentials);
+    const { success, message } = await login(credentials);
+    if (!success) {
+      alert(message);
+    }
   };
 
   useEffect(() => {
@@ -140,7 +142,6 @@ const SigninPage = () => {
           <form
             className={classes.form}
             onSubmit={loginUser}
-            noValidate
             autoComplete="off"
           >
             <TextField
@@ -149,9 +150,9 @@ const SigninPage = () => {
               margin="normal"
               required
               fullWidth
-              id="identifiant"
+              id="login"
               label={t("login")}
-              name="identifiant"
+              name="login"
               autoComplete="email"
               value={username}
               onChange={handleUsernameChange}
@@ -163,10 +164,10 @@ const SigninPage = () => {
               margin="normal"
               required
               fullWidth
-              name="mot-de-passe"
+              name="password"
               label={t("password")}
               type="password"
-              id="mot-de-passe"
+              id="password"
               value={password}
               onChange={handlePasswordChange}
               autoComplete="current-password"

@@ -37,9 +37,9 @@ def login_access_token(
         db, email=form_data.username, password=form_data.password
     )
     if not user:
-        raise HTTPException(status_code=400, detail="Incorrect email or password")
+        raise HTTPException(status_code=400, detail=[{"type": "invalid_credentials"}])
     elif not crud.user.is_active(user):
-        raise HTTPException(status_code=400, detail="Inactive user")
+        raise HTTPException(status_code=400, detail=[{"type": "inactive_user"}])
     return {
         "access_token": security.create_access_token(user.id),
         "token_type": "bearer",
@@ -64,7 +64,7 @@ def recover_password(email: str, db: Session = Depends(deps.get_db)) -> Any:
     if not user:
         raise HTTPException(
             status_code=404,
-            detail="The user with this username does not exist in the system.",
+            detail=[{"type": "nonexistent_email"}],
         )
     password_reset_token = generate_password_reset_token(email=email)
     send_reset_password_email(
@@ -84,15 +84,16 @@ def reset_password(
     """
     email = verify_password_reset_token(token)
     if not email:
-        raise HTTPException(status_code=400, detail="Invalid token")
+        raise HTTPException(status_code=400, detail=[{"type": "invalid_token"}])
     user = crud.user.get_by_email(db, email=email)
     if not user:
         raise HTTPException(
             status_code=404,
-            detail="The user with this username does not exist in the system.",
+            detail=[{"type": "nonexistent_email"}],
         )
+
     elif not crud.user.is_active(user):
-        raise HTTPException(status_code=400, detail="Inactive user")
+        raise HTTPException(status_code=400, detail=[{"type": "inactive_user"}])
     hashed_password = get_password_hash(new_password)
     user.hashed_password = hashed_password
     db.add(user)
@@ -115,13 +116,13 @@ def register(
     if user_in_db:
         raise HTTPException(
             status_code=400,
-            detail="The user with this username already exists in the system.",
+            detail=[{"type": "existing_email"}],
         )
 
     if user_in.password != user_in.password_confirmation:
         raise HTTPException(
             status_code=400,
-            detail="Password and password confirmation did not match",
+            detail=[{"type": "password_mismatch"}],
         )
 
     user_out = crud.user.register(
@@ -130,7 +131,7 @@ def register(
     if not (user_out):
         raise HTTPException(
             status_code=500,
-            detail="Something goes wrong",
+            detail=[{"type": "unknown_error"}],
         )
     print(user_out)
     print(user_out.__dict__)

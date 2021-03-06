@@ -67,7 +67,6 @@ const Dashboard = ({
       label: t("contributors"),
     },
   ];
-  console.log(items[2].total);
   return (
     <Box my={5} p={5} className={classes.dashboard}>
       <Grid

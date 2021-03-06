@@ -17,7 +17,6 @@ const LayoutHeader = () => {
   const { logout } = useAuth();
 
   const handlerOnClickHome = () => {
-    console.log("onClick handlerOnClickHome");
     router.push("/home");
   };
 

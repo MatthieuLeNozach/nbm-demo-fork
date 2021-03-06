@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 interface IUser {
   id: number;
@@ -39,6 +40,8 @@ function AuthProvider(props) {
     null
   );
   const router = useRouter();
+  const { t } = useTranslation();
+
   const allowedRoutes = [
     "/",
     "/login",
@@ -58,6 +61,10 @@ function AuthProvider(props) {
   }, [user, accessToken]);
 
   const login = async ({ username, password }) => {
+    const loginResponse = {
+      success: false,
+      message: t("errorOnLogin"),
+    };
     try {
       const payload = new URLSearchParams();
       payload.append("username", username);
@@ -75,14 +82,20 @@ function AuthProvider(props) {
       if (status === 200) {
         const { access_token } = data;
         setAccessToken(access_token);
-        callMe(access_token);
+        const logged = await callMe(access_token);
+        if (logged) {
+          loginResponse.success = true;
+          loginResponse.message = t("successfulLogin");
+        }
       }
+      return loginResponse;
     } catch (error) {
       const { response } = error;
-      const { data, status } = response;
-      if (status === 400) {
-        return data;
-      }
+      loginResponse.message += Array.isArray(response?.data?.detail)
+        ? t(response?.data?.detail[0].type.replace("value_error.", "invalid_"))
+        : response?.data?.detail || response.status;
+
+      return loginResponse;
     }
   };
 
@@ -98,22 +111,21 @@ function AuthProvider(props) {
       );
       if (status === 200) {
         setUser(data);
+        return true;
       }
+      return false;
     } catch (error) {
-      const { response } = error;
-      const { data, status } = response;
-      if (status === 403) {
-        return data;
-      } else {
-        console.log(status);
-        console.log(data);
-        localStorage.clear();
-        router.push("/");
-      }
+      localStorage.clear();
+      router.push("/");
+      return false;
     }
   };
 
   const register = async (payload) => {
+    const registrationResponse = {
+      success: false,
+      message: t("errorOnRegistration"),
+    };
     try {
       const { data, status } = await axios.post(
         "http://localhost:8999/api/v1/register",
@@ -123,13 +135,18 @@ function AuthProvider(props) {
         const { access_token, ...userData } = data;
         setAccessToken(access_token);
         setUser(userData);
+        registrationResponse.success = true;
+        registrationResponse.message = t("youAreNowRegistered");
       }
+      return registrationResponse;
     } catch (error) {
       const { response } = error;
-      const { data, status } = response;
-      if (status === 400) {
-        return data;
-      }
+
+      registrationResponse.message += Array.isArray(response?.data?.detail)
+        ? t(response?.data?.detail[0].type.replace("value_error.", "invalid_"))
+        : response?.data?.detail || response.status;
+
+      return registrationResponse;
     }
   };
 
@@ -140,7 +157,7 @@ function AuthProvider(props) {
   };
   return (
     <AuthContext.Provider
-      value={{ user, accessToken, login, logout }}
+      value={{ user, accessToken, login, register, logout }}
       {...props}
     />
   );
