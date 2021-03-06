@@ -1,5 +1,5 @@
 import { Grid, makeStyles, Button, Box } from "@material-ui/core";
-import { theme } from "@/theme/index";
+import { theme } from "@/theme";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/components/Providers/AuthProvider";
@@ -7,7 +7,6 @@ import { useAuth } from "@/components/Providers/AuthProvider";
 const useStyles = makeStyles({
   header: {
     backgroundColor: theme.palette.primary.main,
-    height: 50,
   },
 });
 

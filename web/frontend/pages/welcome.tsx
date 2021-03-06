@@ -7,8 +7,9 @@ import Typography from "@material-ui/core/Typography";
 import Dashboard from "../components/Dashboard/index";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
+import useSWR from "swr";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   backgroundImage: {
     position: "fixed",
     top: 0,
@@ -53,28 +54,29 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     // fontFamily: "Roboto",
   },
-}));
+});
 
 const WelcomePage = () => {
   const classes = useStyles(theme);
   const { t } = useTranslation();
   const router = useRouter();
+  const { data: globalCount } = useSWR("/utils/count");
 
   return (
     <div className={classes.globalWrapper}>
       <Container>
         <Grid
-            item
-            container
-            direction="row"
-            justify="center"
-            alignItems="center"
+          item
+          container
+          direction="row"
+          justify="center"
+          alignItems="center"
         >
           <Grid item>
             <Button
-                variant="contained"
-                className={classes.signInButton}
-                onClick={() => router.push("/signin")}
+              variant="contained"
+              className={classes.signInButton}
+              onClick={() => router.push("/signin")}
             >
               {t("signIn")}
             </Button>
@@ -91,7 +93,17 @@ const WelcomePage = () => {
             <Typography variant="h4">{t("welcomeOnNBM")}</Typography>
           </Grid>
           <Grid item>
-            <Dashboard />
+            {globalCount ? (
+              <Dashboard
+                mediae={globalCount.mediae}
+                medialabels={globalCount.medialabels}
+                species={globalCount.species}
+                sites={globalCount.sites}
+                users={globalCount.users}
+              />
+            ) : (
+              <div>Données globales irrécupérables</div>
+            )}
           </Grid>
           <Grid
             item
@@ -127,8 +139,3 @@ const WelcomePage = () => {
 };
 
 export default WelcomePage;
-
-/*  lineHeight: 26px,
-    textAlign: center,
-    letterSpacing: 0.46px,
-    textTransform: uppercase, */
