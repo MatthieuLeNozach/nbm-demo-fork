@@ -107,7 +107,7 @@ const HomePage = () => {
             direction="row"
             justify="center"
             alignItems="center"
-            className={classes.bottomButtonsContainer}
+            //className={classes.bottomButtonsContainer}
           >
             <Button
               variant="contained"
