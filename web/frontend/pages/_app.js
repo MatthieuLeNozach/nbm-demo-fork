@@ -49,7 +49,7 @@ function MyApp({ Component, pageProps }) {
                     }
 
                     return fetch(
-                      "http://localhost:8999/api/v1" + url,
+                      process.env.API_URL + url,
                       options
                     ).then((res) => res.json());
                   },
