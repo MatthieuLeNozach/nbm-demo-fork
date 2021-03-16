@@ -75,7 +75,7 @@ function AuthProvider(props) {
         },
       };
       const { data, status } = await axios.post(
-        "http://localhost:8999/api/v1/login/access-token",
+        `${process.env.API_URL}/login/access-token`,
         payload,
         config
       );
@@ -102,7 +102,7 @@ function AuthProvider(props) {
   const callMe = async (token) => {
     try {
       const { data, status } = await axios.get(
-        "http://localhost:8999/api/v1/users/me",
+        `${process.env.API_URL}/users/me`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -128,7 +128,7 @@ function AuthProvider(props) {
     };
     try {
       const { data, status } = await axios.post(
-        "http://localhost:8999/api/v1/register",
+        `${process.env.API_URL}/register`,
         payload
       );
       if (status === 200) {
