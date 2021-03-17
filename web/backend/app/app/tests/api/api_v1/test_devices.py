@@ -8,7 +8,7 @@ from app.tests.utils.faker import fake
 def test_create_device_by_superuser(
     client: TestClient, superuser_token_headers: dict, db: Session
 ) -> None:
-    data = {"device_model": fake.pystr()}
+    data = {"model_name": fake.pystr()}
     response = client.post(
         f"{settings.API_V1_STR}/devices/", headers=superuser_token_headers, json=data,
     )
@@ -17,13 +17,13 @@ def test_create_device_by_superuser(
 
     content = response.json()
 
-    assert content["device_model"] == data["device_model"]
+    assert content["model_name"] == data["model_name"]
     assert type(content["id"]) is int
 
 def test_create_device_by_user(
     client: TestClient, normal_user_token_headers: dict, db: Session
 ) -> None:
-    data = {"device_model": fake.pystr()}
+    data = {"model_name": fake.pystr()}
     response = client.post(
         f"{settings.API_V1_STR}/devices/", headers=normal_user_token_headers, json=data,
     )
@@ -42,7 +42,7 @@ def test_read_device(
 
     content = response.json()
 
-    assert content["device_model"] == device.device_model
+    assert content["model_name"] == device.model_name
     assert content["id"] == device.id
 
 def test_read_unexisting_device(
@@ -66,17 +66,17 @@ def test_read_devices(
     assert type(devices) is list
 
     content = devices[0]
-    assert type(content["device_model"]) is str
+    assert type(content["model_name"]) is str
     assert type(content["id"]) is int
 
 def test_impossible_device_duplication( 
     client: TestClient, superuser_token_headers: dict, db: Session
 ) -> None:
-    device_model = "SuperMic2000"
-    data = {"device_model": device_model}
+    model_name = "SuperMic2000"
+    data = {"model_name": model_name}
 
     response = client.get(
-        f"{settings.API_V1_STR}/devices?device_model={device_model}", headers=superuser_token_headers,
+        f"{settings.API_V1_STR}/devices?model_name={model_name}", headers=superuser_token_headers,
     )
 
     assert response.status_code == 200

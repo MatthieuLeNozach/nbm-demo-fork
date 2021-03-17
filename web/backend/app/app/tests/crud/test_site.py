@@ -28,7 +28,7 @@ def test_get_site(db: Session) -> None:
     site = create_random_site(db)
     stored_site = crud.site.get(db=db, id=site.id)
 
-    assert stored_site
+    assert stored_site is not None
     assert site.latitude == stored_site.latitude
     assert site.longitude == stored_site.longitude
     assert site.name == stored_site.name
@@ -66,28 +66,28 @@ def test_update_site(db: Session) -> None:
     assert site.updated_at is None
     assert site.updated_by is None
 
-    name2 = fake.sentence()
-    site_update = SiteUpdate(name=name2)
-    site2 = crud.site.update(db=db, db_obj=site, obj_in=site_update, updated_by=site.created_by)
+    new_name = fake.sentence()
+    site_update_in = SiteUpdate(name=new_name)
+    updated_site = crud.site.update(db=db, db_obj=site, obj_in=site_update_in, updated_by=site.created_by)
 
-    assert site.id == site2.id
-    assert site.latitude == site2.latitude
-    assert site.longitude == site2.longitude
-    assert site.is_private == site2.is_private
-    assert site2.name == name2
-    assert site.created_by == site2.created_by
-    assert site.created_at == site2.created_at
-    assert type(site2.updated_at) is datetime
-    assert site2.updated_at != site.created_at
-    assert site2.updated_by == site.created_by
+    assert site.id == updated_site.id
+    assert site.latitude == updated_site.latitude
+    assert site.longitude == updated_site.longitude
+    assert site.is_private == updated_site.is_private
+    assert updated_site.name == new_name
+    assert site.created_by == updated_site.created_by
+    assert site.created_at == updated_site.created_at
+    assert type(updated_site.updated_at) is datetime
+    assert updated_site.updated_at != site.created_at
+    assert updated_site.updated_by == site.created_by
 
 
 def test_delete_site(db: Session) -> None:
     site = create_random_site(db)
-    site2 = crud.site.remove(db=db, id=site.id)
-    site3 = crud.site.get(db=db, id=site.id)
-    assert site3 is None
-    assert site.latitude == site2.latitude
-    assert site.longitude == site2.longitude
-    assert site.is_private == site2.is_private
-    assert site.name == site2.name
+    removed_site = crud.site.remove(db=db, id=site.id)
+    after_remove_site = crud.site.get(db=db, id=site.id)
+    assert after_remove_site is None
+    assert site.latitude == removed_site.latitude
+    assert site.longitude == removed_site.longitude
+    assert site.is_private == removed_site.is_private
+    assert site.name == removed_site.name

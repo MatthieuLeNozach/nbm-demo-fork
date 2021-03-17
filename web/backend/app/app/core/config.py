@@ -56,6 +56,9 @@ class Settings(BaseSettings):
     SMTP_HOST: Optional[str] = None
     SMTP_USER: Optional[str] = None
     SMTP_PASSWORD: Optional[str] = None
+    NEXTCLOUD_HOST: Optional[str] = None
+    NEXTCLOUD_USER: Optional[str] = None
+    NEXTCLOUD_PASSWORD: Optional[str] = None
     EMAILS_FROM_EMAIL: Optional[EmailStr] = None
     EMAILS_FROM_NAME: Optional[str] = None
 

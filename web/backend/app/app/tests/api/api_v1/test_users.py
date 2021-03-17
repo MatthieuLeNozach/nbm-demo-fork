@@ -33,15 +33,14 @@ def test_get_users_normal_user_me(
 def test_create_user_new_email(
     client: TestClient, superuser_token_headers: dict, db: Session
 ) -> None:
-    username = fake.ascii_free_email()
-    password = fake.sha256()
-    data = {"email": username, "password": password}
+    email = fake.ascii_free_email()
+    data = {"email": email, "password": fake.sha256()}
     r = client.post(
         f"{settings.API_V1_STR}/users/", headers=superuser_token_headers, json=data,
     )
     assert 200 <= r.status_code < 300
     created_user = r.json()
-    user = crud.user.get_by_email(db, email=username)
+    user = crud.user.get_by_email(db, email=email)
     assert user
     assert user.email == created_user["email"]
 
@@ -49,30 +48,27 @@ def test_create_user_new_email(
 def test_get_existing_user(
     client: TestClient, superuser_token_headers: dict, db: Session
 ) -> None:
-    username = fake.ascii_free_email()
-    password = fake.sha256()
-    user_in = UserCreate(email=username, password=password)
+    email = fake.ascii_free_email()
+    user_in = UserCreate(email=email, password=fake.sha256())
     user = crud.user.create(db, obj_in=user_in)
-    user_id = user.id
     r = client.get(
-        f"{settings.API_V1_STR}/users/{user_id}", headers=superuser_token_headers,
+        f"{settings.API_V1_STR}/users/{user.id}", headers=superuser_token_headers,
     )
     assert 200 <= r.status_code < 300
     api_user = r.json()
-    existing_user = crud.user.get_by_email(db, email=username)
-    assert existing_user
+    existing_user = crud.user.get_by_email(db, email=email)
+    assert existing_user is not None
     assert existing_user.email == api_user["email"]
 
 
-def test_create_user_existing_username(
+def test_create_user_existing_email(
     client: TestClient, superuser_token_headers: dict, db: Session
 ) -> None:
-    username = fake.ascii_free_email()
-    # username = email
+    email = fake.ascii_free_email()
     password = fake.sha256()
-    user_in = UserCreate(email=username, password=password)
+    user_in = UserCreate(email=email, password=password)
     crud.user.create(db, obj_in=user_in)
-    data = {"email": username, "password": password}
+    data = {"email": email, "password": password}
     r = client.post(
         f"{settings.API_V1_STR}/users/", headers=superuser_token_headers, json=data,
     )
@@ -84,9 +80,7 @@ def test_create_user_existing_username(
 def test_create_user_by_normal_user(
     client: TestClient, normal_user_token_headers: Dict[str, str]
 ) -> None:
-    username = fake.ascii_free_email()
-    password = fake.sha256()
-    data = {"email": username, "password": password}
+    data = {"email": fake.ascii_free_email(), "password": fake.sha256()}
     r = client.post(
         f"{settings.API_V1_STR}/users/", headers=normal_user_token_headers, json=data,
     )
@@ -96,14 +90,10 @@ def test_create_user_by_normal_user(
 def test_retrieve_users(
     client: TestClient, superuser_token_headers: dict, db: Session
 ) -> None:
-    username = fake.ascii_free_email()
-    password = fake.sha256()
-    user_in = UserCreate(email=username, password=password)
+    user_in = UserCreate(email=fake.ascii_free_email(), password=fake.sha256())
     crud.user.create(db, obj_in=user_in)
 
-    username2 = fake.ascii_free_email()
-    password2 = fake.sha256()
-    user_in2 = UserCreate(email=username2, password=password2)
+    user_in2 = UserCreate(email=fake.ascii_free_email(), password=fake.sha256())
     crud.user.create(db, obj_in=user_in2)
 
     r = client.get(f"{settings.API_V1_STR}/users/", headers=superuser_token_headers)

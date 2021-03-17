@@ -9,14 +9,10 @@ from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
 from app.api import deps
-from app.core import security
 from app.core.config import settings
 from app.core.security import get_password_hash
-from app.utils import (
-    generate_password_reset_token,
-    send_reset_password_email,
-    verify_password_reset_token,
-)
+from app.utils.token import generate_password_reset_token, verify_password_reset_token, create_access_token
+from app.utils.email import send_reset_password_email
 
 from app.schemas import (
     UserRegister,
@@ -41,7 +37,7 @@ def login_access_token(
     elif not crud.user.is_active(user):
         raise HTTPException(status_code=400, detail=[{"type": "inactive_user"}])
     return {
-        "access_token": security.create_access_token(user.id),
+        "access_token": create_access_token(user.id),
         "token_type": "bearer",
     }
 
@@ -135,7 +131,7 @@ def register(
         )
     print(user_out)
     print(user_out.__dict__)
-    access_token = security.create_access_token(user_out.id)
+    access_token = create_access_token(user_out.id)
     user_data = jsonable_encoder(user_out)
     return {
         **user_data,

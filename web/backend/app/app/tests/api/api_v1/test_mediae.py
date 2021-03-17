@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
+from app.utils.token import create_access_token
 from app.tests.utils.media import create_random_media
 from app.tests.utils.user import create_random_user
 from app.tests.utils.site import create_random_site
@@ -19,7 +20,6 @@ def test_create_media(
     file_url = f"{file_source}{fake.file_name()}"
     file_type = "sound"
 
-    creator = create_random_user(db)
     site = create_random_site(db)
     device = create_random_device(db)
 
@@ -94,7 +94,7 @@ def test_read_mediae(
     response = client.get(
         f"{settings.API_V1_STR}/mediae", headers=superuser_token_headers,
     )
-    
+
     assert response.status_code == 200
 
     mediae = response.json()
@@ -105,10 +105,119 @@ def test_read_mediae(
 
     assert type(content["file_source"]) is str
     assert type(content["file_url"]) is str
-    assert type(content["site_id"]) is int
+    assert type(content["site_id"]) is int or content["site_id"] is None 
     assert type(content["device_id"]) is int
     assert type(datetime.strptime(content["begin_date"], '%Y-%m-%dT%H:%M:%S')) is datetime
     assert type(content["duration"]) is str
     assert type(content["id"]) is int
     assert type(content["created_by"]) is int
     assert type(parse(content["created_at"])) is datetime
+
+
+def test_upload_mediae(
+    client: TestClient, db: Session
+) -> None:
+    files = {}
+    files["audio"] = ("audio", open("./app/tests/utils/files/media.wav", "rb"), "audio/wav")
+    files["annotations"] = ("annotations", open("./app/tests/utils/files/annotations.txt", "rb"), "text/plain")
+
+    creator = create_random_user(db)
+    creator_access_token = create_access_token(creator.id)
+    creator_headers = { "Authorization":  "Bearer " + creator_access_token}
+
+    data = {"name": "Erithacus rubecula"}
+    response = client.post(
+        f"{settings.API_V1_STR}/standardlabels/", headers=creator_headers, json=data,
+    )
+
+    assert response.status_code == 200
+
+    device = create_random_device(db)
+    data = { "begin_date": str(fake.date_time_this_century()),
+            "device_id": device.id,
+            "file_source": fake.sentence() }
+
+    response = client.post(
+        f"{settings.API_V1_STR}/mediae/upload", headers=creator_headers, data=data, files=files,
+    )
+
+    assert response.status_code == 200
+
+    content = response.json()
+
+    assert type(content["media"]) is dict
+    assert (datetime.strptime(content["media"]["begin_date"], '%Y-%m-%dT%H:%M:%S')
+            == datetime.strptime(data["begin_date"], '%Y-%m-%d %H:%M:%S'))
+    assert content["media"]["created_by"] == creator.id
+    assert content["media"]["type"] == 'sound'
+    assert content["media"]["device_id"] == device.id
+    assert type(content["media"]["file_url"]) is str
+    assert type(content["media"]["file_source"]) is str
+    assert content["media"]["meta"] == '{"samplerate": 44100, "channels": 1, "sections": 1, "format": "WAV", "subtype": "PCM_16"}'
+    assert content["media"]["duration"] == '00:00:09.071755'
+
+    assert type(content["invalid_lines"]) is list
+    assert len(content["invalid_lines"]) == 2
+
+    assert type(content["invalid_labels"]) is list
+    assert len(content["invalid_labels"]) == 15
+
+    assert type(content["medialabels"]) is list
+    assert len(content["medialabels"]) == 9
+
+
+def test_upload_invalid_mediae(
+    client: TestClient, superuser_token_headers: dict, db: Session
+) -> None:
+    files = {}
+    files["audio"] = ("audio", open("./app/tests/utils/files/fake_media.wav", "rb"), "audio/wav")
+    files["annotations"] = ("annotations", open("./app/tests/utils/files/annotations.txt", "rb"), "text/plain")
+
+    device = create_random_device(db)
+    data = { "begin_date": str(fake.date_time_this_century()),
+            "device_id": device.id,
+            "file_source": fake.sentence() }
+
+    response = client.post(
+        f"{settings.API_V1_STR}/mediae/upload", headers=superuser_token_headers, data=data, files=files,
+    )
+
+    assert response.status_code == 400
+    content = response.json()
+
+    assert type(content["detail"]) is list
+    assert type(content["detail"][0]) is dict
+    assert content["detail"][0]["type"] == "invalid_audio"
+
+
+def test_upload_invalid_annotations(
+    client: TestClient, superuser_token_headers: dict, db: Session
+) -> None:
+    files = {}
+    files["audio"] = ("audio", open("./app/tests/utils/files/media.wav", "rb"), "audio/wav")
+    files["annotations"] = ("annotations", open("./app/tests/utils/files/fake_annotations.txt", "rb"), "text/plain")
+
+    device = create_random_device(db)
+    data = { "begin_date": str(fake.date_time_this_century()),
+            "device_id": device.id,
+            "file_source": fake.sentence() }
+
+    response = client.post(
+        f"{settings.API_V1_STR}/mediae/upload", headers=superuser_token_headers, data=data, files=files,
+    )
+
+    assert response.status_code == 200
+    content = response.json()
+
+    assert type(content["media"]) is dict
+    assert (datetime.strptime(content["media"]["begin_date"], '%Y-%m-%dT%H:%M:%S')
+            == datetime.strptime(data["begin_date"], '%Y-%m-%d %H:%M:%S'))
+    assert content["media"]["type"] == 'sound'
+    assert content["media"]["device_id"] == device.id
+    assert type(content["media"]["file_url"]) is str
+    assert type(content["media"]["file_source"]) is str
+    assert content["media"]["meta"] == '{"samplerate": 44100, "channels": 1, "sections": 1, "format": "WAV", "subtype": "PCM_16"}'
+    assert content["media"]["duration"] == '00:00:09.071755'
+
+    assert type(content["invalid_lines"]) is list
+    assert len(content["invalid_lines"]) == 17

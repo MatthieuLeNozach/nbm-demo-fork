@@ -67,7 +67,7 @@ const useStyles = makeStyles({
 
 const SigninPage = () => {
   const { t } = useTranslation();
-  const classes = useStyles(theme);
+  const classes = useStyles();
   const { login, user } = useAuth();
   const router = useRouter();
 

@@ -34,14 +34,14 @@ const useStyles = makeStyles({
 });
 
 const HomePage = () => {
-  const classes = useStyles(theme);
+  const classes = useStyles();
   const { t } = useTranslation();
   const router = useRouter();
-  const user = useAuth();
-  const { data: globalCount } = useSWR(["/utils/count", user.accessToken]);
+  const { user, accessToken } = useAuth();
+  const { data: globalCount } = useSWR(["/utils/count", accessToken]);
   const { data: personalCount } = useSWR([
     "/utils/personal-count",
-    user.accessToken,
+    accessToken,
   ]);
 
   return (
@@ -63,9 +63,7 @@ const HomePage = () => {
           >
             <Grid item>
               <Typography variant="h4">
-                {t("welcome") +
-                  " " +
-                  ((user.user && user.user.full_name) ?? "")}
+                {t("welcome") + " " + ((user && user.full_name) ?? "")}
               </Typography>
             </Grid>
           </Grid>
@@ -107,7 +105,6 @@ const HomePage = () => {
             direction="row"
             justify="center"
             alignItems="center"
-            //className={classes.bottomButtonsContainer}
           >
             <Button
               variant="contained"
@@ -126,7 +123,7 @@ const HomePage = () => {
             <Button
               variant="contained"
               className={classes.bottomButton}
-              onClick={() => router.push("/signin")}
+              onClick={() => router.push("/newrecording")}
             >
               {t("addNewRecordings")}
             </Button>

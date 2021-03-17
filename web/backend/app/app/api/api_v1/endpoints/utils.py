@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from app import crud, models, schemas
 from app.api import deps
 from app.core.celery_app import celery_app
-from app.utils import send_test_email
+from app.utils.email import send_test_email
 
 router = APIRouter()
 
