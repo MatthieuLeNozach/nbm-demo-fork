@@ -6,6 +6,6 @@ from app.tests.utils.faker import fake
 
 
 def create_random_device(db: Session) -> models.Device:
-    device_model = fake.pystr()
-    device_in = DeviceCreate(device_model=device_model)
+    model_name = fake.pystr()
+    device_in = DeviceCreate(model_name=model_name)
     return crud.device.create(db=db, obj_in=device_in)

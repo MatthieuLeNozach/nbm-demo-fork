@@ -1,8 +1,8 @@
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from app.core import security
 from app.core.config import settings
+from app.utils.token import create_access_token
 from app.tests.utils.site import create_random_site
 from app.tests.utils.user import create_random_user
 
@@ -77,10 +77,10 @@ def test_read_sites_normal_user(
     client: TestClient, db: Session
 ) -> None:
     creator = create_random_user(db)
-    creator_access_token = security.create_access_token(creator.id)
-    site1 = create_random_site(db, created_by = creator.id, is_private = True)
-    site2 = create_random_site(db, is_private = True)
-    site3 = create_random_site(db, is_private = False)
+    creator_access_token = create_access_token(creator.id)
+    create_random_site(db, created_by = creator.id, is_private = True)
+    create_random_site(db, is_private = True)
+    create_random_site(db, is_private = False)
 
     response = client.get(
         f"{settings.API_V1_STR}/sites", headers={ "Authorization":  "Bearer " + creator_access_token},
@@ -90,7 +90,6 @@ def test_read_sites_normal_user(
 
     sites = response.json()
 
-    
     assert type(sites) is list
     for site in sites:
         assert site["is_private"] == False or site["created_by"] == creator.id

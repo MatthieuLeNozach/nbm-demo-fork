@@ -67,7 +67,7 @@ const useStyles = makeStyles({
 
 const RegisterPage = () => {
   const { t } = useTranslation();
-  const classes = useStyles(theme);
+  const classes = useStyles();
   const { register, user } = useAuth();
   const router = useRouter();
   const [fullName, setFullName] = useState("");

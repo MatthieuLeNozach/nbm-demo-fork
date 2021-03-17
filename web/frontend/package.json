@@ -23,9 +23,12 @@
     "i18next-browser-languagedetector": "^6.0.1",
     "next": "^10.0.7",
     "react": "^17.0.1",
+    "react-datepicker": "^3.6.0",
     "react-dom": "^17.0.1",
+    "react-dropzone": "^11.3.1",
     "react-hook-form": "^6.15.2",
     "react-i18next": "^11.8.7",
+    "react-select": "^4.2.1",
     "sharp": "^0.27.2",
     "swr": "^0.4.2",
     "typescript": "^4.1.5",
@@ -96,9 +99,10 @@
         }
       ],
       "jest/lowercase-name": "off",
-      "@typescript-eslint/camelcase": "warn",
+      "@typescript-eslint/camelcase": "off",
+      "react/react-in-jsx-scope": "off",
       "@typescript-eslint/no-empty-function": "warn",
-      "camelcase": "warn",
+      "camelcase": "off",
       "no-case-declarations": "warn"
     }
   }

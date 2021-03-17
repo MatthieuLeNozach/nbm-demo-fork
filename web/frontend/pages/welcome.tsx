@@ -57,7 +57,7 @@ const useStyles = makeStyles({
 });
 
 const WelcomePage = () => {
-  const classes = useStyles(theme);
+  const classes = useStyles();
   const { t } = useTranslation();
   const router = useRouter();
   const { data: globalCount } = useSWR("/utils/count");
@@ -125,7 +125,7 @@ const WelcomePage = () => {
               <Button
                 variant="contained"
                 className={classes.bottomButtons}
-                onClick={() => router.push("/signin")}
+                onClick={() => router.push("/newrecording")}
               >
                 {t("addNewRecordings")}
               </Button>

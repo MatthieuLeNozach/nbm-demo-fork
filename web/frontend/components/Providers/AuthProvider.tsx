@@ -42,7 +42,7 @@ function AuthProvider(props) {
   const router = useRouter();
   const { t } = useTranslation();
 
-  const allowedRoutes = [
+  const anonymousLoginRoutes = [
     "/",
     "/login",
     "/register",
@@ -54,11 +54,14 @@ function AuthProvider(props) {
   ];
 
   useEffect(() => {
-    if (!accessToken && !user && !allowedRoutes.includes(router.route)) {
+    if (
+      (!accessToken || !user) &&
+      !anonymousLoginRoutes.includes(router.route)
+    ) {
       localStorage.clear();
       router.push("/signin");
     }
-  }, [user, accessToken]);
+  }, [user, accessToken, router.route]);
 
   const login = async ({ username, password }) => {
     const loginResponse = {

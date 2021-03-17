@@ -72,8 +72,8 @@ def test_get_mediae_by_creator(db: Session) -> None:
     mediae = crud.media.get_multi(db=db, created_by=creator.id)
 
     assert type(mediae) is list
-    assert len(mediae) == 1 #allow us to test if one AND ONLY one media has been created with creator.id 
-    
+    assert len(mediae) == 1 #allow us to test if one AND ONLY one media has been created with creator.id
+
     tested_media = mediae[0]
 
     assert tested_media.file_source == owned_media.file_source
@@ -94,40 +94,40 @@ def test_update_media(db: Session) -> None:
     assert media.updated_at is None
     assert media.updated_by is None
 
-    file_source2 = fake.sentence()
-    media_update = MediaUpdate(file_source=file_source2) #just want to change filesource 
-    media2 = crud.media.update(db=db, db_obj=media, obj_in=media_update, updated_by=media.created_by)
+    new_file_source = fake.sentence()
+    media_update_in = MediaUpdate(file_source=new_file_source) #just want to change filesource
+    updated_media = crud.media.update(db=db, db_obj=media, obj_in=media_update_in, updated_by=media.created_by)
 
-    assert media2.file_source == file_source2
-    assert media.file_url == media2.file_url
-    assert media.type == media2.type
-    assert media.site_id == media2.site_id
-    assert media.begin_date == media2.begin_date
-    assert media.device_id == media2.device_id
-    assert media.duration == media2.duration
-    assert media.id == media2.id
-    assert media.created_at == media2.created_at
-    assert media.created_by == media2.created_by
-    assert type(media2.updated_at) is datetime
-    assert media.updated_at != media2.created_at
-    assert media.updated_by == media2.created_by
+    assert updated_media.file_source == new_file_source
+    assert media.file_url == updated_media.file_url
+    assert media.type == updated_media.type
+    assert media.site_id == updated_media.site_id
+    assert media.begin_date == updated_media.begin_date
+    assert media.device_id == updated_media.device_id
+    assert media.duration == updated_media.duration
+    assert media.id == updated_media.id
+    assert media.created_at == updated_media.created_at
+    assert media.created_by == updated_media.created_by
+    assert type(updated_media.updated_at) is datetime
+    assert media.updated_at != updated_media.created_at
+    assert media.updated_by == updated_media.created_by
 
 
 def test_delete_media(db: Session) -> None:
     media = create_random_media(db)
-    media2 = crud.media.remove(db=db, id=media.id)
-    media3 = crud.media.get(db=db, id=media.id)
-    assert media3 is None
-    #following lines confirm that media2 data are equal to media when removing 
-    assert media.file_source == media2.file_source
-    assert media.file_url == media2.file_url
-    assert media.type == media2.type
-    assert media.site_id == media2.site_id
-    assert media.begin_date == media2.begin_date
-    assert media.device_id == media2.device_id
-    assert media.duration == media2.duration
-    assert media.id == media2.id
-    assert media.created_at == media2.created_at
-    assert media.created_by == media2.created_by
-    assert media2.updated_at is None
-    assert media2.updated_by is None
+    removed_media = crud.media.remove(db=db, id=media.id)
+    after_remove_media = crud.media.get(db=db, id=media.id)
+    assert after_remove_media is None
+    #following lines confirm that removed_media data are equal to media when removing
+    assert media.file_source == removed_media.file_source
+    assert media.file_url == removed_media.file_url
+    assert media.type == removed_media.type
+    assert media.site_id == removed_media.site_id
+    assert media.begin_date == removed_media.begin_date
+    assert media.device_id == removed_media.device_id
+    assert media.duration == removed_media.duration
+    assert media.id == removed_media.id
+    assert media.created_at == removed_media.created_at
+    assert media.created_by == removed_media.created_by
+    assert removed_media.updated_at is None
+    assert removed_media.updated_by is None

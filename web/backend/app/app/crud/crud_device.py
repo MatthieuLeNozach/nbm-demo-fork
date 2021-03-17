@@ -10,11 +10,11 @@ from app.schemas.device import DeviceCreate, DeviceUpdate
 
 class CRUDDevice(CRUDBase[Device, DeviceCreate, DeviceUpdate]):
     def get_multi_by_model(
-        self, db: Session, *, device_model: str, skip: int = 0, limit: int = 100
+        self, db: Session, *, model_name: str, skip: int = 0, limit: int = 100
     ) -> List[Device]:
         return (
             db.query(self.model)
-            .filter(Device.device_model == device_model)
+            .filter(Device.model_name.ilike(f"%{model_name}%"))
             .offset(skip)
             .limit(limit)
             .all()

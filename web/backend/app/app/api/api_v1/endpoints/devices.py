@@ -13,14 +13,14 @@ def read_devices(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
-    device_model: str = None,
+    model_name: str = None,
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
     Retrieve Devices.
     """
-    if (type(device_model) is str):
-        devices = crud.device.get_multi_by_model(db, skip=skip, limit=limit, device_model=device_model)
+    if (type(model_name) is str):
+        devices = crud.device.get_multi_by_model(db, skip=skip, limit=limit, model_name=model_name)
     else:
         devices = crud.device.get_multi(db, skip=skip, limit=limit)
     return devices
@@ -38,7 +38,7 @@ def create_device(
     if not crud.user.is_superuser(current_user):
         raise HTTPException(status_code=403, detail="Forbidden. Only SuperAdmin users can create devices.")
 
-    duplicatedDevices = crud.device.get_multi_by_model(db=db, device_model=device_in.device_model)
+    duplicatedDevices = crud.device.get_multi_by_model(db=db, model_name=device_in.model_name)
     if len(duplicatedDevices) > 0:
         raise HTTPException(status_code=409, detail="A device with the same model name already exists")
 

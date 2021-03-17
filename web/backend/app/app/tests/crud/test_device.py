@@ -7,33 +7,33 @@ from app.tests.utils.device import create_random_device
 from app.tests.utils.faker import fake
 
 def test_create_device(db: Session) -> None:
-    device_model = fake.pystr()
-    device_in = DeviceCreate(device_model=device_model)
+    model_name = fake.pystr()
+    device_in = DeviceCreate(model_name=model_name)
     device = crud.device.create(db=db, obj_in=device_in)
-    assert device.device_model == device_model
+    assert device.model_name == model_name
     assert type(device.id) is int
 
 def test_get_device(db: Session) -> None:
     device = create_random_device(db)
     stored_device = crud.device.get(db=db, id=device.id)
-    assert stored_device is not None  
+    assert stored_device is not None
     assert device.id == stored_device.id
-    assert device.device_model == stored_device.device_model
+    assert device.model_name == stored_device.model_name
 
 
 def test_update_device(db: Session) -> None:
     device = create_random_device(db)
-    new_device_model = fake.pystr()
-    device_update = DeviceUpdate(device_model=new_device_model)
+    new_model_name = fake.pystr()
+    device_update = DeviceUpdate(model_name=new_model_name)
     updated_device = crud.device.update(db=db, db_obj=device, obj_in=device_update)
     assert device.id == updated_device.id
-    assert updated_device.device_model == new_device_model
+    assert updated_device.model_name == new_model_name
 
 
 def test_delete_device(db: Session) -> None:
     device = create_random_device(db)
-    device2 = crud.device.remove(db=db, id=device.id)
-    device3 = crud.device.get(db=db, id=device.id)
-    assert device3 is None
-    assert device2.id == device.id
-    assert device2.device_model == device.device_model
+    removed_device = crud.device.remove(db=db, id=device.id)
+    after_remove_device = crud.device.get(db=db, id=device.id)
+    assert after_remove_device is None
+    assert removed_device.id == device.id
+    assert removed_device.model_name == device.model_name
