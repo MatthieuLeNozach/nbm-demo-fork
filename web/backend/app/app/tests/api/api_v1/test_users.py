@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from app import crud
 from app.core.config import settings
 from app.schemas.user import UserCreate
+from app.utils.token import create_access_token
 from app.tests.utils.faker import fake
 
 def test_get_users_superuser_me(
@@ -45,7 +46,105 @@ def test_create_user_new_email(
     assert user.email == created_user["email"]
 
 
-def test_get_existing_user(
+def test_update_user(
+    client: TestClient, normal_user_token_headers: dict, db: Session
+) -> None:
+    data = {"full_name": fake.name(), "password": "123456", "email": fake.ascii_free_email()}
+    r = client.put(
+        f"{settings.API_V1_STR}/users/me", headers=normal_user_token_headers, json=data,
+    )
+
+    assert r.status_code == 200
+
+    r = client.get(
+        f"{settings.API_V1_STR}/users/me", headers=normal_user_token_headers, json=data,
+    )
+
+    assert r.status_code == 200
+    content = r.json()
+
+    assert content["full_name"] == data["full_name"]
+
+
+def test_update_non_existent_user(
+    client: TestClient, superuser_token_headers: dict, db: Session
+) -> None:
+    data = {"full_name": ""}
+    r = client.put(
+        f"{settings.API_V1_STR}/users/9999999", headers=superuser_token_headers, json=data,
+    )
+
+    assert r.status_code == 404
+
+
+def test_update_user_by_superuser(
+    client: TestClient, superuser_token_headers: dict, db: Session
+) -> None:
+    email = fake.ascii_free_email()
+    data = {"email": email, "password": fake.sha256()}
+    r = client.post(
+        f"{settings.API_V1_STR}/users/", headers=superuser_token_headers, json=data,
+    )
+    print(r.text)
+    assert 200 <= r.status_code < 300
+    created_user = r.json()
+    user = crud.user.get_by_email(db, email=email)
+    assert user
+    assert user.email == created_user["email"]
+
+    data = {"full_name": fake.name()}
+    r = client.put(
+        f"{settings.API_V1_STR}/users/{user.id}", headers=superuser_token_headers, json=data,
+    )
+
+    assert r.status_code == 200
+
+    r = client.get(
+        f"{settings.API_V1_STR}/users/{user.id}", headers=superuser_token_headers, json=data,
+    )
+
+    assert r.status_code == 200
+    content = r.json()
+
+    assert content["email"] == created_user["email"]
+    assert content["full_name"] == data["full_name"]
+
+
+def test_get_existing_user_by_normal_user(
+    client: TestClient, normal_user_token_headers: dict, db: Session
+) -> None:
+    email = fake.ascii_free_email()
+    user_in = UserCreate(email=email, password=fake.sha256())
+    user = crud.user.create(db, obj_in=user_in)
+    r = client.get(
+        f"{settings.API_V1_STR}/users/{user.id}", headers=normal_user_token_headers,
+    )
+    assert r.status_code == 403
+
+
+def test_get_existing_user_by_self_user(
+    client: TestClient, normal_user_token_headers: dict, db: Session
+) -> None:
+    email = fake.ascii_free_email()
+    user_in = UserCreate(email=email, password=fake.sha256())
+    user = crud.user.create(db, obj_in=user_in)
+
+    creator_access_token = create_access_token(user.id)
+    creator_headers = { "Authorization":  "Bearer " + creator_access_token}
+
+    r = client.get(
+        f"{settings.API_V1_STR}/users/{user.id}", headers=creator_headers,
+    )
+
+    assert r.status_code == 200
+
+    api_user = r.json()
+    assert user.email == api_user["email"]
+    assert user.id == api_user["id"]
+    assert user.full_name == api_user["full_name"]
+
+
+def test_get_existing_user_by_super_user(
     client: TestClient, superuser_token_headers: dict, db: Session
 ) -> None:
     email = fake.ascii_free_email()
@@ -100,5 +199,3 @@ def test_retrieve_users(
     all_users = r.json()
 
     assert len(all_users) > 1
-    for item in all_users:
-        assert "email" in item

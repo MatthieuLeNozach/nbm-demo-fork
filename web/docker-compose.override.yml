@@ -38,7 +38,37 @@ services:
     ports:
       - "5555:5555"
 
+  dbnxt:
+    image: mariadb
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    volumes:
+      - dbnxt:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+
+  nextcloud:
+    image: nextcloud
+    networks:
+      - ${TRAEFIK_PUBLIC_NETWORK?Variable not set}
+      - default
+    ports:
+      - 8080:80
+    links:
+      - dbnxt
+    volumes:
+      - nextcloud:/var/www/html
+    environment:
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_HOST=dbnxt
+
   backend:
+    depends_on:
+      - nextcloud
     ports:
       - "8888:8888"
     volumes:
@@ -87,6 +117,10 @@ services:
       - traefik.http.services.${STACK_NAME?Variable not set}-frontend.loadbalancer.server.port=3000
     volumes:
       - ./frontend:/usr/app
+
+volumes:
+  nextcloud:
+  dbnxt:
 
 networks:
   traefik-public:

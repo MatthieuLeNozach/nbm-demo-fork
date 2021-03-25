@@ -11,6 +11,12 @@ RUN npm install --global pm2
 # Utilise Docker cache to save re-installing dependencies if unchanged
 COPY ./package*.json ./
 
+# Install python and vips-dev for dotenv (for sharp (for node-gyp))
+RUN apk add --update --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community \
+        --repository http://dl-3.alpinelinux.org/alpine/edge/main vips-dev &&\
+    apk add --no-cache --virtual .gyp \
+        python make g++
+
 # Install dependencies
 RUN npm install 
 # RUN npm install --production

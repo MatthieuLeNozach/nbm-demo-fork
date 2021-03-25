@@ -6,7 +6,6 @@ from dateutil.parser import parse
 
 from app.core.config import settings
 from app.utils.token import create_access_token
-from app.tests.utils.standardlabel import create_random_standardlabel
 from app.tests.utils.media import create_random_media
 from app.tests.utils.user import create_random_user
 from app.tests.utils.standardlabel import create_random_standardlabel

@@ -2,7 +2,7 @@ from typing import Optional, List
 from datetime import datetime, time
 from pydantic import BaseModel
 from enum import Enum
-from app.schemas import MediaLabel
+from app.schemas.medialabel import MediaLabel
 
 class MediaType(str, Enum):
     UNDEFINED = "undefined"

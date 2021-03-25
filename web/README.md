@@ -25,6 +25,9 @@ NEXTCLOUD_HOST="http://nextcloud"
 NEXTCLOUD_USER="USER"
 NEXTCLOUD_PASSWORD="PASSWORD"
 ````
+
+Create `/mediae/audio` folder in nextcloud interface 
+
 ### Run sh 
 
 ```console
@@ -49,6 +52,7 @@ Press `echap` <br>
 Press `:` <br>
 Press `x` <br>
 Press `Enter` to validate <br>
+
 
 ## Backend local development
 

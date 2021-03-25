@@ -1,5 +1,4 @@
 from .device import Device
-from .item import Item
 from .media import Media
 from .medialabel import MediaLabel
 from .site import Site
