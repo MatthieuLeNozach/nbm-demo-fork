@@ -45,12 +45,12 @@ const NewRecordingPage = () => {
               {responseData.invalid_labels.length > 0 && (
                 <Grid item>
                   <Typography variant="h5">
-                    {t("Labels introuvables")}
+                    {t("labelNotFound")}
                   </Typography>
                   <div>
                     {responseData.invalid_labels.map((invalidLabel) => (
                       <div key={invalidLabel.line}>
-                        {t("Ligne ") +
+                        {t("line") +
                           invalidLabel.line +
                           ': "' +
                           invalidLabel.content +
@@ -62,11 +62,11 @@ const NewRecordingPage = () => {
               )}
               {responseData.invalid_lines.length > 0 && (
                 <Grid item>
-                  <Typography variant="h5">{t("Lignes invalides")}</Typography>
+                  <Typography variant="h5">{t("invalidLines")}</Typography>
                   <div>
                     {responseData.invalid_lines.map((invalidLine) => (
                       <div key={invalidLine.line}>
-                        {t("Ligne ") +
+                        {t("line") +
                           invalidLine.line +
                           ': "' +
                           invalidLine.content +
@@ -92,7 +92,7 @@ const NewRecordingPage = () => {
                   color="primary"
                   onClick={() => router.push("/home")}
                 >
-                  {t("Retour à l'accueil")}
+                  {t("backToHome")}
                 </Button>
               </Grid>
               <Grid item>
@@ -102,7 +102,7 @@ const NewRecordingPage = () => {
                   color="primary"
                   onClick={() => setResponseData(null)}
                 >
-                  {t("Ajouter un enregistrement")}
+                  {t("addRecording")}
                 </Button>
               </Grid>
             </Grid>
