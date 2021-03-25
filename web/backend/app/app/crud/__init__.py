@@ -1,5 +1,4 @@
 from .crud_device import device
-from .crud_item import item
 from .crud_media import media
 from .crud_medialabel import medialabel
 from .crud_site import site

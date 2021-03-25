@@ -50,6 +50,69 @@ def test_create_medialabel(
     assert type(content["created_by"]) is int
     assert type(parse(content["created_at"])) is datetime
 
+
+def test_create_medialabel_with_invalid_time(
+    client: TestClient, superuser_token_headers: dict, db: Session
+) -> None:
+
+    media = create_random_media(db)
+    label = create_random_standardlabel(db)
+
+    begin_time = fake.pyfloat(positive=True)
+    end_time = fake.pyfloat(positive=True, max_value=ceil(begin_time))
+    low_freq = fake.pyfloat(positive=True)
+    high_freq = fake.pyfloat(positive=True, min_value=ceil(low_freq))
+
+    data = {"begin_time": begin_time,
+            "end_time": end_time,
+            "low_freq": low_freq,
+            "high_freq": high_freq,
+            "label_id": label.id,
+            "media_id": media.id}
+
+    response = client.post(
+        f"{settings.API_V1_STR}/medialabels/", headers=superuser_token_headers, json=data,
+    )
+
+    assert response.status_code == 422
+    content = response.json()
+
+    assert type(content["detail"]) is list
+    assert type(content["detail"][0]) is dict
+    assert content["detail"][0]["msg"] == "Begin time must be lower than end time"
+
+
+def test_create_medialabel_with_invalid_frequencies(
+    client: TestClient, superuser_token_headers: dict, db: Session
+) -> None:
+
+    media = create_random_media(db)
+    label = create_random_standardlabel(db)
+
+    begin_time = fake.pyfloat(positive=True)
+    end_time = fake.pyfloat(positive=True, min_value=ceil(begin_time))
+    low_freq = fake.pyfloat(positive=True)
+    high_freq = fake.pyfloat(positive=True, max_value=ceil(low_freq))
+
+    data = {"begin_time": begin_time,
+            "end_time": end_time,
+            "low_freq": low_freq,
+            "high_freq": high_freq,
+            "label_id": label.id,
+            "media_id": media.id}
+
+    response = client.post(
+        f"{settings.API_V1_STR}/medialabels/", headers=superuser_token_headers, json=data,
+    )
+
+    assert response.status_code == 422
+    content = response.json()
+
+    assert type(content["detail"]) is list
+    assert type(content["detail"][0]) is dict
+    assert content["detail"][0]["msg"] == "Low frequency must be lower than high frequency"
+
+
 def test_read_medialabel(
     client: TestClient, superuser_token_headers: dict, db: Session
 ) -> None:

@@ -22,6 +22,7 @@ def count_entities(
             "sites": crud.site.count(db),
             "users": crud.user.count(db) }
 
+
 @router.get("/personal-count")
 def count_entities(
     db: Session = Depends(deps.get_db),
@@ -30,6 +31,7 @@ def count_entities(
     return { "mediae": crud.media.count(db, created_by=current_user.id),
             "medialabels": crud.medialabel.count(db, created_by=current_user.id),
             "sites": crud.site.count(db, created_by=current_user.id) }
+
 
 @router.post("/test-celery/", response_model=schemas.Msg, status_code=201)
 def test_celery(

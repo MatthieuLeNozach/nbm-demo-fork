@@ -124,7 +124,7 @@ def register(
     user_out = crud.user.register(
         db, user_in=user_in
     )
-    if not (user_out):
+    if not (user_out): # pragma: no cover
         raise HTTPException(
             status_code=500,
             detail=[{"type": "unknown_error"}],

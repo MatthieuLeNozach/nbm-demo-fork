@@ -13,7 +13,7 @@ class MediaLabelBase(BaseModel):
     @validator('high_freq')
     def frequencies_order(cls, v, values, **kwargs):
         if 'low_freq' in values and values['low_freq'] is not None and v <= values['low_freq']:
-            raise ValueError('low frequency must be lower than high frequency')
+            raise ValueError('Low frequency must be lower than high frequency')
         return v
 
     @validator('end_time')
