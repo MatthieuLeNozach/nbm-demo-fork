@@ -178,20 +178,20 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
     try {
       if (startDate === null || typeof startDate.getMonth !== "function") {
         return alert(
-          t("Veuillez selectionner une date de début d'enregistrement")
+          t("chooseBeginDate")
         );
       }
 
       if (deviceOption === null || typeof deviceOption.value !== "number") {
-        return alert(t("Veuillez selectionner un enregistreur"));
+        return alert(t("chooseRecorder"));
       }
 
       if (!audioFile || !audioFile.type.startsWith("audio")) {
-        return alert(t("Veuillez selectionner un fichier audio"));
+        return alert(t("chooseAudioFile"));
       }
       if (!annotationsFile || !annotationsFile.type.startsWith("text")) {
         return alert(
-          t("Veuillez selectionner un fichier texte pour les annotations")
+          t("chooseTextFile")
         );
       }
       const formData = new FormData();
@@ -247,7 +247,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
           >
             <Grid item>
               <Typography variant="h4">
-                {t("Une erreur est survenue pendant l'envoi")}
+                {t("errorDuringUpload")}
               </Typography>
               <Typography variant="h5">{" (" + uploadError + ")"}</Typography>
             </Grid>
@@ -268,7 +268,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
                     setUploadError(null);
                   }}
                 >
-                  {t("Réessayer")}
+                  {t("retry")}
                 </Button>
               </Grid>
               <Grid item>
@@ -278,14 +278,14 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
                   color="primary"
                   onClick={() => router.push("/home")}
                 >
-                  {t("Retour à l'accueil")}
+                  {t("backToHome")}
                 </Button>
               </Grid>
             </Grid>
           </Grid>
         ) : (
           <div>
-            <Typography variant="h4">{t("Envoi en cours")}</Typography>
+            <Typography variant="h4">{t("loading")}</Typography>
             <div>
               <LinearProgress variant="determinate" value={progressPercent} />
               {progressPercent}%
@@ -309,7 +309,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
               className={classes.fromSection}
             >
               <Grid item xs={12}>
-                <Typography variant="h4">{t("Contexte")}</Typography>
+                <Typography variant="h4">{t("context")}</Typography>
               </Grid>
               <Grid item xs={12} className={classes.formItem}>
                 <TextField
@@ -320,7 +320,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
                   fullWidth
                   value={fileSource}
                   id="file-source"
-                  label={t("Source du fichier")}
+                  label={t("fileSource")}
                   name="file-source"
                   onChange={(event) => setFileSource(event.target.value)}
                   autoFocus
@@ -328,7 +328,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
               </Grid>
               <Grid item xs={12} sm={6} className={classes.formItem}>
                 <Select
-                  placeholder={t("Modèle de l'enregistreur")}
+                  placeholder={t("recorderModel")}
                   styles={customSelectStyles}
                   instanceId="device-select"
                   defaultValue={deviceOption}
@@ -345,7 +345,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
                 />
               </Grid>
               <Grid item xs className={classes.formItem}>
-                <label>{t("Date de l'enregistrement")}</label>
+                <label>{t("recordingDate")}</label>
                 <DatePicker
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
@@ -368,7 +368,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
               className={classes.fromSection}
             >
               <Grid item xs={12}>
-                <Typography variant="h4">{t("Fichiers")}</Typography>
+                <Typography variant="h4">{t("files")}</Typography>
               </Grid>
               <Grid item xs={12} sm className={classes.formItem}>
                 <Dropzone
@@ -379,10 +379,10 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
                   {({ getRootProps, getInputProps }) => (
                     <div {...getRootProps()} className={classes.dropZone}>
                       <input {...getInputProps()} />
-                      <p>{t("Cliquez ou déposez votre fichier audio ici")}</p>
+                      <p>{t("clicOrDropYouAudioFile")}</p>
                       {audioFile && (
                         <p>
-                          {t("Fichier sélectionné:")} {audioFile.name}
+                          {t("selectedFiles")} {audioFile.name}
                         </p>
                       )}
                     </div>
@@ -400,12 +400,12 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
                       <input {...getInputProps()} />
                       <p>
                         {t(
-                          "Cliquez ou déposez votre fichier d'annotations ici"
+                          "clicOrDropYourTextFile"
                         )}
                       </p>
                       {annotationsFile && (
                         <p>
-                          {t("Fichier sélectionné:")} {annotationsFile.name}
+                          {t("selectedFiles")} {annotationsFile.name}
                         </p>
                       )}
                     </div>
@@ -420,7 +420,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
                 color="primary"
                 className={classes.bottomButton}
               >
-                {t("Ajouter")}
+                {t("add")}
               </Button>
             </Grid>
           </Grid>

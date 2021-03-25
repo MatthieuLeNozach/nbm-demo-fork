@@ -73,9 +73,12 @@ async def upload_audio(
 
     # create current user directory in nextcloud
     file_directory = f"mediae/audio/{current_user.id}/"
-    requests.request('MKCOL',
+    try:
+        requests.request('MKCOL',
                      f"{settings.NEXTCLOUD_HOST}/remote.php/dav/files/{settings.NEXTCLOUD_USER}/{file_directory}",
                      auth=(settings.NEXTCLOUD_USER, settings.NEXTCLOUD_PASSWORD))
+    except OSError:
+        raise HTTPException(status_code=500, detail=[{"type": "nextcloud_connection_fail"}])
 
 
     # make a copy before read info => It's a trick to avoid soundfile read issue on already opened tmp file
