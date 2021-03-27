@@ -16,10 +16,12 @@ router = APIRouter()
 def count_entities(
     db: Session = Depends(deps.get_db),
 ) -> Any:
-    return { "mediae": crud.media.count(db),
+    return { "annotated_seconds": crud.media.get_duration_sum(db),
+            "mediae": crud.media.count(db),
             "medialabels": crud.medialabel.count(db),
             "devices": crud.device.count(db),
             "sites": crud.site.count(db),
+            "species": crud.species.get_count_by_annotations(db),
             "users": crud.user.count(db) }
 
 
@@ -28,8 +30,10 @@ def count_entities(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
-    return { "mediae": crud.media.count(db, created_by=current_user.id),
+    return { "annotated_seconds": crud.media.get_duration_sum(db, created_by=current_user.id),
+            "mediae": crud.media.count(db, created_by=current_user.id),
             "medialabels": crud.medialabel.count(db, created_by=current_user.id),
+            "species": crud.species.get_count_by_annotations(db, annotated_by=current_user.id),
             "sites": crud.site.count(db, created_by=current_user.id) }
 
 

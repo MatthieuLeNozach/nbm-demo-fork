@@ -78,6 +78,7 @@ const HomePage = () => {
                 species={globalCount.species}
                 sites={globalCount.sites}
                 users={globalCount.users}
+                annotatedSeconds={globalCount.annotated_seconds}
               />
             ) : (
               <div>Données globales irrécupérables</div>
@@ -93,7 +94,7 @@ const HomePage = () => {
                 medialabels={personalCount.medialabels}
                 species={personalCount.species}
                 sites={personalCount.sites}
-                users={personalCount.users}
+                annotatedSeconds={personalCount.annotated_seconds}
               />
             ) : (
               <div>Données globales irrécupérables</div>

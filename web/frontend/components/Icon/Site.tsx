@@ -1,5 +1,3 @@
-import { SvgIcon } from "@material-ui/core";
-
 const Site = () => {
   return (
     <svg

@@ -3,6 +3,7 @@
   "addNewRecordings" : "Add new recordings",
   "addRecording": "Add recording",
   "alreadyRegistered": "Already registered ? Sign in !",
+  "annotatedHours": "Annotated hours",
   "audio_upload_fail": "Error during audio file storage",
   "backToHome": "Go to home page",
   "chooseAudioFile": "Please choose an audio file",
@@ -21,7 +22,7 @@
   "existing_email": "The entered email already exists in database",
   "exploreRecordings" : "Explore recordings",
   "files": "Files",
-  "fileSource": "File source", 
+  "fileSource": "File source",
   "forgotPassword": "Forgot password ?",
   "fullName" : "Firstname LASTNAME",
   "generalStatistics": "General statistics",
@@ -61,5 +62,5 @@
   "unknown_error": "Unknown error",
   "welcome": "Welcome",
   "welcomeOnNBM": "Welcome on NBM",
-  "youAreNowRegistered": "You are now registered to NBM !" 
+  "youAreNowRegistered": "You are now registered to NBM !"
 }
