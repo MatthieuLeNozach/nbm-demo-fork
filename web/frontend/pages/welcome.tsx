@@ -100,6 +100,7 @@ const WelcomePage = () => {
                 species={globalCount.species}
                 sites={globalCount.sites}
                 users={globalCount.users}
+                annotatedSeconds={globalCount.annotated_seconds}
               />
             ) : (
               <div>Données globales irrécupérables</div>

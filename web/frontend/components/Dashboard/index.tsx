@@ -2,6 +2,7 @@ import React from "react";
 import { Grid, makeStyles, Box } from "@material-ui/core";
 import { theme } from "@/theme";
 import Bird from "../Icon/Bird";
+import Clock from "../Icon/Clock";
 import Annotation from "../Icon/Annotation";
 import Site from "../Icon/Site";
 import User from "../Icon/User";
@@ -35,10 +36,19 @@ const Dashboard = ({
   medialabels = "N/A",
   species = "N/A",
   sites = "N/A",
-  users,
+  users = null,
+  annotatedSeconds = null,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
+
+  let annotatedHours = null;
+  if (annotatedSeconds) {
+    const hours = Math.floor(annotatedSeconds / 3600);
+    const minutes = Math.floor((annotatedSeconds % 3600) / 60);
+    const seconds = Math.floor((annotatedSeconds % 3600) % 60);
+    annotatedHours = hours + ":" + minutes + ":" + seconds;
+  }
 
   const items = [
     {
@@ -50,6 +60,11 @@ const Dashboard = ({
       icon: <Annotation />,
       total: medialabels,
       label: t("labels"),
+    },
+    {
+      icon: <Clock />,
+      total: annotatedHours,
+      label: t("annotatedHours"),
     },
     {
       icon: <Bird />,
@@ -78,7 +93,7 @@ const Dashboard = ({
         spacing={5}
       >
         {items
-          .filter((item) => typeof item.total !== "undefined")
+          .filter((item) => item.total !== null)
           .map((item) => (
             <Grid className={classes.item} item key={`${item.label}`}>
               <Grid
