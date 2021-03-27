@@ -8,7 +8,7 @@ Clone the repository :
 git clone https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration.git
 ```
 
-### Develop with Docker 
+### Start with Docker 
 
 To install application and start developing you need : 
 - [Docker](https://www.docker.com/).
@@ -19,12 +19,7 @@ To start the process and build all containers :
 docker-compose up -d
 ```
 
-To stop it : 
-```console
-docker-compose down
-```
-
-### Develop without Docker (not advised and not tested)
+### Start without Docker (not advised and not tested)
 
 #### Backend Requirements
 
@@ -36,7 +31,7 @@ docker-compose down
 
 ### Configure NextCloud
 
-#### Beginning 
+Beginning 
 
 As long as MinIO is not installed in NBM we use NextCloud server and therefore need to configure it. To do so : 
 
@@ -52,23 +47,23 @@ NEXTCLOUD_PASSWORD="PASSWORD"
 
 Create `/mediae/audio` folder in nextcloud interface 
 
-#### Run sh 
+Run sh 
 
 ```console
 docker-compose exec nextcloud sh
 ````
-#### Install VIM
+Install VIM
 
 ```console
 apt-get update
 apt-get install vim
 ````
-#### Edit config/config.php file
+Edit config/config.php file
 
 ```console
 vim config/config.php
 ````
-#### Set array of trusted domains 
+Set array of trusted domains 
 
 Press `a` to insert <br>
 Change the array `'trusted_domains'` by adding `1 => 'nextcloud', ` <br>
@@ -76,7 +71,6 @@ Press `echap` <br>
 Press `:` <br>
 Press `x` <br>
 Press `Enter` to validate <br>
-
 
 ## Backend local development
 
@@ -281,7 +275,7 @@ and then open it in your browser.
 
 You will have a full Jupyter Notebook running inside your container that has direct access to your database by the container name (`db`), etc. So, you can just run sections of your backend code directly, for example with [VS Code Python Jupyter Interactive Window](https://code.visualstudio.com/docs/python/jupyter-support-py) or [Hydrogen](https://github.com/nteract/hydrogen).
 
-### Migrations
+### Database migrations
 
 As during local development your app directory is mounted as a volume inside the container, you can also run the migrations with `alembic` commands inside the container and the migration code will be in your app directory (instead of being only inside the container). So you can add it to your git repository.
 
