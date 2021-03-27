@@ -1,18 +1,42 @@
 # nbm-web
 
-## Backend Requirements
+## Install NBM 
 
+Clone the repository :
+
+```console
+git clone https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration.git
+```
+
+### Develop with Docker 
+
+To install application and start developing you need : 
 - [Docker](https://www.docker.com/).
 - [Docker Compose](https://docs.docker.com/compose/install/).
+
+To start the process and build all containers :
+```console
+docker-compose up -d
+```
+
+To stop it : 
+```console
+docker-compose down
+```
+
+### Develop without Docker (not advised and not tested)
+
+#### Backend Requirements
+
 - [Poetry](https://python-poetry.org/) for Python package and environment management.
 
-## Frontend Requirements
+#### Frontend Requirements
 
 - Node.js (with `npm`).
 
-## Next cloud configuration
+### Configure NextCloud
 
-### Beginning 
+#### Beginning 
 
 As long as MinIO is not installed in NBM we use NextCloud server and therefore need to configure it. To do so : 
 
@@ -28,23 +52,23 @@ NEXTCLOUD_PASSWORD="PASSWORD"
 
 Create `/mediae/audio` folder in nextcloud interface 
 
-### Run sh 
+#### Run sh 
 
 ```console
 docker-compose exec nextcloud sh
 ````
-### Install VIM
+#### Install VIM
 
 ```console
 apt-get update
 apt-get install vim
 ````
-### Edit config/config.php file
+#### Edit config/config.php file
 
 ```console
 vim config/config.php
 ````
-### Set array of trusted domains 
+#### Set array of trusted domains 
 
 Press `a` to insert <br>
 Change the array `'trusted_domains'` by adding `1 => 'nextcloud', ` <br>
