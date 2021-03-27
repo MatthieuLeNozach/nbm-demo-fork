@@ -31,8 +31,6 @@ docker-compose up -d
 
 ### Configure NextCloud
 
-Beginning 
-
 As long as MinIO is not installed in NBM we use NextCloud server and therefore need to configure it. To do so : 
 
 Go to localhost:8080
