@@ -54,11 +54,12 @@ function AuthProvider(props) {
   ];
 
   useEffect(() => {
+    console.log(router.route);
     if (
       (!accessToken || !user) &&
       !anonymousLoginRoutes.includes(router.route)
     ) {
-      localStorage.clear();
+      setUser(null);
       router.push("/signin");
     }
   }, [user, accessToken, router.route]);
@@ -118,7 +119,7 @@ function AuthProvider(props) {
       }
       return false;
     } catch (error) {
-      localStorage.clear();
+      setUser(null);
       router.push("/");
       return false;
     }
@@ -155,7 +156,7 @@ function AuthProvider(props) {
 
   const logout = () => {
     setUser(null);
-    localStorage.clear();
+
     router.push("/");
   };
   return (

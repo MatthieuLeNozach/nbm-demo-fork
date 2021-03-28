@@ -130,6 +130,36 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
   const { t } = useTranslation();
   const router = useRouter();
   const { accessToken } = useAuth();
+
+  // Standard label search by API call with timeout
+  const requestTimeoutMilliseconds = 1000;
+  const [
+    labelRequestTimeout,
+    setLabelRequestTimeout,
+  ] = useState<null | ReturnType<typeof setTimeout>>(null);
+  const setDeviceInput = (input) => {
+    if (labelRequestTimeout !== null) {
+      clearTimeout(labelRequestTimeout);
+      setLabelRequestTimeout(null);
+    }
+    setLabelRequestTimeout(
+      setTimeout(() => {
+        setDeviceRequestParameter(
+          input.length > 3 ? "?model_name=" + input : ""
+        );
+        setLabelRequestTimeout(null);
+      }, requestTimeoutMilliseconds)
+    );
+  };
+  const [deviceRequestParameter, setDeviceRequestParameter] = useState<string>(
+    ""
+  );
+  const { data: devicesList } = useSWR([
+    `/devices/${deviceRequestParameter}`,
+    accessToken,
+  ]);
+
+  // Other properties
   const [progressPercent, setProgressPercent] = useState<number>(0);
   const [fileSource, _setFileSource] = useState<string>(
     props.defaultSource || ""
@@ -148,7 +178,6 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
     props.onSourceChange(source);
   };
 
-  const [deviceInput, setDeviceInput] = useState<string>("");
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [annotationsFile, setAnnotationsFile] = useState<File | null>(null);
@@ -161,11 +190,6 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
     registerLocale(i18n.language, locales[i18n.language]);
   }
 
-  const { data: devicesList } = useSWR([
-    `/devices/${deviceInput.length ? "?model_name=" + deviceInput : ""}`,
-    accessToken,
-  ]);
-
   const onAudioDrop = (acceptedFiles) => {
     setAudioFile(acceptedFiles[0]);
   };
@@ -177,9 +201,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
     e.preventDefault();
     try {
       if (startDate === null || typeof startDate.getMonth !== "function") {
-        return alert(
-          t("chooseBeginDate")
-        );
+        return alert(t("chooseBeginDate"));
       }
 
       if (deviceOption === null || typeof deviceOption.value !== "number") {
@@ -190,9 +212,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
         return alert(t("chooseAudioFile"));
       }
       if (!annotationsFile || !annotationsFile.type.startsWith("text")) {
-        return alert(
-          t("chooseTextFile")
-        );
+        return alert(t("chooseTextFile"));
       }
       const formData = new FormData();
       formData.append("audio", audioFile);
@@ -246,9 +266,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
             spacing={2}
           >
             <Grid item>
-              <Typography variant="h4">
-                {t("errorDuringUpload")}
-              </Typography>
+              <Typography variant="h4">{t("errorDuringUpload")}</Typography>
               <Typography variant="h5">{" (" + uploadError + ")"}</Typography>
             </Grid>
             <Grid
@@ -398,11 +416,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
                   {({ getRootProps, getInputProps }) => (
                     <div {...getRootProps()} className={classes.dropZone}>
                       <input {...getInputProps()} />
-                      <p>
-                        {t(
-                          "clicOrDropYourTextFile"
-                        )}
-                      </p>
+                      <p>{t("clicOrDropYourTextFile")}</p>
                       {annotationsFile && (
                         <p>
                           {t("selectedFiles")} {annotationsFile.name}

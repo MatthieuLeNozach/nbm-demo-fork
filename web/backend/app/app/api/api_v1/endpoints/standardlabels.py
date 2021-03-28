@@ -16,12 +16,17 @@ def read_standardlabels(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
+    name: str = None,
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
     Retrieve standardlabels.
     """
-    return crud.standardlabel.get_multi(db, skip=skip, limit=limit)
+    if (type(name) is str):
+        standardlabels = crud.standardlabel.get_multi_by_name(db, skip=skip, limit=limit, name=name)
+    else:
+        standardlabels = crud.standardlabel.get_multi(db, skip=skip, limit=limit)
+    return standardlabels
 
 @router.post("/", response_model=schemas.StandardLabel)
 def create_standardlabel(

@@ -9,6 +9,15 @@ from app.schemas.standardlabel import StandardLabelCreate, StandardLabelUpdate
 
 
 class CRUDStandardLabel(CRUDBase[StandardLabel, StandardLabelCreate, StandardLabelUpdate]):
-    pass
+    def get_multi_by_name(
+        self, db: Session, *, name: str, skip: int = 0, limit: int = 100
+    ) -> List[StandardLabel]:
+        return (
+            db.query(self.model)
+            .filter(StandardLabel.name.ilike(f"%{name}%"))
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
 
 standardlabel = CRUDStandardLabel(StandardLabel)
