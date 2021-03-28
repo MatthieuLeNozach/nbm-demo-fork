@@ -21,6 +21,7 @@ interface Media {
 interface InvalidLine {
   line: number;
   content: string;
+  detail?: string;
 }
 
 interface MediaUploadResponse {

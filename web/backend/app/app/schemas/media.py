@@ -53,6 +53,7 @@ class MediaInDB(MediaInDBBase):
 class InvalidAnnotation(BaseModel):
     line: int
     content: str
+    detail: Optional[str]
 
 class MediaUploadResponse(BaseModel):
     media: Media
