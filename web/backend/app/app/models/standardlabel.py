@@ -10,10 +10,10 @@ from sqlalchemy.orm import relationship
 
 class StandardLabel(Base):
     id = Column(Integer, primary_key=True)
-    name = Column(String, index=True)
+    name = Column(String, index=True, nullable=False)
     species_id = Column(Integer, ForeignKey("species.id"))
     medialabels = relationship("MediaLabel", back_populates="label")
-    created_by = Column(Integer, ForeignKey("user.id"))
-    created_at = Column(DateTime)
+    created_by = Column(Integer, ForeignKey("user.id"), nullable=False)
+    created_at = Column(DateTime, nullable=False)
     updated_by = Column(Integer, ForeignKey("user.id"))
     updated_at = Column(DateTime)

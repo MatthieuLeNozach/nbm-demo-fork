@@ -105,7 +105,7 @@ def test_read_mediae(
 
     assert type(content["file_source"]) is str
     assert type(content["file_url"]) is str
-    assert type(content["site_id"]) is int or content["site_id"] is None 
+    assert type(content["site_id"]) is int or content["site_id"] is None
     assert type(content["device_id"]) is int
     assert type(datetime.strptime(content["begin_date"], '%Y-%m-%dT%H:%M:%S')) is datetime
     assert type(content["duration"]) is str
@@ -159,11 +159,8 @@ def test_upload_mediae(
     assert type(content["invalid_lines"]) is list
     assert len(content["invalid_lines"]) == 2
 
-    assert type(content["invalid_labels"]) is list
-    assert len(content["invalid_labels"]) == 15
-
     assert type(content["medialabels"]) is list
-    assert len(content["medialabels"]) == 9
+    assert len(content["medialabels"]) == 24
 
 
 def test_upload_invalid_mediae(

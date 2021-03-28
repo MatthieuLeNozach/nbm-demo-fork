@@ -13,5 +13,5 @@ if TYPE_CHECKING: # pragma: no cover
 
 class Device(Base):
     id = Column(Integer, primary_key=True)
-    model_name = Column(String, index=True, unique=True)
+    model_name = Column(String, index=True, unique=True, nullable=False)
     mediae = relationship("Media", back_populates="device")

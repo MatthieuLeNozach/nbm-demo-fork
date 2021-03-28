@@ -20,6 +20,10 @@ const NewRecordingPage = () => {
     null
   );
 
+  const invalidMediaLabels = responseData?.medialabels.filter(
+    (medialabel) => medialabel.invalid_label_text
+  );
+
   return (
     <>
       <LayoutBase>
@@ -32,7 +36,12 @@ const NewRecordingPage = () => {
             spacing={2}
           >
             <Grid item>
-              <Typography variant="h4">{t("L'envoi a réussi")}</Typography>
+              <Typography variant="h4">{t("successfulSending")}</Typography>
+              <div>
+                {t("annotationAdded", {
+                  count: responseData.medialabels.length,
+                })}
+              </div>
             </Grid>
             <Grid
               item
@@ -42,19 +51,18 @@ const NewRecordingPage = () => {
               justify="center"
               spacing={2}
             >
-              {responseData.invalid_labels.length > 0 && (
+              {invalidMediaLabels.length > 0 && (
                 <Grid item>
                   <Typography variant="h5">
-                    {t("labelNotFound")}
+                    {t("labelNotFound", { count: invalidMediaLabels.length })}
                   </Typography>
                   <div>
-                    {responseData.invalid_labels.map((invalidLabel) => (
-                      <div key={invalidLabel.line}>
-                        {t("line") +
-                          invalidLabel.line +
-                          ': "' +
-                          invalidLabel.content +
-                          '"'}
+                    {invalidMediaLabels.map((medialabel) => (
+                      <div key={medialabel.begin_time}>
+                        {t("beginTime") +
+                          " " +
+                          medialabel.begin_time }
+                          : <b> {medialabel.invalid_label_text}</b>
                       </div>
                     ))}
                   </div>
