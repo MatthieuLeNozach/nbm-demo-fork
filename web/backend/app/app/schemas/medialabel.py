@@ -8,7 +8,8 @@ class MediaLabelBase(BaseModel):
     end_time: confloat(ge=0)
     low_freq: Optional[confloat(ge=0)]
     high_freq: Optional[confloat(ge=0)]
-    label_id: int
+    label_id: Optional[int]
+    invalid_label_text: Optional[str]
 
     @validator('high_freq')
     def frequencies_order(cls, v, values, **kwargs):
@@ -30,7 +31,6 @@ class MediaLabelCreate(MediaLabelBase):
 class MediaLabelUpdate(MediaLabelBase):
     begin_time: Optional[confloat(ge=0)]
     end_time: Optional[confloat(ge=0)]
-    label_id: Optional[int]
 
 # Properties shared by models stored in DB
 class MediaLabelInDBBase(MediaLabelBase):

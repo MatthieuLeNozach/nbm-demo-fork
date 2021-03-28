@@ -24,7 +24,6 @@ interface InvalidLine {
 }
 
 interface MediaUploadResponse {
-  invalid_labels: Array<InvalidLine>;
   invalid_lines: Array<InvalidLine>;
   media: Media;
   medialabels: Array<MediaLabel>;

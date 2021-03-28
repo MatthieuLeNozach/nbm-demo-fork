@@ -13,7 +13,7 @@ class MediaType(str, Enum):
 class MediaBase(BaseModel):
     file_url: str
     file_source: str
-    type: MediaType
+    type: Optional[MediaType]
     begin_date: datetime
     site_id: Optional[int]
     device_id: Optional[int]
@@ -58,4 +58,3 @@ class MediaUploadResponse(BaseModel):
     media: Media
     medialabels: List[MediaLabel]
     invalid_lines: List[InvalidAnnotation]
-    invalid_labels: List[InvalidAnnotation]

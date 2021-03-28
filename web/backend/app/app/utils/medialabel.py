@@ -11,7 +11,6 @@ def get_medialabel_schemas_from_file_content(
 
     medialabels_schemas = []
     invalid_lines = []
-    invalid_labels = []
 
     previous_time_info = None #store time info before merge it with frequencies info
 
@@ -35,6 +34,7 @@ def get_medialabel_schemas_from_file_content(
                 medialabel_in = MediaLabelCreate(begin_time=previous_time_info["begin_time"],
                                         end_time=previous_time_info["end_time"],
                                         label_id=previous_time_info["label_id"],
+                                        invalid_label_text=previous_time_info["invalid_label_text"],
                                         low_freq=float(elements[1]),
                                         high_freq=float(elements[2]),
                                         media_id=media_id)
@@ -50,22 +50,26 @@ def get_medialabel_schemas_from_file_content(
                     medialabel_in = MediaLabelCreate(begin_time=previous_time_info["begin_time"],
                                             end_time=previous_time_info["end_time"],
                                             label_id=previous_time_info["label_id"],
+                                            invalid_label_text=previous_time_info["invalid_label_text"],
                                             media_id=media_id)
                     medialabels_schemas.append(medialabel_in)
 
                 label = elements[2]
 
                 if not label in label_names:
-                    invalid_labels.append({"line": index, "content": label})
-                    continue
-
-                label_index = label_names.index(label)
-                label_id = existing_labels[label_index].id
-                previous_time_info = { "begin_time": float(elements[0]),
-                                        "end_time": float(elements[1]),
-                                        "label_id": label_id, }
+                    previous_time_info = { "begin_time": float(elements[0]),
+                                            "end_time": float(elements[1]),
+                                            "label_id": None,
+                                            "invalid_label_text": label, }
+                else:
+                    label_index = label_names.index(label)
+                    label_id = existing_labels[label_index].id
+                    previous_time_info = { "begin_time": float(elements[0]),
+                                            "end_time": float(elements[1]),
+                                            "label_id": label_id,
+                                            "invalid_label_text": None, }
 
         except ValueError:
             invalid_lines.append(InvalidAnnotation(line=index, content=line))
 
-    return (medialabels_schemas, invalid_lines, invalid_labels)
+    return (medialabels_schemas, invalid_lines)

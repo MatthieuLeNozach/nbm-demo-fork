@@ -126,7 +126,6 @@ async def upload_audio(
                                     file_source=file_source,
                                     begin_date=begin_date,
                                     device_id=device_id,
-                                    type="sound",
                                     meta=json.dumps(meta),
                                     duration=duration)
 
@@ -135,7 +134,7 @@ async def upload_audio(
     # get information from annotations file
     annotations_content = await annotations.read()
     existing_labels = crud.standardlabel.get_multi(db, limit=9999)
-    (medialabel_schemas, invalid_lines, invalid_labels) = get_medialabel_schemas_from_file_content(annotations_content,
+    (medialabel_schemas, invalid_lines) = get_medialabel_schemas_from_file_content(annotations_content,
                                                                     media.id,
                                                                     existing_labels)
     # create medialabels in database from previous annotations file processing
@@ -145,9 +144,8 @@ async def upload_audio(
         medialabels.append(medialabel)
 
     response = schemas.MediaUploadResponse(medialabels=medialabels,
-                                media=media,
-                                invalid_lines=invalid_lines,
-                                invalid_labels=invalid_labels)
+                                            media=media,
+                                            invalid_lines=invalid_lines)
     return response
 
 
