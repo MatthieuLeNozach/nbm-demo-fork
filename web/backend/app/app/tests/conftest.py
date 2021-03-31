@@ -30,3 +30,15 @@ def normal_user_token_headers(client: TestClient, db: Session) -> Dict[str, str]
     return authentication_token_from_email(
         client=client, email=settings.EMAIL_TEST_USER, db=db
     )
+
+def pytest_addoption(parser):
+    parser.addoption(
+        "--nextcloud_active",
+        action="store",
+        default=None,
+        help="Avoid NextCloud tests in production environment (not autoconfigured)"
+    )
+
+@pytest.fixture(scope="session")
+def nextcloud_must_be_active(pytestconfig):
+    pytestconfig.getoption('--nextcloud_active', skip=True)

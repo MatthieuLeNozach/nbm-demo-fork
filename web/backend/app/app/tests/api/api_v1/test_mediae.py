@@ -115,7 +115,7 @@ def test_read_mediae(
 
 
 def test_upload_mediae(
-    client: TestClient, db: Session
+    client: TestClient, db: Session, nextcloud_must_be_active
 ) -> None:
     files = {}
     files["audio"] = ("audio", open("./app/tests/utils/files/media.wav", "rb"), "audio/wav")
@@ -164,7 +164,7 @@ def test_upload_mediae(
 
 
 def test_upload_invalid_mediae(
-    client: TestClient, superuser_token_headers: dict, db: Session
+    client: TestClient, superuser_token_headers: dict, db: Session, nextcloud_must_be_active
 ) -> None:
     files = {}
     files["audio"] = ("audio", open("./app/tests/utils/files/fake_media.wav", "rb"), "audio/wav")
@@ -188,7 +188,7 @@ def test_upload_invalid_mediae(
 
 
 def test_upload_invalid_annotations(
-    client: TestClient, superuser_token_headers: dict, db: Session
+    client: TestClient, superuser_token_headers: dict, db: Session, nextcloud_must_be_active
 ) -> None:
     files = {}
     files["audio"] = ("audio", open("./app/tests/utils/files/media.wav", "rb"), "audio/wav")

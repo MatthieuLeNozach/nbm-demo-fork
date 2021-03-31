@@ -1,6 +1,10 @@
 FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
 
-WORKDIR /app/
+ARG app_user=app
+
+RUN useradd -ms /bin/bash ${app_user}
+
+WORKDIR /app
 
 # Install Poetry
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | POETRY_HOME=/opt/poetry python && \
@@ -9,7 +13,7 @@ RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-
     poetry config virtualenvs.create false
 
 # Copy poetry.lock* in case it doesn't exist in the repo
-COPY ./app/pyproject.toml ./app/poetry.lock* /app/
+COPY --chown=${app_user} ./app/pyproject.toml ./app/poetry.lock* ./
 
 # Allow installing dev dependencies to run tests
 ARG INSTALL_DEV=false
@@ -25,5 +29,7 @@ RUN apt-get install -y libsndfile1-dev
 ARG INSTALL_JUPYTER=false
 RUN bash -c "if [ $INSTALL_JUPYTER == 'true' ] ; then pip install jupyterlab ; fi"
 
-COPY ./app /app
+USER ${app_user}
+
+COPY --chown=${app_user} ./app ./
 ENV PYTHONPATH=/app
