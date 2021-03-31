@@ -1,0 +1,25 @@
+stages:
+  - test
+  - deploy
+
+test_backend:
+  stage: test
+  script:
+    - cd web && ./scripts/test.sh
+  tags:
+    - nbm
+
+deploy:
+  stage: deploy
+  script:
+    - cd /opt/nbm-nocturnal-bird-migration
+    - git checkout . && git pull 
+    - cp ~/nbm-config/.env web/.env
+    - cp ~/nbm-config/frontend/.env web/frontend/.env
+    - cd web
+    - docker-compose build
+    - docker-compose up -d
+  tags:
+    - nbm
+  only:
+    - master  
