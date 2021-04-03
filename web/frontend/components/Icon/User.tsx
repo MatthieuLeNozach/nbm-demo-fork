@@ -1,4 +1,6 @@
-const User = () => {
+import React from "react";
+
+const User: React.FC = () => {
   return (
     <svg
       width="40"

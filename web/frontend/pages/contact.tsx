@@ -1,4 +1,6 @@
-const NBM = () => {
+import { NextPage } from "next";
+
+const NBM: NextPage = () => {
   return (
     <>
       <div>NBM</div>

@@ -1,44 +1,40 @@
-import { createContext, useContext, useEffect } from "react";
-import Backdrop from "@material-ui/core/Backdrop";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import { makeStyles } from "@material-ui/core/styles";
-import useLocalStorage from "@/hooks/useLocalStorage";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  ReactElement,
+  useState,
+} from "react";
+import { parseCookies, setCookie, destroyCookie } from "nookies";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
+import {
+  AuthProviderData,
+  BasicResponse,
+  LoginPayload,
+  RegistrationPayload,
+} from "@/models/auth";
+import { User } from "@/models/user";
 
-interface IUser {
-  id: number;
-  email: string;
-  is_active: boolean;
-  is_superuser: boolean;
-  full_name: string;
+const AuthContext = createContext({} as AuthProviderData);
+
+interface Props {
+  children: React.ReactElement;
 }
 
-const useStyles = makeStyles((theme) => ({
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: "#fff",
-  },
-}));
-
-const AuthContext = createContext({} as any);
-
-const FullPageSpinner = () => {
-  const classes = useStyles();
-  return (
-    <Backdrop className={classes.backdrop} open>
-      <CircularProgress color="inherit" />
-    </Backdrop>
-  );
-};
-
-function AuthProvider(props) {
-  const [user, setUser] = useLocalStorage<IUser>("user");
-  const [accessToken, setAccessToken] = useLocalStorage<string>(
-    "acesss_token",
-    null
-  );
+function AuthProvider({ children }: Props): ReactElement {
+  const cookies = parseCookies();
+  const { cookieUser, accessToken } = cookies;
+  const [user, setUser] = useState<User | null>(null);
+  if (cookieUser) {
+    try {
+      const parsedUser = JSON.parse(cookieUser) as User;
+      setUser(parsedUser);
+    } catch (e) {
+      console.error("Unable to parse user");
+    }
+  }
   const router = useRouter();
   const { t } = useTranslation();
 
@@ -54,21 +50,54 @@ function AuthProvider(props) {
   ];
 
   useEffect(() => {
-    console.log(router.route);
     if (
       (!accessToken || !user) &&
       !anonymousLoginRoutes.includes(router.route)
     ) {
+      destroyCookie(null, "user");
+      destroyCookie(null, "accessToken");
       setUser(null);
       router.push("/signin");
     }
   }, [user, accessToken, router.route]);
 
-  const login = async ({ username, password }) => {
+  const callMe = async (token) => {
+    try {
+      const { data, status } = await axios.get(
+        `${process.env.API_URL}/users/me`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (status === 200) {
+        setUser(data);
+        setCookie(null, "user", JSON.stringify(data), {
+          path: "/",
+          maxAge: 3600,
+          sameSite: true,
+        });
+        return true;
+      }
+      return false;
+    } catch (error) {
+      destroyCookie(null, "user");
+      destroyCookie(null, "accessToken");
+      setUser(null);
+      router.push("/");
+      return false;
+    }
+  };
+
+  const login = async ({
+    username,
+    password,
+  }: LoginPayload): Promise<BasicResponse> => {
     const loginResponse = {
       success: false,
       message: t("errorOnLogin"),
-    };
+    } as BasicResponse;
     try {
       const payload = new URLSearchParams();
       payload.append("username", username);
@@ -85,51 +114,33 @@ function AuthProvider(props) {
       );
       if (status === 200) {
         const { access_token } = data;
-        setAccessToken(access_token);
+        setCookie(null, "accessToken", access_token, {
+          path: "/",
+          maxAge: 3600,
+          sameSite: true,
+        });
         const logged = await callMe(access_token);
         if (logged) {
           loginResponse.success = true;
           loginResponse.message = t("successfulLogin");
         }
       }
-      return loginResponse;
     } catch (error) {
       const { response } = error;
       loginResponse.message += Array.isArray(response?.data?.detail)
         ? t(response?.data?.detail[0].type.replace("value_error.", "invalid_"))
         : response?.data?.detail || response.status;
-
-      return loginResponse;
     }
+    return loginResponse;
   };
 
-  const callMe = async (token) => {
-    try {
-      const { data, status } = await axios.get(
-        `${process.env.API_URL}/users/me`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (status === 200) {
-        setUser(data);
-        return true;
-      }
-      return false;
-    } catch (error) {
-      setUser(null);
-      router.push("/");
-      return false;
-    }
-  };
-
-  const register = async (payload) => {
+  const register = async (
+    payload: RegistrationPayload
+  ): Promise<BasicResponse> => {
     const registrationResponse = {
       success: false,
       message: t("errorOnRegistration"),
-    };
+    } as BasicResponse;
     try {
       const { data, status } = await axios.post(
         `${process.env.API_URL}/register`,
@@ -137,34 +148,42 @@ function AuthProvider(props) {
       );
       if (status === 200) {
         const { access_token, ...userData } = data;
-        setAccessToken(access_token);
-        setUser(userData);
+        setCookie(null, "accessToken", access_token, {
+          path: "/",
+          maxAge: 3600,
+          sameSite: true,
+        });
+        setCookie(null, "user", JSON.stringify(userData), {
+          path: "/",
+          maxAge: 3600,
+          sameSite: true,
+        });
         registrationResponse.success = true;
         registrationResponse.message = t("youAreNowRegistered");
       }
-      return registrationResponse;
     } catch (error) {
       const { response } = error;
 
       registrationResponse.message += Array.isArray(response?.data?.detail)
         ? t(response?.data?.detail[0].type.replace("value_error.", "invalid_"))
         : response?.data?.detail || response.status;
-
-      return registrationResponse;
     }
+    return registrationResponse;
   };
 
   const logout = () => {
+    destroyCookie(null, "user");
+    destroyCookie(null, "accessToken");
     setUser(null);
-
     router.push("/");
   };
   return (
     <AuthContext.Provider
       value={{ user, accessToken, login, register, logout }}
-      {...props}
-    />
+    >
+      {children}
+    </AuthContext.Provider>
   );
 }
-const useAuth = () => useContext(AuthContext);
+const useAuth = (): AuthProviderData => useContext(AuthContext);
 export { AuthProvider, useAuth };

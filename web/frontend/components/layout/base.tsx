@@ -1,6 +1,7 @@
 import { Container, Grid, makeStyles } from "@material-ui/core";
 import LayoutHeader from "@/components/layout/header";
 import LayoutFooter from "@/components/layout/footer";
+import React from "react";
 
 const useStyles = makeStyles({
   root: {
@@ -9,7 +10,11 @@ const useStyles = makeStyles({
   },
 });
 
-const LayoutBase = ({ children }) => {
+interface Props {
+  children: React.ReactElement;
+}
+
+const LayoutBase: React.FC<Props> = ({ children }) => {
   const classes = useStyles();
   return (
     <>

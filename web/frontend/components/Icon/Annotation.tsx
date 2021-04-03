@@ -1,4 +1,6 @@
-const Annotation = () => {
+import React from "react";
+
+const Annotation: React.FC = () => {
   return (
     <svg
       width="40"

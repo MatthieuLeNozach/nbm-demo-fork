@@ -1,4 +1,6 @@
-const Record = () => {
+import React from "react";
+
+const Record: React.FC = () => {
   return (
     <svg
       width="40"

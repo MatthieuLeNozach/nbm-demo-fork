@@ -1,4 +1,6 @@
-const Site = () => {
+import React from "react";
+
+const Site: React.FC = () => {
   return (
     <svg
       width="40"

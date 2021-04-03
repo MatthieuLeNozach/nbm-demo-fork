@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "test": "npx jest",
-    "lint": "eslint --fix ./pages/*.{js,tsx} ./pages/*/*.tsx ./components/*/*.tsx ./components/*/*/*.tsx"
+    "lint": "eslint --fix ./pages/*.{js,tsx} ./components/*/*.tsx ./components/*/*/*.tsx"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
@@ -24,6 +24,7 @@
     "i18next": "^19.8.9",
     "i18next-browser-languagedetector": "^6.0.1",
     "next": "^10.0.7",
+    "nookies": "^2.5.2",
     "react": "^17.0.1",
     "react-datepicker": "^3.6.0",
     "react-dom": "^17.0.1",
@@ -56,6 +57,11 @@
     "ts-jest": "^26.5.1"
   },
   "eslintConfig": {
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
     "env": {
       "browser": true,
       "es6": true,
@@ -103,10 +109,14 @@
       ],
       "jest/lowercase-name": "off",
       "@typescript-eslint/camelcase": "off",
-      "react/react-in-jsx-scope": "off",
       "@typescript-eslint/no-empty-function": "warn",
       "camelcase": "off",
-      "no-case-declarations": "warn"
+      "no-case-declarations": "warn",
+      "react/react-in-jsx-scope": "off",
+      "no-use-before-define": "off",
+      "@typescript-eslint/no-use-before-define": [
+        "error"
+      ]
     }
   }
 }

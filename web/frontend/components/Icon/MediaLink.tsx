@@ -1,6 +1,6 @@
-import { SvgIcon } from "@material-ui/core";
+import React from "react";
 
-const MediaLinkIcon = () => {
+const MediaLinkIcon: React.FC = () => {
   return (
     <svg
       id="Layer_1"

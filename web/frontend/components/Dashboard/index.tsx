@@ -31,14 +31,23 @@ const useStyles = makeStyles({
   },
 });
 
-const Dashboard = ({
-  mediae = "N/A",
-  medialabels = "N/A",
-  species = "N/A",
-  sites = "N/A",
+type Props = {
+  mediae: number;
+  medialabels: number;
+  species: number;
+  sites: number;
+  users?: number | null;
+  annotatedSeconds?: number | null;
+};
+
+const Dashboard: React.FC<Props> = ({
+  mediae = 0,
+  medialabels = 0,
+  species = 0,
+  sites = 0,
   users = null,
   annotatedSeconds = null,
-}) => {
+}: Props) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -103,7 +112,7 @@ const Dashboard = ({
                 alignItems="center"
               >
                 <Grid item>{item.icon}</Grid>
-                <Grid item> {item.total} </Grid>
+                <Grid item> {item.total || "N/A"} </Grid>
                 <Grid item>{item.label} </Grid>
               </Grid>
             </Grid>
