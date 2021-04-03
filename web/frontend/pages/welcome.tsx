@@ -8,6 +8,7 @@ import Dashboard from "../components/Dashboard/index";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import { NextPage } from "next";
 
 const useStyles = makeStyles({
   backgroundImage: {
@@ -56,7 +57,7 @@ const useStyles = makeStyles({
   },
 });
 
-const WelcomePage = () => {
+const WelcomePage: NextPage = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const router = useRouter();

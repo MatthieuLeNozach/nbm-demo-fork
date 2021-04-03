@@ -1,5 +1,5 @@
 import LayoutBase from "@/components/layout/base";
-import React, { useState } from "react";
+import { useState } from "react";
 import MediaUploadForm from "@/components/MediaUploadForm";
 import Button from "@material-ui/core/Button";
 import { useRouter } from "next/router";
@@ -12,6 +12,7 @@ import { useAuth } from "@/components/Providers/AuthProvider";
 import Select from "react-select";
 import axios from "axios";
 import { MediaLabel } from "@/models/medialabel";
+import { NextPage } from "next";
 
 const useStyles = makeStyles({
   section: {
@@ -68,7 +69,7 @@ const customSelectStyles = {
   },
 };
 
-const NewRecordingPage = () => {
+const NewRecordingPage: NextPage = () => {
   const classes = useStyles();
   const router = useRouter();
   const { t } = useTranslation();
@@ -80,6 +81,9 @@ const NewRecordingPage = () => {
     labelRequestTimeout,
     setLabelRequestTimeout,
   ] = useState<null | ReturnType<typeof setTimeout>>(null);
+  const [labelRequestParameter, setLabelRequestParameter] = useState<string>(
+    ""
+  );
   const setLabelInput = (input) => {
     if (labelRequestTimeout !== null) {
       clearTimeout(labelRequestTimeout);
@@ -92,9 +96,6 @@ const NewRecordingPage = () => {
       }, requestTimeoutMilliseconds)
     );
   };
-  const [labelRequestParameter, setLabelRequestParameter] = useState<string>(
-    ""
-  );
   const { data: labelsList } = useSWR([
     `/standardlabels/${labelRequestParameter}`,
     accessToken,
@@ -109,6 +110,11 @@ const NewRecordingPage = () => {
   const [invalidMediaLabels, setInvalidMediaLabels] = useState<
     Array<MediaLabel>
   >([]);
+
+  const [updatedMediaLabels, setUpdatedMediaLabels] = useState<{
+    [k: number]: SelectOption;
+  }>({});
+
   const setLabelOption = (labelOption: SelectOption, labelId: number) => {
     updatedMediaLabels[labelId] = labelOption;
     setUpdatedMediaLabels(updatedMediaLabels);
@@ -131,9 +137,6 @@ const NewRecordingPage = () => {
     );
   };
 
-  const [updatedMediaLabels, setUpdatedMediaLabels] = useState<{
-    [k: number]: SelectOption;
-  }>({});
   const updateMediaLabels = () => {
     const promises = [];
     for (const [mediaLabelId, option] of Object.entries(updatedMediaLabels)) {

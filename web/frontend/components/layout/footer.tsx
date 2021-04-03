@@ -1,5 +1,6 @@
-import { Box, Container, Grid, makeStyles } from "@material-ui/core";
-import { theme } from "@/theme/index";
+import { Box, Grid, makeStyles } from "@material-ui/core";
+import { theme } from "@/theme";
+import React from "react";
 
 const useStyles = makeStyles({
   footer: {
@@ -8,7 +9,7 @@ const useStyles = makeStyles({
   },
 });
 
-const LayoutFooter = () => {
+const LayoutFooter: React.FC = () => {
   const classes = useStyles();
 
   return (

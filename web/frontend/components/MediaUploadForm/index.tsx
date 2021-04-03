@@ -162,6 +162,10 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
     labelRequestTimeout,
     setLabelRequestTimeout,
   ] = useState<null | ReturnType<typeof setTimeout>>(null);
+
+  const [deviceRequestParameter, setDeviceRequestParameter] = useState<string>(
+    ""
+  );
   const setDeviceInput = (input) => {
     if (labelRequestTimeout !== null) {
       clearTimeout(labelRequestTimeout);
@@ -176,9 +180,6 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
       }, requestTimeoutMilliseconds)
     );
   };
-  const [deviceRequestParameter, setDeviceRequestParameter] = useState<string>(
-    ""
-  );
   const { data: devicesList } = useSWR([
     `/devices/${deviceRequestParameter}`,
     accessToken,

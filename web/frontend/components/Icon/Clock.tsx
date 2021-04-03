@@ -1,4 +1,6 @@
-const Clock = () => {
+import React from "react";
+
+const Clock: React.FC = () => {
   return (
     <svg
       viewBox="0 0 40 40"

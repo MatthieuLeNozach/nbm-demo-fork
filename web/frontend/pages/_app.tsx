@@ -2,15 +2,15 @@ import React, { useEffect } from "react";
 import Head from "next/head";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { UserProvider } from "@/components/Providers/UserContext";
 import { AuthProvider } from "@/components/Providers/AuthProvider";
 import { theme } from "@/theme";
 import i18n from "@/i18n";
 import { I18nextProvider } from "react-i18next";
 import { useRouter } from "next/router";
 import { SWRConfig } from "swr";
+import { AppProps } from "next/app";
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
   const router = useRouter();
 
   useEffect(() => {
@@ -26,7 +26,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <React.Fragment>
       <Head>
-        <title>My page</title>
+        <title>Noctural Bird Migration</title>
         <meta
           key="viewport"
           name="viewport"
@@ -35,30 +35,27 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <I18nextProvider i18n={i18n}>
         <AuthProvider>
-          <UserProvider>
-            <ThemeProvider theme={theme}>
-              {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-              <CssBaseline />
-              <SWRConfig
-                value={{
-                  fetcher: (url, token = null, options = {}) => {
-                    if (token) {
-                      options.headers = {
-                        Authorization: "Bearer " + token,
-                      };
-                    }
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <SWRConfig
+              value={{
+                fetcher: (url, token = null, options = {}) => {
+                  if (token) {
+                    options.headers = {
+                      Authorization: "Bearer " + token,
+                    };
+                  }
 
-                    return fetch(
-                      process.env.API_URL + url,
-                      options
-                    ).then((res) => res.json());
-                  },
-                }}
-              >
-                <Component {...pageProps} />
-              </SWRConfig>
-            </ThemeProvider>
-          </UserProvider>
+                  return fetch(process.env.API_URL + url, options).then((res) =>
+                    res.json()
+                  );
+                },
+              }}
+            >
+              <Component {...pageProps} />
+            </SWRConfig>
+          </ThemeProvider>
         </AuthProvider>
       </I18nextProvider>
     </React.Fragment>

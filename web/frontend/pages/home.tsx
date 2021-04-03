@@ -7,6 +7,7 @@ import Dashboard from "../components/Dashboard/index";
 import Typography from "@material-ui/core/Typography";
 import { useAuth } from "@/components/Providers/AuthProvider";
 import useSWR from "swr";
+import { NextPage } from "next";
 
 const useStyles = makeStyles({
   bottomButton: {
@@ -33,7 +34,7 @@ const useStyles = makeStyles({
   },
 });
 
-const HomePage = () => {
+const HomePage: NextPage = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const router = useRouter();

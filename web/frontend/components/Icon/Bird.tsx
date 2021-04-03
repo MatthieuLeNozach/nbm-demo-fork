@@ -1,4 +1,6 @@
-const Bird = () => {
+import React from "react";
+
+const Bird: React.FC = () => {
   return (
     <svg
       width="40"
