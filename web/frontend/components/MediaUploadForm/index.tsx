@@ -21,6 +21,11 @@ import axios from "axios";
 import { SelectOption } from "@/models/utils";
 import { MediaUploadResponse } from "@/models/media";
 import { useRouter } from "next/router";
+import MediaLinkIcon from "../Icon/MediaLink";
+import UploadIcon from "../Icon/Upload";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import InputMask from "react-input-mask";
 
 const useStyles = makeStyles({
   bottomButton: {
@@ -80,6 +85,16 @@ const useStyles = makeStyles({
     color: "#bdbdbd",
     outline: "none",
     transition: "border .24s ease-in-out",
+    margin: "20px 0px",
+  },
+  buttonGroupLabel: {
+    textTransform: "initial",
+    margin: "3px 10px",
+  },
+  mediaFromURLForm: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
   },
 });
 
@@ -115,6 +130,16 @@ const customSelectStyles = {
   placeholder: (provided) => {
     return { ...provided, color: "white" };
   },
+};
+
+const parseDurationInputIntoSeconds = (durationString: string) => {
+  const hours = parseInt(durationString.slice(0, 2).replace(/\D/g, "")) || 0;
+  const min = parseInt(durationString.slice(4, 6).replace(/\D/g, "")) || 0;
+  const sec = parseInt(durationString.slice(8, 10).replace(/\D/g, "")) || 0;
+
+  if (min > 59 || sec > 59) return -1;
+
+  return hours * 3600 + min * 60 + sec;
 };
 
 interface MediaUploadFormProps {
@@ -179,7 +204,12 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
   };
 
   const [startDate, setStartDate] = useState<Date | null>(null);
+  const [createMediaMode, setCreateMediaMode] = useState<string>(
+    "MEDIA_UPLOAD"
+  );
   const [audioFile, setAudioFile] = useState<File | null>(null);
+  const [audioFileUrl, setAudioFileUrl] = useState<string>("");
+  const [audioFileDuration, setAudioFileDuration] = useState<string | null>("");
   const [annotationsFile, setAnnotationsFile] = useState<File | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
 
@@ -208,18 +238,35 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
         return alert(t("chooseRecorder"));
       }
 
-      if (!audioFile || !audioFile.type.startsWith("audio")) {
-        return alert(t("chooseAudioFile"));
-      }
       if (!annotationsFile || !annotationsFile.type.startsWith("text")) {
         return alert(t("chooseTextFile"));
       }
+
       const formData = new FormData();
-      formData.append("audio", audioFile);
+
+      if (createMediaMode === "MEDIA_UPLOAD") {
+        if (!audioFile || !audioFile.type.startsWith("audio")) {
+          return alert(t("chooseAudioFile"));
+        }
+        formData.append("audio_file", audioFile);
+      } else if (createMediaMode === "MEDIA_URL") {
+        const duration = parseDurationInputIntoSeconds(audioFileDuration);
+        if (duration <= 0) {
+          return alert(t("impossibleAudioDuration"));
+        }
+        if (duration >= 24 * 60 * 60) {
+          // duration greater than 24 hours
+          return alert(t("maximumAudioDuration"));
+        }
+        formData.append("audio_url", audioFileUrl);
+        formData.append("audio_duration", duration.toString());
+      }
+
       formData.append("annotations", annotationsFile);
       formData.append("begin_date", startDate.toISOString());
       formData.append("device_id", deviceOption?.value.toString());
       formData.append("file_source", fileSource);
+
       const { data, status } = await axios.post(
         `${process.env.API_URL}/mediae/upload`,
         formData,
@@ -311,7 +358,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
           </div>
         )
       ) : (
-        <form onSubmit={handleCreateMedia}>
+        <form onSubmit={handleCreateMedia} autoComplete="off">
           <Grid
             container
             direction="column"
@@ -388,24 +435,89 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
               <Grid item xs={12}>
                 <Typography variant="h4">{t("files")}</Typography>
               </Grid>
-              <Grid item xs={12} sm className={classes.formItem}>
-                <Dropzone
-                  accept={["audio/*"]}
-                  onDrop={onAudioDrop}
-                  multiple={false}
+              <Grid item xs={12} className={classes.formItem}>
+                <ToggleButtonGroup
+                  size="small"
+                  orientation="horizontal"
+                  value={createMediaMode}
+                  exclusive
+                  onChange={(e, nextMode) => {
+                    if (nextMode !== null) setCreateMediaMode(nextMode);
+                  }}
                 >
-                  {({ getRootProps, getInputProps }) => (
-                    <div {...getRootProps()} className={classes.dropZone}>
-                      <input {...getInputProps()} />
-                      <p>{t("clicOrDropYouAudioFile")}</p>
-                      {audioFile && (
-                        <p>
-                          {t("selectedFiles")} {audioFile.name}
-                        </p>
+                  <ToggleButton value="MEDIA_UPLOAD" aria-label="MEDIA_UPLOAD">
+                    <UploadIcon />
+                    <label className={classes.buttonGroupLabel}>
+                      {t("addMediaFromComputer")}
+                    </label>
+                  </ToggleButton>
+                  <ToggleButton value="MEDIA_URL" aria-label="MEDIA_URL">
+                    <MediaLinkIcon />
+                    <label className={classes.buttonGroupLabel}>
+                      {t("addMediaFromInternet")}
+                    </label>
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </Grid>
+              <Grid item xs={12} sm className={classes.formItem}>
+                {createMediaMode === "MEDIA_UPLOAD" ? (
+                  <Dropzone
+                    accept={["audio/*"]}
+                    onDrop={onAudioDrop}
+                    multiple={false}
+                  >
+                    {({ getRootProps, getInputProps }) => (
+                      <div {...getRootProps()} className={classes.dropZone}>
+                        <input {...getInputProps()} />
+                        <p>{t("clicOrDropYouAudioFile")}</p>
+                        {audioFile && (
+                          <p>
+                            {t("selectedFiles")} {audioFile.name}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </Dropzone>
+                ) : (
+                  <div className={classes.mediaFromURLForm}>
+                    <TextField
+                      color="secondary"
+                      variant="outlined"
+                      margin="dense"
+                      required
+                      fullWidth
+                      value={audioFileUrl}
+                      id="new-media-url"
+                      label={t("mediaUrl")}
+                      name="new-media-url"
+                      onChange={(event) => setAudioFileUrl(event.target.value)}
+                      autoFocus
+                    />
+
+                    <InputMask
+                      mask="99h 99m 99s"
+                      value={audioFileDuration}
+                      maskChar="_"
+                      onChange={(event) =>
+                        setAudioFileDuration(event.target.value)
+                      }
+                    >
+                      {() => (
+                        <TextField
+                          color="secondary"
+                          variant="outlined"
+                          margin="dense"
+                          required
+                          fullWidth
+                          value={audioFileDuration}
+                          id="new-media-duration"
+                          label={t("audioFileDuration")}
+                          name="new-media-duration"
+                        />
                       )}
-                    </div>
-                  )}
-                </Dropzone>
+                    </InputMask>
+                  </div>
+                )}
               </Grid>
               <Grid item xs={12} sm className={classes.formItem}>
                 <Dropzone
