@@ -1,6 +1,9 @@
 # Base on offical Node.js Alpine image
 FROM node:alpine
 
+ARG api_url=http://localhost:8999
+ENV API_URL ${api_url}
+
 # Set working directory
 WORKDIR /usr/app
 
