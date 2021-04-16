@@ -1,25 +1,52 @@
 stages:
   - test
+  - build
   - deploy
 
 test_backend:
   stage: test
   script:
+    - cp web/.env.example web/.env
+    - cp web/frontend/.env.example web/frontend/.env
     - cd web && ./scripts/test.sh
   tags:
     - nbm
 
-deploy:
-  stage: deploy
+build_backend:
+  stage: build
   script:
-    - cd /opt/nbm-nocturnal-bird-migration
-    - git checkout . && git pull 
-    - cp ~/nbm-config/.env web/.env
-    - cp ~/nbm-config/frontend/.env web/frontend/.env
-    - cd web
-    - docker-compose build
-    - docker-compose up -d
+    - docker login ${CI_REGISTRY} -u gitlab-ci-token -p ${CI_BUILD_TOKEN}
+    - docker build -t ${CI_REGISTRY_IMAGE}:backend-${TAG} -f ./web/backend/backend.dockerfile ./web/backend
+    - docker build -t ${CI_REGISTRY_IMAGE}:celeryworker-${TAG} -f ./web/backend/celeryworker.dockerfile ./web/backend
+    - docker push ${CI_REGISTRY_IMAGE}:backend-${TAG}
+    - docker push ${CI_REGISTRY_IMAGE}:celeryworker-${TAG}
   tags:
     - nbm
   only:
-    - master  
+    - master
+
+build_frontend:
+  stage: build
+  script:
+    - docker login ${CI_REGISTRY} -u gitlab-ci-token -p ${CI_BUILD_TOKEN}
+    - docker build --build-arg api_url=${API_URL} -t ${CI_REGISTRY_IMAGE}:frontend-${TAG} -f ./web/frontend/Dockerfile ./web/frontend
+    - docker push ${CI_REGISTRY_IMAGE}:frontend-${TAG}
+  tags:
+    - nbm
+  only:
+    - master
+
+deploy:
+  stage: deploy
+  variables:
+    DOCKER_IMAGE_BACKEND: ${CI_REGISTRY_IMAGE}
+    DOCKER_IMAGE_CELERYWORKER: ${CI_REGISTRY_IMAGE}
+    DOCKER_IMAGE_FRONTEND: ${CI_REGISTRY_IMAGE}
+  script:
+    - docker login ${CI_REGISTRY} -u gitlab-ci-token -p ${CI_BUILD_TOKEN}
+    - echo "$ENV_FILE" > ./web/.env
+    - cd web && ./scripts/deploy.sh
+  tags:
+    - nbm
+  only:
+    - master
