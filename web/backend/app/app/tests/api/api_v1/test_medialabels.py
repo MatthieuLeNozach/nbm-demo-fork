@@ -164,7 +164,8 @@ def test_read_medialabels(
     assert type(content["end_time"]) is float
     assert type(content["low_freq"]) is float
     assert type(content["high_freq"]) is float
-    assert type(content["label_id"]) is int
+    if content["label_id"]:
+        assert type(content["label_id"]) is int     
     assert type(content["media_id"]) is int
     assert type(content["id"]) is int
     assert type(content["created_by"]) is int

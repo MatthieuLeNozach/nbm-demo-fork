@@ -25,16 +25,8 @@ interface Props {
 
 function AuthProvider({ children }: Props): ReactElement {
   const cookies = parseCookies();
-  const { cookieUser, accessToken } = cookies;
+  const { accessToken } = cookies;
   const [user, setUser] = useState<User | null>(null);
-  if (cookieUser) {
-    try {
-      const parsedUser = JSON.parse(cookieUser) as User;
-      setUser(parsedUser);
-    } catch (e) {
-      console.error("Unable to parse user");
-    }
-  }
   const router = useRouter();
   const { t } = useTranslation();
 
@@ -49,18 +41,6 @@ function AuthProvider({ children }: Props): ReactElement {
     "/welcome",
   ];
 
-  useEffect(() => {
-    if (
-      (!accessToken || !user) &&
-      !anonymousLoginRoutes.includes(router.route)
-    ) {
-      destroyCookie(null, "user");
-      destroyCookie(null, "accessToken");
-      setUser(null);
-      router.push("/signin");
-    }
-  }, [user, accessToken, router.route]);
-
   const callMe = async (token) => {
     try {
       const { data, status } = await axios.get(
@@ -73,22 +53,25 @@ function AuthProvider({ children }: Props): ReactElement {
       );
       if (status === 200) {
         setUser(data);
-        setCookie(null, "user", JSON.stringify(data), {
-          path: "/",
-          maxAge: 3600,
-          sameSite: true,
-        });
         return true;
       }
       return false;
     } catch (error) {
-      destroyCookie(null, "user");
       destroyCookie(null, "accessToken");
       setUser(null);
-      router.push("/");
       return false;
     }
   };
+
+  useEffect(() => {
+    if (!accessToken && !anonymousLoginRoutes.includes(router.route)) {
+      destroyCookie(null, "accessToken");
+      setUser(null);
+      router.push("/signin");
+    } else if (accessToken && !user) {
+      callMe(accessToken);
+    }
+  }, [accessToken, router.route]);
 
   const login = async ({
     username,
@@ -153,11 +136,7 @@ function AuthProvider({ children }: Props): ReactElement {
           maxAge: 3600,
           sameSite: true,
         });
-        setCookie(null, "user", JSON.stringify(userData), {
-          path: "/",
-          maxAge: 3600,
-          sameSite: true,
-        });
+        setUser(userData);
         registrationResponse.success = true;
         registrationResponse.message = t("youAreNowRegistered");
       }
@@ -172,7 +151,6 @@ function AuthProvider({ children }: Props): ReactElement {
   };
 
   const logout = () => {
-    destroyCookie(null, "user");
     destroyCookie(null, "accessToken");
     setUser(null);
     router.push("/");
