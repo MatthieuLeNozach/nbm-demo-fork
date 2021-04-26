@@ -21,5 +21,15 @@ class CRUDSpecies(CRUDBase[Species, SpeciesCreate, SpeciesUpdate]):
 
         return query.count()
 
+    def get_multi_by_name(
+        self, db: Session, *, name: str, skip: int = 0, limit: int = 100
+    ) -> List[Species]:
+        return (
+            db.query(self.model)
+            .filter(Species.name.ilike(f"%{name}%"))
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
 
 species = CRUDSpecies(Species)
