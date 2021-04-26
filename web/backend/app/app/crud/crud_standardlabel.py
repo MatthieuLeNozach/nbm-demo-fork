@@ -15,6 +15,7 @@ class CRUDStandardLabel(CRUDBase[StandardLabel, StandardLabelCreate, StandardLab
         return (
             db.query(self.model)
             .filter(StandardLabel.name.ilike(f"%{name}%"))
+            .order_by(StandardLabel.name)
             .offset(skip)
             .limit(limit)
             .all()
