@@ -164,7 +164,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
   ] = useState<null | ReturnType<typeof setTimeout>>(null);
 
   const [deviceRequestParameter, setDeviceRequestParameter] = useState<string>(
-    ""
+    "?model_name="
   );
   const setDeviceInput = (input) => {
     if (labelRequestTimeout !== null) {

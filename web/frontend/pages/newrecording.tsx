@@ -82,7 +82,7 @@ const NewRecordingPage: NextPage = () => {
     setLabelRequestTimeout,
   ] = useState<null | ReturnType<typeof setTimeout>>(null);
   const [labelRequestParameter, setLabelRequestParameter] = useState<string>(
-    ""
+    "?name="
   );
   const setLabelInput = (input) => {
     if (labelRequestTimeout !== null) {

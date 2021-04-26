@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 
 from app import crud, schemas
 from app.core.config import settings
-from app.schemas import SpeciesCreate, StandardLabelCreate, User
+from app.schemas import SpeciesCreate, StandardLabelCreate, User, DeviceCreate
 from app.db import base  # noqa: F401
 
 import json
@@ -18,6 +18,7 @@ def init_db(db: Session) -> None:
     super_user = create_super_user(db)
     create_species_and_labels(db, super_user)
     create_standardlabels(db, super_user)
+    create_devices(db)
 
 
 def create_super_user(db: Session):
@@ -74,3 +75,12 @@ def create_standardlabels(db: Session, super_user: User):
             if len(standardlabel_from_db) == 0:
                 standardlabel_in = StandardLabelCreate(name=current_standardlabel_data['name'])
                 crud.standardlabel.create(db=db, obj_in=standardlabel_in, created_by=super_user.id)
+
+def create_devices(db: Session):
+    with open(initial_data_path + 'devices.json') as json_file:
+        devices_from_json = json.load(json_file)
+        for current_device_data in devices_from_json:
+            device_from_db = crud.device.get_multi_by_model(db, model_name=current_device_data['model_name'])
+            if len(device_from_db) == 0:
+                device_in = DeviceCreate(model_name=current_device_data['model_name'])
+                crud.device.create(db=db, obj_in=device_in)
