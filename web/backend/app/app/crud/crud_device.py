@@ -15,6 +15,7 @@ class CRUDDevice(CRUDBase[Device, DeviceCreate, DeviceUpdate]):
         return (
             db.query(self.model)
             .filter(Device.model_name.ilike(f"%{model_name}%"))
+            .order_by(Device.model_name)
             .offset(skip)
             .limit(limit)
             .all()
