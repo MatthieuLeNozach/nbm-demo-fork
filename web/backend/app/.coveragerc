@@ -1,0 +1,9 @@
+[run]
+omit =
+    app/worker.py
+    app/initial_data.py
+    app/tests_pre_start.py
+    app/celeryworker_pre_start.py
+    app/backend_pre_start.py
+    app/db/*
+    scripts/*
