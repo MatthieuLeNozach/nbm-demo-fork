@@ -1,0 +1,5 @@
+{
+    "i18n-ally.localesPaths": [
+        "web/frontend/public/locales"
+    ]
+}
