@@ -4,6 +4,7 @@ from pydantic import BaseModel
 # Shared properties
 class SpeciesBase(BaseModel):
     name: str
+    code: int
     is_bird: Optional[bool]
 
 # Properties to receive on StandardlLabel creation
@@ -13,6 +14,7 @@ class SpeciesCreate(SpeciesBase):
 # Properties to receive on Species update
 class SpeciesUpdate(SpeciesBase):
     name: Optional[str]
+    code: Optional[int]
 
 # Properties shared by models stored in DB
 class SpeciesInDBBase(SpeciesBase):
