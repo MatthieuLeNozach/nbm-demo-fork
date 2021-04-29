@@ -91,7 +91,7 @@ const NewRecordingPage: NextPage = () => {
     }
     setLabelRequestTimeout(
       setTimeout(() => {
-        setLabelRequestParameter(input.length > 3 ? "?name=" + input : "");
+        setLabelRequestParameter("?name=" + (input.length > 3 ? input : ""));
         setLabelRequestTimeout(null);
       }, requestTimeoutMilliseconds)
     );
