@@ -174,7 +174,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
     setLabelRequestTimeout(
       setTimeout(() => {
         setDeviceRequestParameter(
-          input.length > 3 ? "?model_name=" + input : ""
+          "?model_name=" + (input.length > 3 ? input : "")
         );
         setLabelRequestTimeout(null);
       }, requestTimeoutMilliseconds)
