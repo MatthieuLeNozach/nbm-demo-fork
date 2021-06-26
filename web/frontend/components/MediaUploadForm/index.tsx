@@ -26,6 +26,8 @@ import UploadIcon from "../Icon/Upload";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import InputMask from "react-input-mask";
+import { Alert } from "@material-ui/lab";
+import FilesList from "./FilesList";
 
 const useStyles = makeStyles({
   bottomButton: {
@@ -42,12 +44,16 @@ const useStyles = makeStyles({
     maxWidth: "800px",
     margin: "auto",
   },
-  fromSection: {
+  formSection: {
     backgroundColor: "#163751",
     margin: "20px 0px",
     padding: "20px",
     border: "1px solid white",
     borderRadius: "4px",
+  },
+  warningMessage: {
+    margin: "0 0 20px 0",
+    width: "100%",
   },
   formItem: {
     margin: "10px 0",
@@ -76,7 +82,6 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "20px",
     borderWidth: "2px",
     borderRadius: "2px",
     borderColor: "#163751",
@@ -85,7 +90,6 @@ const useStyles = makeStyles({
     color: "#bdbdbd",
     outline: "none",
     transition: "border .24s ease-in-out",
-    margin: "20px 0px",
   },
   buttonGroupLabel: {
     textTransform: "initial",
@@ -208,10 +212,10 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
   const [createMediaMode, setCreateMediaMode] = useState<string>(
     "MEDIA_UPLOAD"
   );
-  const [audioFile, setAudioFile] = useState<File | null>(null);
+  const [audioFiles, setAudioFiles] = useState<Array<File>>([]);
   const [audioFileUrl, setAudioFileUrl] = useState<string>("");
   const [audioFileDuration, setAudioFileDuration] = useState<string | null>("");
-  const [annotationsFile, setAnnotationsFile] = useState<File | null>(null);
+  const [annotationFiles, setAnnotationFiles] = useState<Array<File>>([]);
   const [uploadError, setUploadError] = useState<string | null>(null);
 
   const locales = { fr: frLocale };
@@ -222,10 +226,46 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
   }
 
   const onAudioDrop = (acceptedFiles) => {
-    setAudioFile(acceptedFiles[0]);
+    const updatedAudioFiles = audioFiles.slice();
+    const audioFilesPaths = audioFiles.map((file) => (file as any).path);
+    acceptedFiles.forEach((file) => {
+      if (!audioFilesPaths.includes(file.path)) {
+        updatedAudioFiles.push(file);
+        audioFilesPaths.push(file.path);
+      }
+    });
+    setAudioFiles(updatedAudioFiles);
   };
   const onAnnotationsDrop = (acceptedFiles) => {
-    setAnnotationsFile(acceptedFiles[0]);
+    const updatedAnnotationFiles = annotationFiles.slice();
+    const annotationFilesPaths = annotationFiles.map(
+      (file) => (file as any).path
+    );
+    acceptedFiles.forEach((file) => {
+      if (!annotationFilesPaths.includes(file.path)) {
+        updatedAnnotationFiles.push(file);
+        annotationFilesPaths.push(file.path);
+      }
+    });
+    setAnnotationFiles(updatedAnnotationFiles);
+  };
+
+  const onAudioFileDelete = (file: File) => {
+    console.log(`Delete audio file ${(file as any).path}`);
+  };
+
+  const handleCreateMediaModeChange = (e, nextMode) => {
+    if (nextMode !== null) {
+      setCreateMediaMode(nextMode);
+    }
+    if (nextMode === "MEDIA_URL") {
+      if (annotationFiles.length > 1) {
+        setAnnotationFiles([]);
+      }
+      if (audioFiles.length > 1) {
+        setAudioFiles([]);
+      }
+    }
   };
 
   const handleCreateMedia = async (e) => {
@@ -239,17 +279,17 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
         return alert(t("chooseRecorder"));
       }
 
-      if (!annotationsFile || !annotationsFile.type.startsWith("text")) {
+      if (!annotationFiles || !annotationFiles.type.startsWith("text")) {
         return alert(t("chooseTextFile"));
       }
 
       const formData = new FormData();
 
       if (createMediaMode === "MEDIA_UPLOAD") {
-        if (!audioFile || !audioFile.type.startsWith("audio")) {
+        if (!audioFiles || !audioFiles.type.startsWith("audio")) {
           return alert(t("chooseAudioFile"));
         }
-        formData.append("audio_file", audioFile);
+        formData.append("audio_file", audioFiles);
       } else if (createMediaMode === "MEDIA_URL") {
         const duration = parseDurationInputIntoSeconds(audioFileDuration);
         if (duration <= 0) {
@@ -263,7 +303,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
         formData.append("audio_duration", duration.toString());
       }
 
-      formData.append("annotations", annotationsFile);
+      formData.append("annotations", annotationFiles);
       formData.append("begin_date", startDate.toISOString());
       formData.append("device_id", deviceOption?.value.toString());
       formData.append("file_source", fileSource);
@@ -372,7 +412,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
               container
               direction="row"
               alignItems="flex-start"
-              className={classes.fromSection}
+              className={classes.formSection}
             >
               <Grid item xs={12}>
                 <Typography variant="h4">{t("context")}</Typography>
@@ -431,7 +471,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
               direction="row"
               justify="flex-start"
               alignItems="center"
-              className={classes.fromSection}
+              className={classes.formSection}
             >
               <Grid item xs={12}>
                 <Typography variant="h4">{t("files")}</Typography>
@@ -442,9 +482,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
                   orientation="horizontal"
                   value={createMediaMode}
                   exclusive
-                  onChange={(e, nextMode) => {
-                    if (nextMode !== null) setCreateMediaMode(nextMode);
-                  }}
+                  onChange={handleCreateMediaModeChange}
                 >
                   <ToggleButton value="MEDIA_UPLOAD" aria-label="MEDIA_UPLOAD">
                     <UploadIcon />
@@ -460,22 +498,23 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
                   </ToggleButton>
                 </ToggleButtonGroup>
               </Grid>
-              <Grid item xs={12} sm className={classes.formItem}>
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                className={classes.formItem}
+                style={{ alignSelf: "stretch" }}
+              >
                 {createMediaMode === "MEDIA_UPLOAD" ? (
                   <Dropzone
                     accept={["audio/*"]}
                     onDrop={onAudioDrop}
-                    multiple={false}
+                    multiple={true}
                   >
                     {({ getRootProps, getInputProps }) => (
                       <div {...getRootProps()} className={classes.dropZone}>
                         <input {...getInputProps()} />
                         <p>{t("clicOrDropYouAudioFile")}</p>
-                        {audioFile && (
-                          <p>
-                            {t("selectedFiles")} {audioFile.name}
-                          </p>
-                        )}
                       </div>
                     )}
                   </Dropzone>
@@ -484,7 +523,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
                     <TextField
                       color="secondary"
                       variant="outlined"
-                      margin="dense"
+                      margin="none"
                       required
                       fullWidth
                       value={audioFileUrl}
@@ -519,27 +558,56 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
                     </InputMask>
                   </div>
                 )}
+                <FilesList
+                  filesList={audioFiles}
+                  onFileDelete={(fileToDelete: File) => {
+                    setAudioFiles((prev) =>
+                      prev.filter(
+                        (file) =>
+                          (file as any).path !== (fileToDelete as any).path
+                      )
+                    );
+                  }}
+                />
               </Grid>
-              <Grid item xs={12} sm className={classes.formItem}>
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                className={classes.formItem}
+                style={{ alignSelf: "stretch" }}
+              >
                 <Dropzone
                   accept={["text/plain"]}
                   onDrop={onAnnotationsDrop}
-                  multiple={false}
+                  multiple={createMediaMode === "MEDIA_UPLOAD"}
                 >
                   {({ getRootProps, getInputProps }) => (
                     <div {...getRootProps()} className={classes.dropZone}>
                       <input {...getInputProps()} />
                       <p>{t("clicOrDropYourTextFile")}</p>
-                      {annotationsFile && (
-                        <p>
-                          {t("selectedFiles")} {annotationsFile.name}
-                        </p>
-                      )}
                     </div>
                   )}
                 </Dropzone>
+                <FilesList
+                  filesList={annotationFiles}
+                  onFileDelete={(fileToDelete: File) => {
+                    setAnnotationFiles((prev) =>
+                      prev.filter(
+                        (file) =>
+                          (file as any).path !== (fileToDelete as any).path
+                      )
+                    );
+                  }}
+                />
               </Grid>
             </Grid>
+
+            {audioFiles.length > 1 && (
+              <Alert severity="warning" className={classes.warningMessage}>
+                This is a warning alert — check it out!
+              </Alert>
+            )}
             <Grid item xs>
               <Button
                 type="submit"
@@ -547,7 +615,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
                 color="primary"
                 className={classes.bottomButton}
               >
-                {t("add")}
+                {t("sendRecordings")}
               </Button>
             </Grid>
           </Grid>
