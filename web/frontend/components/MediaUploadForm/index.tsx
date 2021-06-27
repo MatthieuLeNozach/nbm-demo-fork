@@ -512,9 +512,14 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
             <div>
               <LinearProgress
                 variant="determinate"
-                value={progressPercents.reduce((a, b) => a + b, 0)}
+                value={
+                  progressPercents.reduce((a, b) => a + b, 0) /
+                  annotationFiles.length
+                }
               />
-              {progressPercents.reduce((a, b) => a + b, 0)}%
+              {progressPercents.reduce((a, b) => a + b, 0) /
+                annotationFiles.length}
+              %
             </div>
           </div>
         )
