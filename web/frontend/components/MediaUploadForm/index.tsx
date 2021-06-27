@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "@/components/Providers/AuthProvider";
 import useSWR from "swr";
 import DatePicker, { registerLocale } from "react-datepicker";
-import Dropzone from "react-dropzone";
+import Dropzone, { FileWithPath } from "react-dropzone";
 import "react-datepicker/dist/react-datepicker.css";
 import frLocale from "date-fns/locale/fr";
 import Select from "react-select";
@@ -228,8 +228,8 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
 
   const onAudioDrop = (acceptedFiles) => {
     const updatedAudioFiles = audioFiles.slice();
-    const audioFilesPaths = audioFiles.map((file) => (file as any).path);
-    acceptedFiles.forEach((file) => {
+    const audioFilesPaths = audioFiles.map((file: FileWithPath) => file.path);
+    acceptedFiles.forEach((file: FileWithPath) => {
       if (!audioFilesPaths.includes(file.path)) {
         updatedAudioFiles.push(file);
         audioFilesPaths.push(file.path);
@@ -242,7 +242,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
     const annotationFilesPaths = annotationFiles.map(
       (file) => (file as any).path
     );
-    acceptedFiles.forEach((file) => {
+    acceptedFiles.forEach((file: FileWithPath) => {
       if (!annotationFilesPaths.includes(file.path)) {
         updatedAnnotationFiles.push(file);
         annotationFilesPaths.push(file.path);
@@ -313,8 +313,8 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
       // IF "multiple recordings upload", validate audio-text files coupling
       if (audioFiles.length > 1 || annotationFiles.length > 1) {
         const audioAndAnnotationCouples = [];
-        audioFiles.forEach((audioFile) => {
-          annotationFiles.forEach((annotationFile) => {
+        audioFiles.forEach((audioFile: FileWithPath) => {
+          annotationFiles.forEach((annotationFile: FileWithPath) => {
             const audioName = audioFile.path.replace(/\.[^/.]+$/, "");
             const annotationName = annotationFile.path.replace(/\.[^/.]+$/, "");
             if (audioName === annotationName) {
@@ -324,20 +324,20 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
         });
         const audioMissingAnnotation = audioFiles
           .filter(
-            (file) =>
+            (file: FileWithPath) =>
               !audioAndAnnotationCouples.includes(
                 file.path.replace(/\.[^/.]+$/, "")
               )
           )
-          .map((file) => file.path);
+          .map((file: FileWithPath) => file.path);
         const annotationsMissingAudio = annotationFiles
           .filter(
-            (file) =>
+            (file: FileWithPath) =>
               !audioAndAnnotationCouples.includes(
                 file.path.replace(/\.[^/.]+$/, "")
               )
           )
-          .map((file) => file.path);
+          .map((file: FileWithPath) => file.path);
         if (
           audioMissingAnnotation.length > 0 ||
           annotationsMissingAudio.length > 0
@@ -376,14 +376,14 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
         formData.append("annotations", annotationFiles[0]);
         uploadForms.push(formData);
       } else {
-        audioFiles.forEach((audioFile, index) => {
+        audioFiles.forEach((audioFile: FileWithPath, index) => {
           const formData = new FormData();
           formData.append("file_source", `${fileSource}-${index}`);
           formData.append("audio_file", audioFile);
           formData.append(
             "annotations",
             annotationFiles.find(
-              (file) =>
+              (file: FileWithPath) =>
                 file.path.replace(/\.[^/.]+$/, "") ===
                 audioFile.path.replace(/\.[^/.]+$/, "")
             )
