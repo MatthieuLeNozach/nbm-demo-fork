@@ -131,7 +131,7 @@ const NewRecordingPage: NextPage = () => {
     }
 
     setInvalidMediaLabels(
-      response.medialabels.filter(
+      response.mediaelabels.filter(
         (medialabel) => medialabel.invalid_label_text !== null
       )
     );
@@ -178,7 +178,7 @@ const NewRecordingPage: NextPage = () => {
               <Typography variant="h4">{t("successfulSending")}</Typography>
               <div>
                 {t("annotationAdded", {
-                  count: responseData.medialabels.length,
+                  count: responseData.mediaelabels.length,
                 })}
               </div>
             </Grid>
