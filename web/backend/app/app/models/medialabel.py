@@ -27,5 +27,5 @@ class MediaLabel(Base):
     label_confidence = Column(Float, index=True)
     invalid_label_text = Column(String)
 
-    __table_args__ = (UniqueConstraint('begin_time', 'media_id', 'label_id'),)
+    __table_args__ = (UniqueConstraint('begin_time', 'end_time', 'media_id', 'label_id'),)
 
