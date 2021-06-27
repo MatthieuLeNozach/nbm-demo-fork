@@ -64,8 +64,8 @@ async def upload_audio(
     audio_url: str = Form(None),
     audio_duration: str = Form(None),
     annotations: UploadFile = File(...),
-    begin_date: str = Form(...),
-    device_id: str = Form(...),
+    begin_date: str = Form(None),
+    device_id: str = Form(None),
     file_source: str = Form(...),
     current_user: models.User = Depends(deps.get_current_active_user)
 ):
