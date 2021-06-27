@@ -14,5 +14,7 @@
   {"name": "Bruit parasite"},
   {"name": "Parasite noise"},
   {"name": "Wind"},
-  {"name": "Vent"}
+  {"name": "Vent"},
+  {"name": "Unidentified sound"},
+  {"name": "Bruit indéterminé"}
 ]
