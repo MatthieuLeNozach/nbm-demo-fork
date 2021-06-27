@@ -28,6 +28,7 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import InputMask from "react-input-mask";
 import { Alert } from "@material-ui/lab";
 import FilesList from "./FilesList";
+import { useEffect } from "react";
 
 const useStyles = makeStyles({
   bottomButton: {
@@ -192,6 +193,10 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
 
   // Other properties
   const [progressPercents, setProgressPercents] = useState<Array<number>>([]);
+  const [progressUpdate, setProgressUpdate] = useState<{
+    index: number;
+    value: number;
+  } | null>(null);
   const [fileSource, _setFileSource] = useState<string>(
     props.defaultSource || ""
   );
@@ -249,6 +254,18 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
       }
     });
     setAnnotationFiles(updatedAnnotationFiles);
+  };
+
+  useEffect(() => {
+    // some code to fetch data
+    if (progressUpdate !== null)
+      updateProgressPercents(progressUpdate.index, progressUpdate.value);
+  }, [progressUpdate]);
+
+  const updateProgressPercents = (index: number, newValue: number) => {
+    const updatedProgress = progressPercents.slice();
+    updatedProgress[index] = newValue;
+    setProgressPercents(updatedProgress);
   };
 
   const handleCreateMediaModeChange = (e, nextMode) => {
@@ -399,17 +416,16 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
         Authorization: `Bearer ${accessToken}`,
       };
       const uploadRequests = [];
+      setProgressPercents(new Array(uploadForms.length).fill(0));
       uploadForms.forEach((formData, index) => {
         uploadRequests.push(
           axios.post(apiRoute, formData, {
             headers: headers,
-            onUploadProgress: function (progressEvent) {
+            onUploadProgress: async function (progressEvent) {
               const percentCompleted = Math.round(
                 (progressEvent.loaded * 100) / progressEvent.total
               );
-              const newProgressPercents = progressPercents.slice();
-              newProgressPercents[index] = percentCompleted;
-              setProgressPercents(newProgressPercents);
+              setProgressUpdate({ index, value: percentCompleted });
             },
           })
         );
@@ -461,7 +477,8 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
 
   return (
     <div>
-      {progressPercents.reduce((a, b) => a + b, 0) > 0 ? (
+      {progressPercents.length > 0 &&
+      progressPercents.reduce((a, b) => a + b) > 0 ? (
         uploadError ? (
           <Grid
             container
@@ -487,7 +504,9 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
                   variant="contained"
                   color="primary"
                   onClick={() => {
-                    setProgressPercent(0);
+                    setProgressPercents(
+                      new Array(annotationFiles.length).fill(0)
+                    );
                     setUploadError(null);
                   }}
                 >
@@ -513,12 +532,14 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
               <LinearProgress
                 variant="determinate"
                 value={
-                  progressPercents.reduce((a, b) => a + b, 0) /
-                  annotationFiles.length
+                  Object.values(progressPercents).reduce((a, b) => a + b) /
+                  Object.values(progressPercents).length
                 }
               />
-              {progressPercents.reduce((a, b) => a + b, 0) /
-                annotationFiles.length}
+              {Math.round(
+                Object.values(progressPercents).reduce((a, b) => a + b) /
+                  Object.values(progressPercents).length
+              )}
               %
             </div>
           </div>
