@@ -73,6 +73,7 @@
   "registerOnNBM": "Sign up to NBM",
   "register": "Register",
   "retry": "Retry",
+  "same_times_on_species": "This annotation is identical to a previous one",
   "selectedFiles": "Selected files",
   "signIn": "Sign in",
   "signUp": "Sign up",

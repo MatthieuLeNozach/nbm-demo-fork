@@ -9,6 +9,7 @@ def get_medialabel_schemas_from_file_content(
 ):
     label_names = list(map(lambda existing_label: existing_label.name, existing_labels))
 
+    medialabels_times = {}
     medialabels_schemas = []
     invalid_lines = []
 
@@ -41,6 +42,21 @@ def get_medialabel_schemas_from_file_content(
                     previous_time_info = None
                     continue
 
+                if previous_time_info["begin_time"] in medialabels_times:
+                    if previous_time_info["end_time"] in medialabels_times[previous_time_info["begin_time"]]:
+                        unique_label_id = medialabels_times[previous_time_info["begin_time"]][previous_time_info["end_time"]]
+                        if previous_time_info["label_id"] == unique_label_id:
+                            invalid_lines.append(
+                                InvalidAnnotation(line=index, content=line, detail="same_times_on_species")
+                            )
+                            previous_time_info = None
+                            continue
+
+                if not previous_time_info["begin_time"] in medialabels_times:
+                    medialabels_times[previous_time_info["begin_time"]] = {}
+
+                medialabels_times[previous_time_info["begin_time"]][previous_time_info["end_time"]] = previous_time_info["label_id"]
+
                 # create medialabel schema
                 medialabel_in = MediaLabelCreate(begin_time=previous_time_info["begin_time"],
                                         end_time=previous_time_info["end_time"],
@@ -66,6 +82,23 @@ def get_medialabel_schemas_from_file_content(
                         )
                         previous_time_info = None
                         continue
+
+
+                    if previous_time_info["begin_time"] in medialabels_times:
+                        if previous_time_info["end_time"] in medialabels_times[previous_time_info["begin_time"]]:
+                            unique_label_id = medialabels_times[previous_time_info["begin_time"]][previous_time_info["end_time"]]
+                            if previous_time_info["label_id"] == unique_label_id:
+                                invalid_lines.append(
+                                    InvalidAnnotation(line=index, content=line, detail="same_times_on_species")
+                                )
+                                previous_time_info = None
+                                continue
+
+                    if not previous_time_info["begin_time"] in medialabels_times:
+                        medialabels_times[previous_time_info["begin_time"]] = {}
+
+                    medialabels_times[previous_time_info["begin_time"]][previous_time_info["end_time"]] = previous_time_info["label_id"]
+
                     medialabel_in = MediaLabelCreate(begin_time=previous_time_info["begin_time"],
                                             end_time=previous_time_info["end_time"],
                                             label_id=previous_time_info["label_id"],
