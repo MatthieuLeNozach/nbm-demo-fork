@@ -10,12 +10,10 @@ import {
 } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/components/Providers/AuthProvider";
-import useSWR from "swr";
 import DatePicker, { registerLocale } from "react-datepicker";
 import Dropzone from "react-dropzone";
 import "react-datepicker/dist/react-datepicker.css";
 import frLocale from "date-fns/locale/fr";
-import Select from "react-select";
 import i18n from "i18next";
 import axios from "axios";
 import { SelectOption } from "@/models/utils";
@@ -26,6 +24,8 @@ import UploadIcon from "../Icon/Upload";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import InputMask from "react-input-mask";
+import DynamicSelect from "@/components/Form/DynamicSelect";
+import useSWR from "swr";
 
 const useStyles = makeStyles({
   bottomButton: {
@@ -98,40 +98,6 @@ const useStyles = makeStyles({
   },
 });
 
-const customSelectStyles = {
-  option: (provided) => ({
-    ...provided,
-    color: "black",
-  }),
-  container: (provided) => {
-    return {
-      ...provided,
-      position: "relative",
-      top: "12px",
-      marginBottom: "20px",
-    };
-  },
-  control: (provided) => {
-    return {
-      ...provided,
-      backgroundColor: "inherit",
-      border: "1px solid rgba(0, 0, 0, 0.23)",
-    };
-  },
-  valueContainer: (provided) => {
-    return { ...provided, padding: 13 };
-  },
-  singleValue: (provided) => {
-    return { ...provided, color: "white" };
-  },
-  input: (provided) => {
-    return { ...provided, color: "white" };
-  },
-  placeholder: (provided) => {
-    return { ...provided, color: "white" };
-  },
-};
-
 const parseDurationInputIntoSeconds = (durationString: string) => {
   const hours = parseInt(durationString.slice(0, 2).replace(/\D/g, "")) || 0;
   const min = parseInt(durationString.slice(4, 6).replace(/\D/g, "")) || 0;
@@ -145,9 +111,11 @@ const parseDurationInputIntoSeconds = (durationString: string) => {
 interface MediaUploadFormProps {
   onResponse(response: MediaUploadResponse): void;
   onDeviceChange(option: SelectOption | null): void;
+  onSiteChange(option: SelectOption | null): void;
   onSourceChange(source: string): void;
   defaultSource?: string;
   defaultDevice?: SelectOption;
+  defaultSite?: SelectOption;
 }
 
 const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
@@ -193,10 +161,19 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
   const [deviceOption, _setDeviceOption] = useState<SelectOption | null>(
     props.defaultDevice || null
   );
-
   const setDeviceOption = (option: SelectOption | null) => {
     _setDeviceOption(option);
     props.onDeviceChange(option);
+  };
+  const [siteOption, _setSiteOption] = useState<SelectOption | null>(
+    props.defaultSite || null
+  );
+  const setSiteOption = (option: SelectOption | null) => {
+    if (option?.value === 0) {
+      option = null;
+    }
+    _setSiteOption(option);
+    props.onSiteChange(option);
   };
 
   const setFileSource = (source: string) => {
@@ -239,6 +216,14 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
         return alert(t("chooseRecorder"));
       }
 
+      if (siteOption !== null && typeof siteOption.value !== "number") {
+        return alert(t("chooseValidSite"));
+      }
+
+      if (siteOption !== null && typeof siteOption.value !== "number") {
+        return alert(t("chooseValidSite"));
+      }
+
       if (!annotationsFile || !annotationsFile.type.startsWith("text")) {
         return alert(t("chooseTextFile"));
       }
@@ -265,7 +250,10 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
 
       formData.append("annotations", annotationsFile);
       formData.append("begin_date", startDate.toISOString());
-      formData.append("device_id", deviceOption?.value.toString());
+      formData.append("device_id", deviceOption.value.toString());
+      if (siteOption !== null) {
+        formData.append("site_id", siteOption.value.toString());
+      }
       formData.append("file_source", fileSource);
 
       const { data, status } = await axios.post(
@@ -393,21 +381,22 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
                 />
               </Grid>
               <Grid item xs={12} sm={6} className={classes.formItem}>
-                <Select
+                <DynamicSelect
+                  columnName="model_name"
+                  endpoint="/devices/"
                   placeholder={t("recorderModel")}
-                  styles={customSelectStyles}
-                  instanceId="device-select"
                   defaultValue={deviceOption}
                   onChange={setDeviceOption}
-                  onInputChange={setDeviceInput}
-                  options={
-                    Array.isArray(devicesList)
-                      ? devicesList.map((device) => ({
-                          value: device.id,
-                          label: device.model_name,
-                        }))
-                      : []
-                  }
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} className={classes.formItem}>
+                <DynamicSelect
+                  columnName="name"
+                  endpoint="/sites/"
+                  optionalText={t("noAssociatedSite")}
+                  placeholder={t("associatedSite")}
+                  defaultValue={siteOption}
+                  onChange={setSiteOption}
                 />
               </Grid>
               <Grid item xs className={classes.formItem}>

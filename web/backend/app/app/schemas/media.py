@@ -45,6 +45,14 @@ class MediaInDBBase(MediaBase):
 # Properties to return to client
 class Media(MediaInDBBase):
     pass
+# Properties to return to client when fetching with id
+class MediaWithMedialabels(MediaInDBBase):
+    medialabels: List[MediaLabel]
+
+
+# Properties to return to client when fetching list
+class MediaWithMedialabelsCount(MediaInDBBase):
+    medialabels_count: int
 
 # Properties stored in DB
 class MediaInDB(MediaInDBBase):

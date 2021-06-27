@@ -111,21 +111,21 @@ const HomePage: NextPage = () => {
             <Button
               variant="contained"
               className={classes.bottomButton}
-              onClick={() => router.push("/signin")}
+              onClick={() => router.push("/recordings")}
             >
               {t("exploreRecordings")}
             </Button>
             <Button
               variant="contained"
               className={classes.bottomButton}
-              onClick={() => router.push("/signin")}
+              onClick={() => router.push("/recordings?mine=true")}
             >
               {t("myRecordings")}
             </Button>
             <Button
               variant="contained"
               className={classes.bottomButton}
-              onClick={() => router.push("/newrecording")}
+              onClick={() => router.push("/new-recording")}
             >
               {t("addNewRecordings")}
             </Button>

@@ -69,7 +69,7 @@ def test_get_mediae_by_creator(db: Session) -> None:
     creator = create_random_user(db)
     owned_media = create_random_media(db, created_by=creator.id)
 
-    mediae = crud.media.get_multi(db=db, created_by=creator.id)
+    mediae = crud.media.get_multi(db=db, filters={"created_by": creator.id})
 
     assert type(mediae) is list
     assert len(mediae) == 1 #allow us to test if one AND ONLY one media has been created with creator.id
