@@ -342,17 +342,16 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
           audioMissingAnnotation.length > 0 ||
           annotationsMissingAudio.length > 0
         ) {
-          let alertMsg =
-            "Corresponding audio file and annotation file should have the same name.\n\n";
+          let alertMsg = `${t("recordingFilesMissmatch")}\n\n`;
           if (audioMissingAnnotation.length > 0) {
-            alertMsg += `Audio files missing annotation files:\n- ${audioMissingAnnotation.join(
-              "\n- "
-            )}\n\n`;
+            alertMsg += `${t(
+              "recordingFilesAudioMissingAnnotation"
+            )}:\n- ${audioMissingAnnotation.join("\n- ")}\n\n`;
           }
           if (annotationsMissingAudio.length > 0) {
-            alertMsg += `Annotation files missing audio files:\n- ${annotationsMissingAudio.join(
-              "\n- "
-            )}\n\n`;
+            alertMsg += `${t(
+              "recordingFilesAnnotationsMissingAudio"
+            )}:\n- ${annotationsMissingAudio.join("\n- ")}\n\n`;
           }
           return alert(alertMsg);
         }
@@ -728,7 +727,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
 
             {audioFiles.length > 1 && (
               <Alert severity="warning" className={classes.warningMessage}>
-                This is a warning alert — check it out!
+                {t("warningMultipleUploads")}
               </Alert>
             )}
             <Grid item xs>
