@@ -399,11 +399,6 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${accessToken}`,
       };
-      const updateProgress = (progressEvent) => {
-        const percentCompleted = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        );
-      };
       const uploadRequests = [];
       uploadForms.forEach((formData, index) => {
         uploadRequests.push(
@@ -421,43 +416,41 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
         );
       });
 
-      axios
-        .all(uploadRequests)
-        .then(
-          axios.spread((...responses) => {
-            console.log(responses);
-            // use/access the results
-          })
-        )
-        .catch((errors) => {
-          // react on errors.
-        });
-
-      // const { data, status } = await axios.post(
-      //   `${process.env.API_URL}/mediae/upload`,
-      //   formData,
-      //   {
-      //     headers: {
-      //       "Content-Type": "multipart/form-data",
-      //       Authorization: `Bearer ${accessToken}`,
-      //     },
-      //     onUploadProgress: function (progressEvent) {
-      //       const percentCompleted = Math.round(
-      //         (progressEvent.loaded * 100) / progressEvent.total
-      //       );
-      //       setProgressPercents(percentCompleted);
-      //     },
-      //   }
-      // );
-      //   if (status === 200) {
-      //     props.onResponse(data);
-      //   } else {
-      //     setUploadError(
-      //       Array.isArray(data?.detail)
-      //         ? t(data.detail[0].type)
-      //         : t("unknown_error")
-      //     );
-      //   }
+      axios.all(uploadRequests).then(
+        axios.spread((...responses) => {
+          const aggregateMediaLabelData = {
+            invalid_lines: [],
+            mediae: [],
+            mediaelabels: [],
+          };
+          let status = 200;
+          let errorDetails = [];
+          responses.forEach((response, index) => {
+            aggregateMediaLabelData.invalid_lines.push(
+              ...response.data.invalid_lines
+            );
+            aggregateMediaLabelData.mediae.push(response.data.media);
+            aggregateMediaLabelData.mediaelabels.push(
+              ...response.data.medialabels
+            );
+            if (response.status !== 200) {
+              status = response.status;
+              if (response.data.detail) {
+                errorDetails.push(response.data.detail);
+              }
+            }
+          });
+          if (status === 200) {
+            props.onResponse(aggregateMediaLabelData);
+          } else {
+            setUploadError(
+              errorDetails.length > 0
+                ? errorDetails.map((detail) => t(detail[0].type)).join("\n")
+                : t("unknown_error")
+            );
+          }
+        })
+      );
     } catch (error) {
       setUploadError(
         Array.isArray(error.response?.data?.detail)
