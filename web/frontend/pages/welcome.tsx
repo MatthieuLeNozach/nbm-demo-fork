@@ -127,7 +127,7 @@ const WelcomePage: NextPage = () => {
               <Button
                 variant="contained"
                 className={classes.bottomButtons}
-                onClick={() => router.push("/newrecording")}
+                onClick={() => router.push("/new-recording")}
               >
                 {t("addNewRecordings")}
               </Button>

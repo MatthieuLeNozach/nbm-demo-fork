@@ -1,6 +1,6 @@
 import LayoutBase from "@/components/layout/base";
 import { useState } from "react";
-import MediaUploadForm from "@/components/MediaUploadForm";
+import MediaUploadForm from "@/components/Form/MediaUploadForm";
 import Button from "@material-ui/core/Button";
 import { useRouter } from "next/router";
 import { SelectOption } from "@/models/utils";
@@ -106,6 +106,10 @@ const NewRecordingPage: NextPage = () => {
   const [
     previouslyUsedDevice,
     setPreviouslyUsedDevice,
+  ] = useState<SelectOption | null>(null);
+  const [
+    previouslyUsedSite,
+    setPreviouslyUsedSite,
   ] = useState<SelectOption | null>(null);
   const [invalidMediaLabels, setInvalidMediaLabels] = useState<
     Array<MediaLabel>
@@ -310,8 +314,10 @@ const NewRecordingPage: NextPage = () => {
             onResponse={setResponseData}
             onSourceChange={setPreviouslyUsedSource}
             onDeviceChange={setPreviouslyUsedDevice}
-            defaultDevice={previouslyUsedDevice}
+            onSiteChange={setPreviouslyUsedSite}
             defaultSource={previouslyUsedSource}
+            defaultDevice={previouslyUsedDevice}
+            defaultSite={previouslyUsedSite}
           />
         )}
       </LayoutBase>

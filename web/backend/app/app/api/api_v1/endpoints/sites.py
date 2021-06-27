@@ -13,18 +13,20 @@ def read_sites(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
+    name: str = None,
+    created_by: int = None,
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
     Retrieve Sites.
     """
-    if crud.user.is_superuser(current_user):
-        sites = crud.site.get_multi(db, skip=skip, limit=limit)
-    else:
-        sites = crud.site.get_multi_public(
-            db=db, skip=skip, limit=limit
-        )
-    return sites
+    return crud.site.get_multi_public(
+        db=db, skip=skip,
+        limit=limit,
+        name=name,
+        created_by = created_by,
+        current_user = current_user.id
+    )
 
 @router.post("/", response_model=schemas.Site)
 def create_site(

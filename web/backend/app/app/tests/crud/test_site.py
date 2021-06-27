@@ -44,7 +44,7 @@ def test_get_sites_by_creator(db: Session) -> None:
     creator = create_random_user(db)
     owned_site = create_random_site(db, created_by=creator.id)
 
-    sites = crud.site.get_multi(db=db, created_by=creator.id)
+    sites = crud.site.get_multi(db=db, filters={"created_by": creator.id})
 
     assert type(sites) is list
     assert len(sites) == 1

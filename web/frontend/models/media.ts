@@ -16,6 +16,7 @@ interface Media {
   site_id: number;
   begin_date: Date;
   duration: string;
+  medialabels_count?: number;
 }
 
 interface InvalidLine {
