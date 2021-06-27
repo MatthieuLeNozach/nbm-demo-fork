@@ -191,7 +191,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
   ]);
 
   // Other properties
-  const [progressPercent, setProgressPercent] = useState<number>(0);
+  const [progressPercents, setProgressPercents] = useState<Array<number>>([]);
   const [fileSource, _setFileSource] = useState<string>(
     props.defaultSource || ""
   );
@@ -338,52 +338,126 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
               )
           )
           .map((file) => file.path);
-        return alert(
-          `Corresponding audio file and annotation file should have the same name.\n\nAudio files missing annotation files:\n- ${audioMissingAnnotation.join(
-            "\n- "
-          )}\n\nAnnotation files missing audio files:\n- ${annotationsMissingAudio.join(
-            "\n- "
-          )}`
-        );
-      }
-
-      const uploadForms = new Array(annotationFiles.length).fill(
-        new FormData()
-      );
-
-      formData.append("audio_file", audioFiles);
-      formData.append("audio_url", audioFileUrl);
-      formData.append("audio_duration", duration.toString());
-      formData.append("annotations", annotationFiles);
-      formData.append("begin_date", startDate.toISOString());
-      formData.append("device_id", deviceOption?.value.toString());
-      formData.append("file_source", fileSource);
-
-      const { data, status } = await axios.post(
-        `${process.env.API_URL}/mediae/upload`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          onUploadProgress: function (progressEvent) {
-            const percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
-            );
-            setProgressPercent(percentCompleted);
-          },
+        if (
+          audioMissingAnnotation.length > 0 ||
+          annotationsMissingAudio.length > 0
+        ) {
+          let alertMsg =
+            "Corresponding audio file and annotation file should have the same name.\n\n";
+          if (audioMissingAnnotation.length > 0) {
+            alertMsg += `Audio files missing annotation files:\n- ${audioMissingAnnotation.join(
+              "\n- "
+            )}\n\n`;
+          }
+          if (annotationsMissingAudio.length > 0) {
+            alertMsg += `Annotation files missing audio files:\n- ${annotationsMissingAudio.join(
+              "\n- "
+            )}\n\n`;
+          }
+          return alert(alertMsg);
         }
-      );
-      if (status === 200) {
-        props.onResponse(data);
-      } else {
-        setUploadError(
-          Array.isArray(data?.detail)
-            ? t(data.detail[0].type)
-            : t("unknown_error")
-        );
       }
+
+      // Build data forms to be sent to the backend to create recording
+      const uploadForms = new Array();
+      if (annotationFiles.length === 1) {
+        const formData = new FormData();
+        formData.append("file_source", fileSource);
+        formData.append("begin_date", startDate.toISOString());
+        formData.append("device_id", deviceOption?.value.toString());
+        if (createMediaMode === "MEDIA_URL") {
+          formData.append("audio_url", audioFileUrl);
+          formData.append(
+            "audio_duration",
+            parseDurationInputIntoSeconds(audioFileDuration).toString()
+          );
+        } else {
+          formData.append("audio_file", audioFiles[0]);
+        }
+        formData.append("annotations", annotationFiles[0]);
+        uploadForms.push(formData);
+      } else {
+        audioFiles.forEach((audioFile, index) => {
+          const formData = new FormData();
+          formData.append("file_source", `${fileSource}-${index}`);
+          formData.append("audio_file", audioFile);
+          formData.append(
+            "annotations",
+            annotationFiles.find(
+              (file) =>
+                file.path.replace(/\.[^/.]+$/, "") ===
+                audioFile.path.replace(/\.[^/.]+$/, "")
+            )
+          );
+          uploadForms.push(formData);
+        });
+      }
+
+      // Call backend for each data form
+      const apiRoute = `${process.env.API_URL}/mediae/upload`;
+      const headers = {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${accessToken}`,
+      };
+      const updateProgress = (progressEvent) => {
+        const percentCompleted = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+      };
+      const uploadRequests = [];
+      uploadForms.forEach((formData, index) => {
+        uploadRequests.push(
+          axios.post(apiRoute, formData, {
+            headers: headers,
+            onUploadProgress: function (progressEvent) {
+              const percentCompleted = Math.round(
+                (progressEvent.loaded * 100) / progressEvent.total
+              );
+              const newProgressPercents = progressPercents.slice();
+              newProgressPercents[index] = percentCompleted;
+              setProgressPercents(newProgressPercents);
+            },
+          })
+        );
+      });
+
+      axios
+        .all(uploadRequests)
+        .then(
+          axios.spread((...responses) => {
+            console.log(responses);
+            // use/access the results
+          })
+        )
+        .catch((errors) => {
+          // react on errors.
+        });
+
+      // const { data, status } = await axios.post(
+      //   `${process.env.API_URL}/mediae/upload`,
+      //   formData,
+      //   {
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //       Authorization: `Bearer ${accessToken}`,
+      //     },
+      //     onUploadProgress: function (progressEvent) {
+      //       const percentCompleted = Math.round(
+      //         (progressEvent.loaded * 100) / progressEvent.total
+      //       );
+      //       setProgressPercents(percentCompleted);
+      //     },
+      //   }
+      // );
+      //   if (status === 200) {
+      //     props.onResponse(data);
+      //   } else {
+      //     setUploadError(
+      //       Array.isArray(data?.detail)
+      //         ? t(data.detail[0].type)
+      //         : t("unknown_error")
+      //     );
+      //   }
     } catch (error) {
       setUploadError(
         Array.isArray(error.response?.data?.detail)
@@ -395,7 +469,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
 
   return (
     <div>
-      {progressPercent > 0 ? (
+      {progressPercents.reduce((a, b) => a + b, 0) > 0 ? (
         uploadError ? (
           <Grid
             container
@@ -444,8 +518,11 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
           <div>
             <Typography variant="h4">{t("loading")}</Typography>
             <div>
-              <LinearProgress variant="determinate" value={progressPercent} />
-              {progressPercent}%
+              <LinearProgress
+                variant="determinate"
+                value={progressPercents.reduce((a, b) => a + b, 0)}
+              />
+              {progressPercents.reduce((a, b) => a + b, 0)}%
             </div>
           </div>
         )
