@@ -90,6 +90,7 @@ const useStyles = makeStyles({
     color: "#bdbdbd",
     outline: "none",
     transition: "border .24s ease-in-out",
+    padding: "5px 10px",
   },
   buttonGroupLabel: {
     textTransform: "initial",
@@ -260,10 +261,10 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
     }
     if (nextMode === "MEDIA_URL") {
       if (annotationFiles.length > 1) {
-        setAnnotationFiles([]);
+        setAnnotationFiles(annotationFiles.slice(0, 1));
       }
       if (audioFiles.length > 1) {
-        setAudioFiles([]);
+        setAudioFiles(audioFiles.slice(0, 1));
       }
     }
   };
@@ -515,6 +516,18 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
                       <div {...getRootProps()} className={classes.dropZone}>
                         <input {...getInputProps()} />
                         <p>{t("clicOrDropYouAudioFile")}</p>
+                        <FilesList
+                          filesList={audioFiles}
+                          onFileDelete={(fileToDelete: File) => {
+                            setAudioFiles((prev) =>
+                              prev.filter(
+                                (file) =>
+                                  (file as any).path !==
+                                  (fileToDelete as any).path
+                              )
+                            );
+                          }}
+                        />
                       </div>
                     )}
                   </Dropzone>
@@ -558,17 +571,6 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
                     </InputMask>
                   </div>
                 )}
-                <FilesList
-                  filesList={audioFiles}
-                  onFileDelete={(fileToDelete: File) => {
-                    setAudioFiles((prev) =>
-                      prev.filter(
-                        (file) =>
-                          (file as any).path !== (fileToDelete as any).path
-                      )
-                    );
-                  }}
-                />
               </Grid>
               <Grid
                 item
@@ -586,20 +588,21 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
                     <div {...getRootProps()} className={classes.dropZone}>
                       <input {...getInputProps()} />
                       <p>{t("clicOrDropYourTextFile")}</p>
+                      <FilesList
+                        filesList={annotationFiles}
+                        onFileDelete={(fileToDelete: File) => {
+                          setAnnotationFiles((prev) =>
+                            prev.filter(
+                              (file) =>
+                                (file as any).path !==
+                                (fileToDelete as any).path
+                            )
+                          );
+                        }}
+                      />
                     </div>
                   )}
                 </Dropzone>
-                <FilesList
-                  filesList={annotationFiles}
-                  onFileDelete={(fileToDelete: File) => {
-                    setAnnotationFiles((prev) =>
-                      prev.filter(
-                        (file) =>
-                          (file as any).path !== (fileToDelete as any).path
-                      )
-                    );
-                  }}
-                />
               </Grid>
             </Grid>
 

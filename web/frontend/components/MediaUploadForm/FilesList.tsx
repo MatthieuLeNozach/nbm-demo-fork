@@ -25,9 +25,11 @@ const useStyles = makeStyles({
     maxHeight: "2rem",
     fontSize: "1.2rem",
     margin: "5px 0 0 0",
-    backgroundColor: theme.palette.action.active,
-    padding: "0 5px",
+    backgroundColor: theme.palette.secondary.light,
+    color: "black",
+    border: `1px solid ${theme.palette.primary.main}`,
     borderRadius: "3px",
+    padding: "0 5px",
   },
   fileNameStyle: {
     margin: "0px",
@@ -52,7 +54,13 @@ const FilesList: React.FC<FilesListProps> = (props) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.filesListStyle}>
+    <div
+      className={classes.filesListStyle}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+    >
       {props.filesList.map((file) => (
         <div className={classes.listItemStyle} key={file.name}>
           <Tooltip title={file.name} aria-label={file.name} placement="right">
