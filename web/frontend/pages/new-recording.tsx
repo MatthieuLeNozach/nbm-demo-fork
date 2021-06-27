@@ -135,7 +135,7 @@ const NewRecordingPage: NextPage = () => {
     }
 
     setInvalidMediaLabels(
-      response.medialabels.filter(
+      response.mediaelabels.filter(
         (medialabel) => medialabel.invalid_label_text !== null
       )
     );
@@ -182,7 +182,7 @@ const NewRecordingPage: NextPage = () => {
               <Typography variant="h4">{t("successfulSending")}</Typography>
               <div>
                 {t("annotationAdded", {
-                  count: responseData.medialabels.length,
+                  count: responseData.mediaelabels.length,
                 })}
               </div>
             </Grid>
@@ -209,7 +209,7 @@ const NewRecordingPage: NextPage = () => {
                       direction="row"
                       justify="flex-start"
                       spacing={2}
-                      key={medialabel.begin_time}
+                      key={medialabel.id}
                       className={classes.tableLine}
                     >
                       <Grid item className={classes.tableColumn}>
@@ -242,14 +242,14 @@ const NewRecordingPage: NextPage = () => {
               {responseData.invalid_lines.length > 0 && (
                 <Grid item className={classes.section}>
                   <Typography variant="h5">{t("invalidLines")}</Typography>
-                  {responseData.invalid_lines.map((invalidLine) => (
+                  {responseData.invalid_lines.map((invalidLine, index) => (
                     <Grid
                       container
                       alignItems="center"
                       direction="row"
                       justify="flex-start"
                       spacing={2}
-                      key={invalidLine.line}
+                      key={`${index}_${invalidLine.line}`}
                       className={classes.tableLine}
                     >
                       <Grid item>
