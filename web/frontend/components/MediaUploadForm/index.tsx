@@ -251,10 +251,6 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
     setAnnotationFiles(updatedAnnotationFiles);
   };
 
-  const onAudioFileDelete = (file: File) => {
-    console.log(`Delete audio file ${(file as any).path}`);
-  };
-
   const handleCreateMediaModeChange = (e, nextMode) => {
     if (nextMode !== null) {
       setCreateMediaMode(nextMode);
@@ -272,25 +268,26 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
   const handleCreateMedia = async (e) => {
     e.preventDefault();
     try {
-      if (startDate === null || typeof startDate.getMonth !== "function") {
-        return alert(t("chooseBeginDate"));
-      }
-
-      if (deviceOption === null || typeof deviceOption.value !== "number") {
-        return alert(t("chooseRecorder"));
-      }
-
-      if (!annotationFiles || !annotationFiles.type.startsWith("text")) {
+      // Validate that annotation files are text files
+      if (
+        annotationFiles.length === 0 ||
+        !annotationFiles
+          .map((file) => file.type.startsWith("text"))
+          .reduce((accumulator, currentValue) => accumulator && currentValue)
+      ) {
         return alert(t("chooseTextFile"));
       }
 
-      const formData = new FormData();
-
+      // Validate that all annotation files are audio files
       if (createMediaMode === "MEDIA_UPLOAD") {
-        if (!audioFiles || !audioFiles.type.startsWith("audio")) {
+        if (
+          audioFiles.length === 0 ||
+          !audioFiles
+            .map((file) => file.type.startsWith("audio"))
+            .reduce((accumulator, currentValue) => accumulator && currentValue)
+        ) {
           return alert(t("chooseAudioFile"));
         }
-        formData.append("audio_file", audioFiles);
       } else if (createMediaMode === "MEDIA_URL") {
         const duration = parseDurationInputIntoSeconds(audioFileDuration);
         if (duration <= 0) {
@@ -300,10 +297,63 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
           // duration greater than 24 hours
           return alert(t("maximumAudioDuration"));
         }
-        formData.append("audio_url", audioFileUrl);
-        formData.append("audio_duration", duration.toString());
       }
 
+      // IF "single recording upload", validate context info
+      if (audioFiles.length <= 1 && annotationFiles.length === 1) {
+        if (startDate === null || typeof startDate.getMonth !== "function") {
+          return alert(t("chooseBeginDate"));
+        }
+
+        if (deviceOption === null || typeof deviceOption.value !== "number") {
+          return alert(t("chooseRecorder"));
+        }
+      }
+
+      // IF "multiple recordings upload", validate audio-text files coupling
+      if (audioFiles.length > 1 || annotationFiles.length > 1) {
+        const audioAndAnnotationCouples = [];
+        audioFiles.forEach((audioFile) => {
+          annotationFiles.forEach((annotationFile) => {
+            const audioName = audioFile.path.replace(/\.[^/.]+$/, "");
+            const annotationName = annotationFile.path.replace(/\.[^/.]+$/, "");
+            if (audioName === annotationName) {
+              audioAndAnnotationCouples.push(audioName);
+            }
+          });
+        });
+        const audioMissingAnnotation = audioFiles
+          .filter(
+            (file) =>
+              !audioAndAnnotationCouples.includes(
+                file.path.replace(/\.[^/.]+$/, "")
+              )
+          )
+          .map((file) => file.path);
+        const annotationsMissingAudio = annotationFiles
+          .filter(
+            (file) =>
+              !audioAndAnnotationCouples.includes(
+                file.path.replace(/\.[^/.]+$/, "")
+              )
+          )
+          .map((file) => file.path);
+        return alert(
+          `Corresponding audio file and annotation file should have the same name.\n\nAudio files missing annotation files:\n- ${audioMissingAnnotation.join(
+            "\n- "
+          )}\n\nAnnotation files missing audio files:\n- ${annotationsMissingAudio.join(
+            "\n- "
+          )}`
+        );
+      }
+
+      const uploadForms = new Array(annotationFiles.length).fill(
+        new FormData()
+      );
+
+      formData.append("audio_file", audioFiles);
+      formData.append("audio_url", audioFileUrl);
+      formData.append("audio_duration", duration.toString());
       formData.append("annotations", annotationFiles);
       formData.append("begin_date", startDate.toISOString());
       formData.append("device_id", deviceOption?.value.toString());
