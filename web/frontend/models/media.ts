@@ -16,6 +16,7 @@ interface Media {
   site_id: number;
   begin_date: Date;
   duration: string;
+  medialabels_count?: number;
 }
 
 interface InvalidLine {
@@ -26,8 +27,8 @@ interface InvalidLine {
 
 interface MediaUploadResponse {
   invalid_lines: Array<InvalidLine>;
-  media: Media;
-  medialabels: Array<MediaLabel>;
+  mediae: Array<Media>;
+  mediaelabels: Array<MediaLabel>;
 }
 
 export type { Media, MediaUploadResponse };

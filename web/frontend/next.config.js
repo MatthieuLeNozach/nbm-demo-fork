@@ -1,6 +1,7 @@
 require("dotenv").config({ path: "./.env" });
 
 module.exports = {
+  webpack5: false,
   poweredByHeader: false,
   webpackDevMiddleware: (config) => {
     config.watchOptions = {
