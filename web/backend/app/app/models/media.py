@@ -34,7 +34,7 @@ class Media(Base):
     device = relationship("Device", back_populates="mediae") #allow to get device from media without run query manually with id
     site_id = Column(Integer, ForeignKey("site.id")) #media has been produced at one place (if place is not a point, how do we manage it ?)
     site = relationship("Site", back_populates="mediae") #allow to get site from media without run query manually with id
-    begin_date = Column(DateTime, nullable=False) #media has been recorded at one date (write begin date)
+    begin_date = Column(DateTime) #media has been recorded at one date (write begin date)
     duration = Column(Time) #sound or video medias have durations
     medialabels = relationship("MediaLabel", back_populates="media")
 

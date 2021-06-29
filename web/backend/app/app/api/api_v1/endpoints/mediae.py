@@ -15,18 +15,34 @@ import uuid, json, requests, tempfile, os, soundfile
 
 router = APIRouter()
 
-@router.get("/", response_model=List[schemas.Media])
+@router.get("/", response_model=List[schemas.MediaWithMedialabelsCount])
 def read_mediae(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
     created_by: int = None,
+    site: int = None,
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
     Retrieve Mediae.
     """
-    return crud.media.get_multi(db, skip=skip, limit=limit, created_by=created_by)
+    filters={}
+    if created_by is not None:
+        if created_by == 0:
+            filters["created_by"] = None
+        else:
+            filters["created_by"] = created_by
+    if site is not None:
+        if site == 0:
+            filters["site_id"] = None
+        else:
+            filters["site_id"] = site
+
+    mediae = crud.media.get_multi(db, skip=skip, limit=limit, filters=filters)
+    for media in mediae:
+        media.medialabels_count = len(media.medialabels)
+    return mediae
 
 @router.post("/", response_model=schemas.Media)
 def create_media(
@@ -41,7 +57,7 @@ def create_media(
     media = crud.media.create(db=db, obj_in=media_in, created_by=current_user.id)
     return media
 
-@router.get("/{id}", response_model=schemas.Media)
+@router.get("/{id}", response_model=schemas.MediaWithMedialabels)
 def read_media(
     *,
     db: Session = Depends(deps.get_db),
@@ -64,8 +80,9 @@ async def upload_audio(
     audio_url: str = Form(None),
     audio_duration: str = Form(None),
     annotations: UploadFile = File(...),
-    begin_date: str = Form(...),
-    device_id: str = Form(...),
+    begin_date: str = Form(None),
+    device_id: str = Form(None),
+    site_id: str = Form(None),
     file_source: str = Form(...),
     current_user: models.User = Depends(deps.get_current_active_user)
 ):
@@ -138,6 +155,7 @@ async def upload_audio(
                                     file_source=file_source,
                                     begin_date=begin_date,
                                     device_id=device_id,
+                                    site_id=site_id,
                                     meta=json.dumps(meta),
                                     duration=duration)
 

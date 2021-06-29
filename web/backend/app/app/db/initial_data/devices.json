@@ -19,5 +19,9 @@
   {"model_name": "SM4"},
   {"model_name": "Tascam DR-40"},
   {"model_name": "Tascam DR 07 X"},
-  {"model_name": "Tascam DR 05 X"}
+  {"model_name": "Tascam DR 05 X"},
+  {"model_name": "Homemade setup"},
+  {"model_name": "Enregistreur composite"},
+  {"model_name": "My model is not in the list"},
+  {"model_name": "Mon modèle n'est pas dans la liste"}
 ]

@@ -1,6 +1,7 @@
 from typing import Optional
 from datetime import datetime
 from pydantic import BaseModel, validator, confloat
+from app.schemas.standardlabel import StandardLabel
 
 # Shared properties
 class MediaLabelBase(BaseModel):
@@ -46,7 +47,7 @@ class MediaLabelInDBBase(MediaLabelBase):
 
 # Properties to return to client
 class MediaLabel(MediaLabelInDBBase):
-    pass
+    label: Optional[StandardLabel]
 
 # Properties properties stored in DB
 class MediaLabelInDB(MediaLabelInDBBase):

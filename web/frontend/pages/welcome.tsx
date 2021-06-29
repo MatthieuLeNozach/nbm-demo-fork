@@ -127,10 +127,38 @@ const WelcomePage: NextPage = () => {
               <Button
                 variant="contained"
                 className={classes.bottomButtons}
-                onClick={() => router.push("/newrecording")}
+                onClick={() => router.push("/new-recording")}
               >
                 {t("addNewRecordings")}
               </Button>
+            </Grid>
+          </Grid>
+          <Grid
+            item
+            container
+            direction="column"
+            justify="space-around"
+            alignItems="center"
+          >
+            <Grid item>
+              <Typography align="center">
+                Contactez-nous:{" "}
+                <a href="mailto:pajot.adrien@wanadoo.fr">
+                  pajot.adrien@wanadoo.fr
+                </a>
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography align="center">
+                Rejoindre le groupe de discussion sur le projet:{" "}
+                <a
+                  rel="noreferrer"
+                  target="_blank"
+                  href="https://discord.gg/95SNguK3tP"
+                >
+                  https://discord.gg/95SNguK3tP
+                </a>
+              </Typography>
             </Grid>
           </Grid>
         </Grid>

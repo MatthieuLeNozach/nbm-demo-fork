@@ -1,7 +1,38 @@
 stages:
+  - build-base-images
   - test
   - build
   - deploy
+
+build_base_image_frontend:
+  stage: build-base-images
+  script:
+    - docker login ${CI_REGISTRY} -u gitlab-ci-token -p ${CI_BUILD_TOKEN}
+    - docker build -t ${CI_REGISTRY_IMAGE}:frontend-dev-base -f ./web/frontend/.docker/base.dockerfile ./web/frontend
+    - docker push ${CI_REGISTRY_IMAGE}:frontend-dev-base
+  tags:
+    - nbm
+  only:
+    refs:
+      - branches
+    changes:
+      - web/frontend/**/*
+
+build_base_image_backend_celery:
+  stage: build-base-images
+  script:
+    - docker login ${CI_REGISTRY} -u gitlab-ci-token -p ${CI_BUILD_TOKEN}
+    - docker build -t ${CI_REGISTRY_IMAGE}:backend-base -f ./web/backend/.docker/backend-base.dockerfile ./web/backend
+    - docker build -t ${CI_REGISTRY_IMAGE}:celeryworker-base -f ./web/backend/.docker/celeryworker-base.dockerfile ./web/backend
+    - docker push ${CI_REGISTRY_IMAGE}:backend-base
+    - docker push ${CI_REGISTRY_IMAGE}:celeryworker-base
+  tags:
+    - nbm
+  only:
+    refs:
+      - branches
+    changes:
+      - web/backend/**/*
 
 test_backend:
   stage: test

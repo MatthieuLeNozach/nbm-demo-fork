@@ -23,9 +23,9 @@ class MediaLabel(Base):
     low_freq = Column(Float)
     high_freq = Column(Float)
     label_id = Column(Integer, ForeignKey("standardlabel.id"))
-    label = relationship("StandardLabel", back_populates="medialabels")
+    label = relationship("StandardLabel", back_populates="medialabels", lazy="joined")
     label_confidence = Column(Float, index=True)
     invalid_label_text = Column(String)
 
-    __table_args__ = (UniqueConstraint('begin_time', 'media_id', 'label_id'),)
+    __table_args__ = (UniqueConstraint('begin_time', 'end_time', 'media_id', 'label_id'),)
 
