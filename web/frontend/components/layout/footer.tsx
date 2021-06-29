@@ -14,7 +14,7 @@ const LayoutFooter: React.FC = () => {
 
   return (
     <Grid container alignItems="flex-end" className={classes.footer}>
-      <Box m={2}>Footer</Box>
+      <Box m={2}>Contactez-nous : pajot.adrien@wanadoo.fr - Rejoindre le groupe de discussion sur le projet : https://discord.gg/95SNguK3tP </Box>
     </Grid>
   );
 };
