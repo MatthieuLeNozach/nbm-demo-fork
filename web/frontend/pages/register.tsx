@@ -187,7 +187,7 @@ const RegisterPage: NextPage = () => {
             </Button>
             <Grid container direction="column" alignItems="center">
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="/reset-password" variant="body2">
                   {t("forgotPassword")}
                 </Link>
               </Grid>
