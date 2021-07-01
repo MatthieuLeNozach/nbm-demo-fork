@@ -27,14 +27,20 @@ By following these methods, you will have one .txt file for each sound file you 
 
 ## Third step : Upload your annoation and sound files ! ##
 
-Image à droite 
+Once you have one or more files that can be uploaded, don't hesitate to do it ! 
 
-For the moment it is : 
+To do so, go on : https://nocturnal-bird-migration.com
 
-Soon it will be : 
+![NBM_platform](/uploads/48ad30a2204187a132ff086a4dd71629/NBM_platform.png)
+
+and follow the instructions !
+
 
 ## Parallel step : Help us to design, conceptualize, imagine the platform ## 
 
+Join the discord discussion group : 
+
+Or contact us at : pajot.adrien@wanadoo.fr
 
 
 
