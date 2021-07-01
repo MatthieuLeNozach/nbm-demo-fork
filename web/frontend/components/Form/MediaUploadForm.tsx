@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { theme } from "@/theme";
 import {
   Button,
@@ -28,7 +28,6 @@ import DynamicSelect from "@/components/Form/DynamicSelect";
 import useSWR from "swr";
 import { Alert } from "@material-ui/lab";
 import FilesList from "./FilesList";
-import { useEffect } from "react";
 
 const useStyles = makeStyles({
   bottomButton: {
@@ -101,6 +100,11 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
+  },
+  alertBox: {
+    marginTop: 15,
+    alignItems: "center",
+    whiteSpace: "pre-line",
   },
 });
 
@@ -293,7 +297,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
         }
       }
 
-      // TODO: Validate that sites is set 
+      // TODO: Validate that sites is set
       // if (siteOption !== null && typeof siteOption.value !== "number") {
       //   return alert(t("chooseValidSite"));
       // }
@@ -357,7 +361,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
       }
 
       // Build data forms to be sent to the backend to create recording
-      const uploadForms = new Array();
+      const uploadForms = [];
       if (annotationFiles.length === 1) {
         const formData = new FormData();
         formData.append("file_source", fileSource);
@@ -424,7 +428,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
             mediaelabels: [],
           };
           let status = 200;
-          let errorDetails = [];
+          const errorDetails = [];
           responses.forEach((response, index) => {
             aggregateMediaLabelData.invalid_lines.push(
               ...response.data.invalid_lines
@@ -531,6 +535,43 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
         )
       ) : (
         <form onSubmit={handleCreateMedia} autoComplete="off">
+          <Alert severity="info" className={classes.alertBox}>
+            <Typography variant="h5">
+              {t("Méthodologie d'ajout de fichiers")}
+            </Typography>
+            <div>
+              Avant de déposer vos fichiers veuillez vous assurez vous que vous
+              avez bien suivi les procédures d'annotations proposées:&nbsp;
+              <a
+                target="_blank"
+                href="https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/blob/master/docs/Audiofile_annotation_methods_NBM.pdf"
+              >
+                https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/blob/master/docs/Audiofile_annotation_methods_NBM.pdf
+              </a>
+              <br />
+              Ensuite, renseigner la source de votre fichier son (source
+              personnelle, enregistrement d'un.e ami.e, source externe (site
+              web), etc.)
+              <br />
+              Sélectionner un enregistreur présent dans la liste et une date de
+              début d'enregistrement.
+              <br />
+              Déposer le fichier son (en .wav) et le fichier d'annotation
+              associé (.txt).
+              <br />
+              <br />
+              NB : Les fichiers envoyés seront stockés sous licence libre:&nbsp;
+              <a
+                target="_blank"
+                href="https://creativecommons.org/licenses/by/4.0/deed.fr"
+              >
+                https://creativecommons.org/licenses/by/4.0/deed.fr
+              </a>
+              <br />
+              Ces fichiers pourront être utilisés par tous. Dans le cadre du
+              projet NBM ils servent à entrainer une intelligence artifcielle.
+            </div>
+          </Alert>
           <Grid
             container
             direction="column"
@@ -583,7 +624,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
                 />
               </Grid>
               <Grid item xs className={classes.formItem}>
-                <label>{t("recordingDate")}</label>
+                <label>{t("recordingBeginDate")}</label>
                 <DatePicker
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
