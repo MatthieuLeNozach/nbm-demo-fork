@@ -35,7 +35,7 @@
   "files": "To traduce",
   "fileSource": "To traduce",
   "forgotPassword": "¿Has olvidado tu contraseña?",
-  "fullDownload": "To traduce", 
+  "fullDownload": "To traduce",
   "fullName" : "Nombre APELIDO",
   "generalStatistics": "Generales estadisticas",
   "inactive_user": "To traduce",
@@ -90,5 +90,12 @@
   "warningMultipleUploads": "To traduce",
   "welcome": "Bienvenido",
   "welcomeOnNBM": "Bienvenido en NBM",
-  "youAreNowRegistered": "You are now registered to NBM !"
+  "youAreNowRegistered": "You are now registered to NBM !",
+  "sendPasswordEmail": "To traduce",
+  "passwordEmailSent": "To traduce",
+  "updatePassword": "To traduce",
+  "passwordSuccessfullyUpdated": "To traduce",
+  "forgottenPassword": "To traduce",
+  "errorOccurred": "To traduce",
+  "passwordsAreDifferent": "To traduce"
 }

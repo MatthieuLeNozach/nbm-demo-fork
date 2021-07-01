@@ -91,5 +91,12 @@
   "warningMultipleUploads": "Be careful ! You are about to upload multiple recordings at the same time. It is possible but not recommended. When you upload multiple recordings, these will only be usable to train the AI of NBM, and won't be usable for scientific birds migration studies",
   "welcome": "Welcome",
   "welcomeOnNBM": "Welcome on NBM",
-  "youAreNowRegistered": "You are now registered to NBM !"
+  "youAreNowRegistered": "You are now registered to NBM !",
+  "sendPasswordEmail": "Send an email",
+  "passwordEmailSent": "An email from Nocturnal Bird Migration has been sent. Please check your email box",
+  "updatePassword": "Update password",
+  "passwordSuccessfullyUpdated": "The password has been successfully updated",
+  "forgottenPassword": "Forgotten password",
+  "errorOccurred": "An error has occurred, please try again later",
+  "passwordsAreDifferent": "Passwords are different"
 }

@@ -91,5 +91,12 @@
   "warningMultipleUploads": "Attention ! Vous êtes sur le point d'envoyer plusieurs fichiers en même temps. Bien que cela soit possible, ceci n'est pas recommandé. Ces fichiers serviront uniquement à entraîner l'IA de NBM, mais ne pourront pas être employés pour un suivi scientifique des migrations d'oiseaux.",
   "welcome": "Bienvenue",
   "welcomeOnNBM": "Bienvenue sur NBM",
-  "youAreNowRegistered": "Vous êtes maintenant inscrit à NBM !"
+  "youAreNowRegistered": "Vous êtes maintenant inscrit à NBM !",
+  "sendPasswordEmail": "Envoyer un email",
+  "passwordEmailSent": "Un email de la part de Nocturnal Bird Migration a bien été envoyé. Veuillez vérifier votre boite email",
+  "updatePassword": "Mettre à jour le mot de passe",
+  "passwordSuccessfullyUpdated": "Le mot de passe a bien été mis à jour",
+  "forgottenPassword": "Mot de passe oublié",
+  "errorOccurred": "Une erreur est survenue, veuillez réessayer ultérieurement",
+  "passwordsAreDifferent": "Les mots de passe sont différents"
 }
