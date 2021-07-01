@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import { NextPage } from "next";
+import { Alert } from "@material-ui/lab";
 
 const useStyles = makeStyles({
   backgroundImage: {
@@ -55,6 +56,11 @@ const useStyles = makeStyles({
     textAlign: "center",
     // fontFamily: "Roboto",
   },
+  alertBox: {
+    marginTop: 15,
+    alignItems: "center",
+    whiteSpace: "pre-line",
+  },
 });
 
 const WelcomePage: NextPage = () => {
@@ -92,6 +98,21 @@ const WelcomePage: NextPage = () => {
         >
           <Grid item>
             <Typography variant="h4">{t("welcomeOnNBM")}</Typography>
+          </Grid>
+          <Grid item>
+            <Alert severity="info" className={classes.alertBox}>
+              {t("welcomeTextPart1")} <br />
+              {t("welcomeTextPart2")}{" "}
+              <a
+                rel="noreferrer"
+                target="_blank"
+                href="https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration"
+              >
+                https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration
+              </a>{" "}
+              <br />
+              {t("welcomeTextPart3")}
+            </Alert>
           </Grid>
           <Grid item>
             {globalCount ? (

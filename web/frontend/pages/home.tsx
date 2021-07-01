@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import { useAuth } from "@/components/Providers/AuthProvider";
 import useSWR from "swr";
 import { NextPage } from "next";
+import { Alert } from "@material-ui/lab";
 
 const useStyles = makeStyles({
   bottomButton: {
@@ -31,6 +32,11 @@ const useStyles = makeStyles({
     maxWidth: "100%",
     borderBottom: "1px solid white",
     textAlign: "center",
+  },
+  alertBox: {
+    marginTop: 15,
+    alignItems: "center",
+    whiteSpace: "pre-line",
   },
 });
 
@@ -62,10 +68,25 @@ const HomePage: NextPage = () => {
             justify="flex-start"
             alignItems="flex-start"
           >
-            <Grid item>
-              <Typography variant="h4">
-                {t("welcome") + " " + ((user && user.full_name) ?? "")}
-              </Typography>
+            <Grid
+              className={classes.titleGrid}
+              container
+              direction="column"
+              justify="flex-start"
+              alignItems="flex-start"
+            >
+              <Grid item>
+                <Typography variant="h4">
+                  {t("welcome") + " " + ((user && user.full_name) ?? "")}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Alert severity="info" className={classes.alertBox}>
+                  {t("homeTextPart1")}
+                  <br />
+                  {t("homeTextPart2")}
+                </Alert>
+              </Grid>
             </Grid>
           </Grid>
           <Grid item className={classes.dashboardTitle}>
@@ -82,7 +103,7 @@ const HomePage: NextPage = () => {
                 annotatedSeconds={globalCount.annotated_seconds}
               />
             ) : (
-              <div>Données globales irrécupérables</div>
+              <div>{t("unreachableData")}</div>
             )}
           </Grid>
           <Grid item className={classes.dashboardTitle}>
@@ -98,7 +119,7 @@ const HomePage: NextPage = () => {
                 annotatedSeconds={personalCount.annotated_seconds}
               />
             ) : (
-              <div>Données globales irrécupérables</div>
+              <div>{t("unreachableData")}</div>
             )}
           </Grid>
           <Grid
