@@ -21,6 +21,9 @@ For further questions, social network are full of group of people that would be 
 Bioacoustians group has proposed a method to annotate your files. 
 You can find it there : https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/blob/master/docs/Audiofile_annotation_methods_NBM.pdf
 
+![Annotation_method_NBM](/uploads/b51e89eb0f8f156183a0cc2214958e66/Annotation_method_NBM.png)
+
+By following these methods, you will have one .txt file for each sound file you worked on.
 
 ## Third step : Upload your annoation and sound files ! ##
 
