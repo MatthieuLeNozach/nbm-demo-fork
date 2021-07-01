@@ -34,11 +34,10 @@ function AuthProvider({ children }: Props): ReactElement {
     "/",
     "/login",
     "/register",
-    "/forgot",
-    "/users/set_password",
     "/about",
     "/contact",
     "/welcome",
+    "/reset-password",
   ];
 
   const callMe = async (token) => {
