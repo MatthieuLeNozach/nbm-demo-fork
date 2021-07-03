@@ -276,7 +276,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
         return alert(t("chooseTextFile"));
       }
 
-      // Validate that all annotation files are audio files
+      // Validate that all media files are audio files
       if (createMediaMode === "MEDIA_UPLOAD") {
         if (
           audioFiles.length === 0 ||
@@ -680,7 +680,7 @@ const MediaUploadForm: React.FC<MediaUploadFormProps> = (props) => {
               >
                 {createMediaMode === "MEDIA_UPLOAD" ? (
                   <Dropzone
-                    accept={["audio/*"]}
+                    accept={[".wav"]}
                     onDrop={onAudioDrop}
                     multiple={true}
                   >
