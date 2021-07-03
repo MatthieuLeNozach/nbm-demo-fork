@@ -50,7 +50,7 @@ def create_species_and_labels(db: Session, super_user: User):
             else:
                 species = species_from_db[0]
 
-            standardlabel_from_db = crud.standardlabel.get_multi_by_name(db, name=species.name)
+            standardlabel_from_db = crud.standardlabel.get_multi_by_exact_name(db, name=species.name)
 
             if len(standardlabel_from_db) == 0:
                 standard_label_in = StandardLabelCreate(name=species.name, species_id=species.id)
