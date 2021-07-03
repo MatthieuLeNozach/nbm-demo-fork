@@ -26,7 +26,7 @@ class CRUDSpecies(CRUDBase[Species, SpeciesCreate, SpeciesUpdate]):
     ) -> List[Species]:
         return (
             db.query(self.model)
-            .filter(Species.name.ilike(f"%{name}%"))
+            .filter(Species.name.ilike(f"{name}"))
             .offset(skip)
             .limit(limit)
             .all()
