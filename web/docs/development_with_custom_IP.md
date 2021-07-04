@@ -29,3 +29,21 @@ To configure it in your stack, follow the section **Change the development "doma
 After performing those steps you should be able to open: http://dev.nocturnal-bird-migration.org and it will be server by your stack in `localhost`.
 
 Check all the corresponding available URLs in the section at the end.
+
+### Development with a custom IP URLs
+
+Development URLs, for local development.
+
+Frontend: http://dev.nocturnal-bird-migration.org
+
+Backend: http://dev.nocturnal-bird-migration.org/api/
+
+Automatic Interactive Docs (Swagger UI): https://dev.nocturnal-bird-migration.org/docs
+
+Automatic Alternative Docs (ReDoc): https://dev.nocturnal-bird-migration.org/redoc
+
+PGAdmin: http://dev.nocturnal-bird-migration.org:5050
+
+Flower: http://dev.nocturnal-bird-migration.org:5555
+
+Traefik UI: http://dev.nocturnal-bird-migration.org:8090
