@@ -712,23 +712,6 @@ Flower: http://dev.nocturnal-bird-migration.org:5555
 
 Traefik UI: http://dev.nocturnal-bird-migration.org:8090
 
-### Development in localhost with a custom domain URLs
-
-Development URLs, for local development.
-
-Frontend: http://localhost.tiangolo.com
-
-Backend: http://localhost.tiangolo.com/api/
-
-Automatic Interactive Docs (Swagger UI): https://localhost.tiangolo.com/docs
-
-Automatic Alternative Docs (ReDoc): https://localhost.tiangolo.com/redoc
-
-PGAdmin: http://localhost.tiangolo.com:5050
-
-Flower: http://localhost.tiangolo.com:5555
-
-Traefik UI: http://localhost.tiangolo.com:8090
 
 ## Project generation and updating, or re-generating
 
