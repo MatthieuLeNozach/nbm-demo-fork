@@ -1,4 +1,4 @@
-# nbm-web
+# NBM web documentation
 
 ## Install NBM 
 
@@ -35,7 +35,9 @@ As long as MinIO is not installed in NBM we use NextCloud server and therefore n
 
 Go to : docs/nextcloud_configuration.md (put link after)
 
-## Backend local development
+## Start developing 
+
+### Backend local development
 
 - Start the stack with Docker Compose:
 
@@ -43,7 +45,7 @@ Go to : docs/nextcloud_configuration.md (put link after)
 docker-compose up -d
 ```
 
-- Now you can open your browser and interact with these URLs:
+- Now you can open your browser and interact with these development URLs:
 
 Frontend, built with Docker, with routes handled based on the path: http://localhost
 
@@ -657,24 +659,6 @@ Automatic Alternative Docs (ReDoc): https://stag.nocturnal-bird-migration.org/re
 PGAdmin: https://pgadmin.stag.nocturnal-bird-migration.org
 
 Flower: https://flower.stag.nocturnal-bird-migration.org
-
-### Development URLs
-
-Development URLs, for local development.
-
-Frontend: http://localhost
-
-Backend: http://localhost/api/
-
-Automatic Interactive Docs (Swagger UI): https://localhost/docs
-
-Automatic Alternative Docs (ReDoc): https://localhost/redoc
-
-PGAdmin: http://localhost:5050
-
-Flower: http://localhost:5555
-
-Traefik UI: http://localhost:8090
 
 ## Project generation and updating, or re-generating
 
