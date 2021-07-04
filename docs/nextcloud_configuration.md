@@ -32,7 +32,7 @@ Set array of trusted domains
 
 ```console
 Press `a` to insert 
-Change the array `'trusted_domains'` by adding `1 => 'nextcloud', ` 
+Change the array 'trusted_domains'` by adding `1 => 'nextcloud', 
 Press `echap` 
 Press `:` 
 Press `x` 
