@@ -694,25 +694,6 @@ Flower: http://local.dockertoolbox.tiangolo.com:5555
 
 Traefik UI: http://local.dockertoolbox.tiangolo.com:8090
 
-### Development with a custom IP URLs
-
-Development URLs, for local development.
-
-Frontend: http://dev.nocturnal-bird-migration.org
-
-Backend: http://dev.nocturnal-bird-migration.org/api/
-
-Automatic Interactive Docs (Swagger UI): https://dev.nocturnal-bird-migration.org/docs
-
-Automatic Alternative Docs (ReDoc): https://dev.nocturnal-bird-migration.org/redoc
-
-PGAdmin: http://dev.nocturnal-bird-migration.org:5050
-
-Flower: http://dev.nocturnal-bird-migration.org:5555
-
-Traefik UI: http://dev.nocturnal-bird-migration.org:8090
-
-
 ## Project generation and updating, or re-generating
 
 This project was generated using https://github.com/tiangolo/full-stack-fastapi-postgresql with:
