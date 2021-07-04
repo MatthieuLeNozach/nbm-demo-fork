@@ -11,3 +11,21 @@ To configure it in your stack, follow the section **Change the development "doma
 After performing those steps you should be able to open: http://localhost.tiangolo.com and it will be server by your stack in `localhost`.
 
 Check all the corresponding available URLs in the section at the end.
+
+### Development in localhost with a custom domain URLs
+
+Development URLs, for local development.
+
+Frontend: http://localhost.tiangolo.com
+
+Backend: http://localhost.tiangolo.com/api/
+
+Automatic Interactive Docs (Swagger UI): https://localhost.tiangolo.com/docs
+
+Automatic Alternative Docs (ReDoc): https://localhost.tiangolo.com/redoc
+
+PGAdmin: http://localhost.tiangolo.com:5050
+
+Flower: http://localhost.tiangolo.com:5555
+
+Traefik UI: http://localhost.tiangolo.com:8090
