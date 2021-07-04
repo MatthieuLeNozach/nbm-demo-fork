@@ -1,4 +1,5 @@
 from .device import Device
+from .historytable import HistoryTable
 from .media import Media
 from .medialabel import MediaLabel
 from .site import Site

@@ -8,6 +8,8 @@ import Dashboard from "../components/Dashboard/index";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import { NextPage } from "next";
+import { Alert } from "@material-ui/lab";
 
 const useStyles = makeStyles({
   backgroundImage: {
@@ -54,9 +56,14 @@ const useStyles = makeStyles({
     textAlign: "center",
     // fontFamily: "Roboto",
   },
+  alertBox: {
+    marginTop: 15,
+    alignItems: "center",
+    whiteSpace: "pre-line",
+  },
 });
 
-const WelcomePage = () => {
+const WelcomePage: NextPage = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const router = useRouter();
@@ -93,6 +100,21 @@ const WelcomePage = () => {
             <Typography variant="h4">{t("welcomeOnNBM")}</Typography>
           </Grid>
           <Grid item>
+            <Alert severity="info" className={classes.alertBox}>
+              {t("welcomeTextPart1")} <br />
+              {t("welcomeTextPart2")}{" "}
+              <a
+                rel="noreferrer"
+                target="_blank"
+                href="https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration"
+              >
+                https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration
+              </a>{" "}
+              <br />
+              {t("welcomeTextPart3")}
+            </Alert>
+          </Grid>
+          <Grid item>
             {globalCount ? (
               <Dashboard
                 mediae={globalCount.mediae}
@@ -100,6 +122,7 @@ const WelcomePage = () => {
                 species={globalCount.species}
                 sites={globalCount.sites}
                 users={globalCount.users}
+                annotatedSeconds={globalCount.annotated_seconds}
               />
             ) : (
               <div>Données globales irrécupérables</div>
@@ -125,10 +148,38 @@ const WelcomePage = () => {
               <Button
                 variant="contained"
                 className={classes.bottomButtons}
-                onClick={() => router.push("/newrecording")}
+                onClick={() => router.push("/new-recording")}
               >
                 {t("addNewRecordings")}
               </Button>
+            </Grid>
+          </Grid>
+          <Grid
+            item
+            container
+            direction="column"
+            justify="space-around"
+            alignItems="center"
+          >
+            <Grid item>
+              <Typography align="center">
+                Contactez-nous:{" "}
+                <a href="mailto:pajot.adrien@wanadoo.fr">
+                  pajot.adrien@wanadoo.fr
+                </a>
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography align="center">
+                Rejoindre le groupe de discussion sur le projet:{" "}
+                <a
+                  rel="noreferrer"
+                  target="_blank"
+                  href="https://discord.gg/95SNguK3tP"
+                >
+                  https://discord.gg/95SNguK3tP
+                </a>
+              </Typography>
             </Grid>
           </Grid>
         </Grid>

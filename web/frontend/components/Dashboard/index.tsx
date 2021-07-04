@@ -2,6 +2,7 @@ import React from "react";
 import { Grid, makeStyles, Box } from "@material-ui/core";
 import { theme } from "@/theme";
 import Bird from "../Icon/Bird";
+import Clock from "../Icon/Clock";
 import Annotation from "../Icon/Annotation";
 import Site from "../Icon/Site";
 import User from "../Icon/User";
@@ -30,15 +31,33 @@ const useStyles = makeStyles({
   },
 });
 
-const Dashboard = ({
-  mediae = "N/A",
-  medialabels = "N/A",
-  species = "N/A",
-  sites = "N/A",
-  users,
-}) => {
+type Props = {
+  mediae: number;
+  medialabels: number;
+  species: number;
+  sites: number;
+  users?: number | null;
+  annotatedSeconds?: number | null;
+};
+
+const Dashboard: React.FC<Props> = ({
+  mediae = 0,
+  medialabels = 0,
+  species = 0,
+  sites = 0,
+  users = null,
+  annotatedSeconds = null,
+}: Props) => {
   const classes = useStyles();
   const { t } = useTranslation();
+
+  let annotatedHours = null;
+  if (annotatedSeconds) {
+    const hours = Math.floor(annotatedSeconds / 3600);
+    const minutes = Math.floor((annotatedSeconds % 3600) / 60);
+    const seconds = Math.floor((annotatedSeconds % 3600) % 60);
+    annotatedHours = hours + ":" + minutes + ":" + seconds;
+  }
 
   const items = [
     {
@@ -50,6 +69,11 @@ const Dashboard = ({
       icon: <Annotation />,
       total: medialabels,
       label: t("labels"),
+    },
+    {
+      icon: <Clock />,
+      total: annotatedHours,
+      label: t("annotatedHours"),
     },
     {
       icon: <Bird />,
@@ -78,7 +102,7 @@ const Dashboard = ({
         spacing={5}
       >
         {items
-          .filter((item) => typeof item.total !== "undefined")
+          .filter((item) => item.total !== null)
           .map((item) => (
             <Grid className={classes.item} item key={`${item.label}`}>
               <Grid
@@ -88,7 +112,7 @@ const Dashboard = ({
                 alignItems="center"
               >
                 <Grid item>{item.icon}</Grid>
-                <Grid item> {item.total} </Grid>
+                <Grid item> {item.total || "N/A"} </Grid>
                 <Grid item>{item.label} </Grid>
               </Grid>
             </Grid>

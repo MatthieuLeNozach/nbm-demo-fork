@@ -1,0 +1,20 @@
+[
+  {"name": "Background"},
+  {"name": "Bruit de fond"},
+  {"name": "Unknown"},
+  {"name": "Inconnu"},
+  {"name": "Other biophonia"},
+  {"name": "Autre biophonie"},
+  {"name": "Other geophonia"},
+  {"name": "Autre geophonie"},
+  {"name": "Bird sp"},
+  {"name": "Oiseau sp"},
+  {"name": "Other antropophonia"},
+  {"name": "Autre antropophonie"},
+  {"name": "Bruit parasite"},
+  {"name": "Parasite noise"},
+  {"name": "Wind"},
+  {"name": "Vent"},
+  {"name": "Unidentified sound"},
+  {"name": "Bruit indéterminé"}
+]

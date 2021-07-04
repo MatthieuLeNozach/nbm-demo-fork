@@ -1,6 +1,9 @@
 # Base on offical Node.js Alpine image
 FROM node:alpine
 
+ARG api_url=http://localhost:8999
+ENV API_URL ${api_url}
+
 # Set working directory
 WORKDIR /usr/app
 
@@ -15,7 +18,7 @@ COPY ./package*.json ./
 RUN apk add --update --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community \
         --repository http://dl-3.alpinelinux.org/alpine/edge/main vips-dev &&\
     apk add --no-cache --virtual .gyp \
-        python make g++
+        python3 make g++
 
 # Install dependencies
 RUN npm install 

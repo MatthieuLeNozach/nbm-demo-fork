@@ -1,6 +1,6 @@
-import { SvgIcon } from "@material-ui/core";
+import React from "react";
 
-const Record = () => {
+const Record: React.FC = () => {
   return (
     <svg
       width="40"

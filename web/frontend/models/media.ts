@@ -16,18 +16,19 @@ interface Media {
   site_id: number;
   begin_date: Date;
   duration: string;
+  medialabels_count?: number;
 }
 
 interface InvalidLine {
   line: number;
   content: string;
+  detail?: string;
 }
 
 interface MediaUploadResponse {
-  invalid_labels: Array<InvalidLine>;
   invalid_lines: Array<InvalidLine>;
-  media: Media;
-  medialabels: Array<MediaLabel>;
+  mediae: Array<Media>;
+  mediaelabels: Array<MediaLabel>;
 }
 
 export type { Media, MediaUploadResponse };

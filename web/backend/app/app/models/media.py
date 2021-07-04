@@ -21,12 +21,12 @@ class Media(Base):
         nullable=False,
         default=MediaType.SOUND.value,
     ) #sound, image, video or other type of media
-    file_url = Column(String, unique=False, nullable=True) #url where the media is stored, url must allow download
-    file_source = Column(String, unique=False, nullable=True) #context of the file's recuperation (source (owner, website and all informations))
-    meta = Column(JSONB, nullable=True) #file metadata
+    file_url = Column(String, unique=False) #url where the media is stored, url must allow download
+    file_source = Column(String, unique=False) #context of the file's recuperation (source (owner, website and all informations))
+    meta = Column(JSONB) #file metadata
     derivates = relationship("Media", backref="origin", remote_side=[id]) #associated mediae to this media, reversed by origin_id
-    created_at = Column(DateTime) #creation date
-    created_by = Column(Integer, ForeignKey("user.id")) #user of the platform that owns the file (created_by)
+    created_at = Column(DateTime, nullable=False) #creation date
+    created_by = Column(Integer, ForeignKey("user.id"), nullable=False) #user of the platform that owns the file (created_by)
     creator = relationship("User", foreign_keys=[created_by]) #allow to get creator from media without run query manually with id
     updated_at = Column(DateTime) #update date
     updated_by = Column(Integer, ForeignKey("user.id")) #update user

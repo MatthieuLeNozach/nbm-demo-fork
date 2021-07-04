@@ -1,0 +1,83 @@
+stages:
+  - build-base-images
+  - test
+  - build
+  - deploy
+
+build_base_image_frontend:
+  stage: build-base-images
+  script:
+    - docker login ${CI_REGISTRY} -u gitlab-ci-token -p ${CI_BUILD_TOKEN}
+    - docker build -t ${CI_REGISTRY_IMAGE}:frontend-dev-base -f ./web/frontend/.docker/base.dockerfile ./web/frontend
+    - docker push ${CI_REGISTRY_IMAGE}:frontend-dev-base
+  tags:
+    - nbm
+  only:
+    refs:
+      - branches
+    changes:
+      - web/frontend/**/*
+
+build_base_image_backend_celery:
+  stage: build-base-images
+  script:
+    - docker login ${CI_REGISTRY} -u gitlab-ci-token -p ${CI_BUILD_TOKEN}
+    - docker build -t ${CI_REGISTRY_IMAGE}:backend-base -f ./web/backend/.docker/backend-base.dockerfile ./web/backend
+    - docker build -t ${CI_REGISTRY_IMAGE}:celeryworker-base -f ./web/backend/.docker/celeryworker-base.dockerfile ./web/backend
+    - docker push ${CI_REGISTRY_IMAGE}:backend-base
+    - docker push ${CI_REGISTRY_IMAGE}:celeryworker-base
+  tags:
+    - nbm
+  only:
+    refs:
+      - branches
+    changes:
+      - web/backend/**/*
+
+test_backend:
+  stage: test
+  script:
+    - cp web/.env.example web/.env
+    - cp web/frontend/.env.example web/frontend/.env
+    - cd web && ./scripts/test.sh
+  tags:
+    - nbm
+
+build_backend:
+  stage: build
+  script:
+    - docker login ${CI_REGISTRY} -u gitlab-ci-token -p ${CI_BUILD_TOKEN}
+    - docker build -t ${CI_REGISTRY_IMAGE}:backend-${TAG} -f ./web/backend/backend.dockerfile ./web/backend
+    - docker build -t ${CI_REGISTRY_IMAGE}:celeryworker-${TAG} -f ./web/backend/celeryworker.dockerfile ./web/backend
+    - docker push ${CI_REGISTRY_IMAGE}:backend-${TAG}
+    - docker push ${CI_REGISTRY_IMAGE}:celeryworker-${TAG}
+  tags:
+    - nbm
+  only:
+    - master
+
+build_frontend:
+  stage: build
+  script:
+    - docker login ${CI_REGISTRY} -u gitlab-ci-token -p ${CI_BUILD_TOKEN}
+    - docker build --build-arg api_url=${API_URL} -t ${CI_REGISTRY_IMAGE}:frontend-${TAG} -f ./web/frontend/Dockerfile ./web/frontend
+    - docker push ${CI_REGISTRY_IMAGE}:frontend-${TAG}
+  tags:
+    - nbm
+  only:
+    - master
+
+deploy:
+  stage: deploy
+  variables:
+    DOCKER_IMAGE_BACKEND: ${CI_REGISTRY_IMAGE}
+    DOCKER_IMAGE_CELERYWORKER: ${CI_REGISTRY_IMAGE}
+    DOCKER_IMAGE_FRONTEND: ${CI_REGISTRY_IMAGE}
+  script:
+    - docker login ${CI_REGISTRY} -u gitlab-ci-token -p ${CI_BUILD_TOKEN}
+    - echo "$ENV_FILE" > ./web/.env
+    - cd web && ./scripts/deploy.sh
+  tags:
+    - nbm
+  only:
+    - master

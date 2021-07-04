@@ -44,7 +44,7 @@ def test_get_standardlabels_by_creator(db: Session) -> None:
     creator = create_random_user(db)
     owned_standardlabel = create_random_standardlabel(db, created_by=creator.id)
 
-    standardlabels = crud.standardlabel.get_multi(db=db, created_by=creator.id)
+    standardlabels = crud.standardlabel.get_multi(db=db, filters={"created_by": creator.id})
 
     assert type(standardlabels) is list
     assert len(standardlabels) == 1 #allow us to test if one AND ONLY one standardlabel has been created with creator.id

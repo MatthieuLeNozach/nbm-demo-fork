@@ -1,6 +1,6 @@
-import { SvgIcon } from "@material-ui/core";
+import React from "react";
 
-const Bird = () => {
+const Bird: React.FC = () => {
   return (
     <svg
       width="40"

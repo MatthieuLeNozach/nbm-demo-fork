@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -13,6 +13,8 @@ import SwallowSvg from "@/assets/svgs/SwallowSvg";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/components/Providers/AuthProvider";
 import { useRouter } from "next/router";
+import { NextPage } from "next";
+import { RegistrationPayload } from "@/models/auth";
 
 const useStyles = makeStyles({
   root: {
@@ -65,7 +67,7 @@ const useStyles = makeStyles({
   },
 });
 
-const RegisterPage = () => {
+const RegisterPage: NextPage = () => {
   const { t } = useTranslation();
   const classes = useStyles();
   const { register, user } = useAuth();
@@ -82,14 +84,14 @@ const RegisterPage = () => {
   }, [user]);
 
   const handleCreateUser = (event) => {
-    register({
+    const payload = {
       email: email,
-      is_active: true,
-      is_superuser: false,
       full_name: fullName,
       password: password,
       password_confirmation: passwordConfirmation,
-    }).then((registrationResponse) => {
+    } as RegistrationPayload;
+
+    register(payload).then((registrationResponse) => {
       alert(registrationResponse.message);
     });
 
@@ -185,7 +187,7 @@ const RegisterPage = () => {
             </Button>
             <Grid container direction="column" alignItems="center">
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="/reset-password" variant="body2">
                   {t("forgotPassword")}
                 </Link>
               </Grid>

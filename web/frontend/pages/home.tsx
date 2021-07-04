@@ -7,6 +7,8 @@ import Dashboard from "../components/Dashboard/index";
 import Typography from "@material-ui/core/Typography";
 import { useAuth } from "@/components/Providers/AuthProvider";
 import useSWR from "swr";
+import { NextPage } from "next";
+import { Alert } from "@material-ui/lab";
 
 const useStyles = makeStyles({
   bottomButton: {
@@ -31,9 +33,14 @@ const useStyles = makeStyles({
     borderBottom: "1px solid white",
     textAlign: "center",
   },
+  alertBox: {
+    marginTop: 15,
+    alignItems: "center",
+    whiteSpace: "pre-line",
+  },
 });
 
-const HomePage = () => {
+const HomePage: NextPage = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const router = useRouter();
@@ -61,10 +68,25 @@ const HomePage = () => {
             justify="flex-start"
             alignItems="flex-start"
           >
-            <Grid item>
-              <Typography variant="h4">
-                {t("welcome") + " " + ((user && user.full_name) ?? "")}
-              </Typography>
+            <Grid
+              className={classes.titleGrid}
+              container
+              direction="column"
+              justify="flex-start"
+              alignItems="flex-start"
+            >
+              <Grid item>
+                <Typography variant="h4">
+                  {t("welcome") + " " + ((user && user.full_name) ?? "")}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Alert severity="info" className={classes.alertBox}>
+                  {t("homeTextPart1")}
+                  <br />
+                  {t("homeTextPart2")}
+                </Alert>
+              </Grid>
             </Grid>
           </Grid>
           <Grid item className={classes.dashboardTitle}>
@@ -78,9 +100,10 @@ const HomePage = () => {
                 species={globalCount.species}
                 sites={globalCount.sites}
                 users={globalCount.users}
+                annotatedSeconds={globalCount.annotated_seconds}
               />
             ) : (
-              <div>Données globales irrécupérables</div>
+              <div>{t("unreachableData")}</div>
             )}
           </Grid>
           <Grid item className={classes.dashboardTitle}>
@@ -93,10 +116,10 @@ const HomePage = () => {
                 medialabels={personalCount.medialabels}
                 species={personalCount.species}
                 sites={personalCount.sites}
-                users={personalCount.users}
+                annotatedSeconds={personalCount.annotated_seconds}
               />
             ) : (
-              <div>Données globales irrécupérables</div>
+              <div>{t("unreachableData")}</div>
             )}
           </Grid>
           <Grid
@@ -109,21 +132,21 @@ const HomePage = () => {
             <Button
               variant="contained"
               className={classes.bottomButton}
-              onClick={() => router.push("/signin")}
+              onClick={() => router.push("/recordings")}
             >
               {t("exploreRecordings")}
             </Button>
             <Button
               variant="contained"
               className={classes.bottomButton}
-              onClick={() => router.push("/signin")}
+              onClick={() => router.push("/recordings?mine=true")}
             >
               {t("myRecordings")}
             </Button>
             <Button
               variant="contained"
               className={classes.bottomButton}
-              onClick={() => router.push("/newrecording")}
+              onClick={() => router.push("/new-recording")}
             >
               {t("addNewRecordings")}
             </Button>

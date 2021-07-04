@@ -4,8 +4,7 @@ import faker from "faker";
 import { render, cleanup } from "@testing-library/react";
 import { Button } from "../index";
 import { ThemeProvider } from "@material-ui/core/styles";
-import { theme } from "../../../theme";
-import MuiButton from "@material-ui/core/Button";
+import { theme } from "@/theme";
 
 const sandbox = sinon.createSandbox();
 const {
@@ -31,6 +30,5 @@ describe("Button Unit Tests", () => {
 
     // Assert
     expect(container.querySelector("button")).toBeInTheDocument();
-    expect((React.createElement as any).calledWith(MuiButton)).toBe(true);
   });
 });

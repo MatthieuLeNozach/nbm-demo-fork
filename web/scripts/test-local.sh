@@ -4,12 +4,6 @@
 set -e
 
 docker-compose down --remove-orphans # Remove possibly previous broken stacks left hanging after an error
-
-if [ $(uname -s) = "Linux" ]; then
-    echo "Remove __pycache__ files"
-    sudo find . -type d -name __pycache__ -exec rm -r {} \+
-fi
-
-docker-compose build
+docker-compose build --build-arg app_user=${USER}
 docker-compose up -d
-docker-compose exec -T backend bash /app/tests-start.sh --cov-config=.coveragerc --cov=app --cov-report=term-missing "$@"
+docker-compose exec -T backend bash /app/tests-start.sh --cov-config=.coveragerc --cov=app --cov-report=term-missing --nextcloud_active=true "$@"

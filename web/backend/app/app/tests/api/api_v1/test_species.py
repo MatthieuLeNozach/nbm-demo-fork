@@ -16,8 +16,7 @@ def test_create_species_by_superuser(
     client: TestClient, superuser_token_headers: dict, db: Session
 ) -> None:
 
-    name = fake.sentence()
-    data = {"name": name}
+    data = {"name": fake.sentence(), "code": fake.pyint()}
 
     response = client.post(
         f"{settings.API_V1_STR}/species/", headers=superuser_token_headers, json=data,
@@ -28,14 +27,14 @@ def test_create_species_by_superuser(
     content = response.json()
 
     assert content["name"] == data["name"]
+    assert content["code"] == data["code"]
     assert type(content["id"]) is int
 
 def test_create_species_by_normal_user(
     client: TestClient, normal_user_token_headers: dict, db: Session
 ) -> None:
 
-    name = fake.sentence()
-    data = {"name": name}
+    data = {"name": fake.sentence(), "code": fake.pyint()}
 
     response = client.post(
         f"{settings.API_V1_STR}/species/", headers=normal_user_token_headers, json=data,
@@ -55,6 +54,7 @@ def test_read_species(
 
     content = response.json()
 
+    assert content["code"] == species.code
     assert content["name"] == species.name
     assert content["id"] == species.id
 
@@ -84,6 +84,7 @@ def test_read_multiple_species(
     content = species[0]
 
     assert type(content["name"]) is str
+    assert type(content["code"]) is int
     assert type(content["id"]) is int
 
 
@@ -93,7 +94,7 @@ def test_update_species_by_superuser(
     species = create_random_species(db)
 
     new_name = fake.sentence()
-    data = { "name": new_name }
+    data = { "name": new_name, "code": fake.pyint() }
     response = client.put(
         f"{settings.API_V1_STR}/species/{species.id}", headers=superuser_token_headers, json=data
     )
@@ -109,6 +110,7 @@ def test_update_species_by_superuser(
     content = response.json()
 
     assert content["name"] == data["name"]
+    assert content["code"] == data["code"]
     assert content["id"] == species.id
 
 
@@ -119,8 +121,7 @@ def test_update_species_by_creator(
     creator_access_token = create_access_token(creator.id)
     species = create_random_species(db)
 
-    new_name = fake.sentence()
-    data = { "name": new_name }
+    data = { "name": fake.sentence(), "code": fake.pyint() }
     response = client.put(
         f"{settings.API_V1_STR}/species/{species.id}", headers={ "Authorization":  "Bearer " + creator_access_token}, json=data
     )
@@ -133,7 +134,7 @@ def test_update_species_without_permission(
 ) -> None:
     species = create_random_species(db)
 
-    data = { "name": "" }
+    data = { "name": "", "code": 0 }
     response = client.put(
         f"{settings.API_V1_STR}/species/{species.id}", headers=normal_user_token_headers, json=data
     )
@@ -144,7 +145,7 @@ def test_update_species_without_permission(
 def test_update_unexisting_species(
     client: TestClient, normal_user_token_headers: dict, db: Session
 ) -> None:
-    data = { "name": "" }
+    data = { "name": "", "code": 0 }
     response = client.put(
         f"{settings.API_V1_STR}/species/99999999", headers=normal_user_token_headers, json=data
     )

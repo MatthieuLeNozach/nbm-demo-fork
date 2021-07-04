@@ -3,6 +3,7 @@ import { theme } from "@/theme";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/components/Providers/AuthProvider";
+import React from "react";
 
 const useStyles = makeStyles({
   header: {
@@ -10,7 +11,7 @@ const useStyles = makeStyles({
   },
 });
 
-const LayoutHeader = () => {
+const LayoutHeader: React.FC = () => {
   const classes = useStyles();
   const router = useRouter();
   const { t } = useTranslation();

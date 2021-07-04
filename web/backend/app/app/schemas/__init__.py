@@ -1,5 +1,6 @@
 from .device import Device, DeviceCreate, DeviceInDB, DeviceUpdate
-from .media import MediaType, Media, MediaCreate, MediaInDB, MediaUpdate, InvalidAnnotation, MediaUploadResponse
+from .historytable import HistoryTable, HistoryTableBase, HistoryTableCreate, HistoryTableInDB, HistoryTableInDBBase, HistoryTableUpdate
+from .media import MediaType, Media, MediaWithMedialabelsCount, MediaWithMedialabels, MediaCreate, MediaInDB, MediaUpdate, InvalidAnnotation, MediaUploadResponse
 from .medialabel import MediaLabel, MediaLabelCreate, MediaLabelInDB, MediaLabelUpdate
 from .msg import Msg
 from .site import Site, SiteCreate, SiteInDB, SiteUpdate

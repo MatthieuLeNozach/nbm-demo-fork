@@ -7,6 +7,7 @@ interface MediaLabel {
   high_freq?: number;
   label_id: number;
   label_confidence: number;
+  invalid_label_text: string;
   created_at: Date;
   created_by: number;
   updated_at?: Date;

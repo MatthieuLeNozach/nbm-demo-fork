@@ -1,11 +1,9 @@
-import React from "react";
-import { ThemeProvider, useTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/core/styles";
 import WelcomePage from "./welcome";
-import { theme } from "../theme/index";
-import { useTranslation } from "react-i18next";
+import { theme } from "@/theme";
+import { NextPage } from "next";
 
-const Home = () => {
-  const { t } = useTranslation();
+const Home: NextPage = () => {
   return (
     <ThemeProvider theme={theme}>
       <WelcomePage />

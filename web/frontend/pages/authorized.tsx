@@ -1,8 +1,8 @@
 import { Button, Typography } from "@material-ui/core";
 import { useAuth } from "@/components/Providers/AuthProvider";
-import { useEffect } from "react";
+import { NextPage } from "next";
 
-const Authorized = () => {
+const Authorized: NextPage = () => {
   const { logout } = useAuth();
 
   return (

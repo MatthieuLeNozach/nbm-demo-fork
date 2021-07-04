@@ -27,12 +27,13 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return db.query(self.model).filter(self.model.id == id).first()
 
     def get_multi(
-        self, db: Session, *, skip: int = 0, limit: int = 100, created_by: Optional[int] = None
+        self, db: Session, *, skip: int = 0, limit: int = 100, filters: dict = {}
     ) -> List[ModelType]:
         query = db.query(self.model)
-        if type(created_by) is int and hasattr(self.model, "created_by"):
-            query = query.filter(self.model.created_by == created_by)
-        return query.offset(skip).limit(limit).all()
+        for key, value in filters.items():
+            if hasattr(self.model, key):
+                query = query.filter(getattr(self.model, key) == value)
+        return query.order_by(self.model.id).offset(skip).limit(limit).all()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType, created_by: Optional[int] = None) -> ModelType:
         obj_in_data = jsonable_encoder(obj_in)
