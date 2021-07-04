@@ -13,3 +13,21 @@ To configure it in your stack, follow the section **Change the development "doma
 After performing those steps you should be able to open: http://local.dockertoolbox.tiangolo.com and it will be server by your stack in your Docker Toolbox virtual machine.
 
 Check all the corresponding available URLs in the section at the end.
+
+### Development with Docker Toolbox URLs
+
+Development URLs, for local development.
+
+Frontend: http://local.dockertoolbox.tiangolo.com
+
+Backend: http://local.dockertoolbox.tiangolo.com/api/
+
+Automatic Interactive Docs (Swagger UI): https://local.dockertoolbox.tiangolo.com/docs
+
+Automatic Alternative Docs (ReDoc): https://local.dockertoolbox.tiangolo.com/redoc
+
+PGAdmin: http://local.dockertoolbox.tiangolo.com:5050
+
+Flower: http://local.dockertoolbox.tiangolo.com:5555
+
+Traefik UI: http://local.dockertoolbox.tiangolo.com:8090
