@@ -38,7 +38,7 @@ and follow the instructions !
 
 ## Parallel step : Help us to design, conceptualize, imagine the platform ## 
 
-Join the discord discussion group : 
+Join the discord discussion group : https://discord.gg/95SNguK3tP
 
 Or contact us at : pajot.adrien@wanadoo.fr
 
