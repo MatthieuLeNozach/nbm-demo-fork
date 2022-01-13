@@ -6,7 +6,7 @@ Aller sur https://kaggle.com/ et se créer un compte.
 
 Bien noter vos identifiants et mot de passe.
 
-<img title="" src="file://./000_kaggle_login.png" alt="./000_kaggle_login.png" width="405">
+![](./000_kaggle_login.png)
 
 ## 2. Téléverser l’archive ia_data.zip sur Kaggle
 
@@ -17,7 +17,7 @@ Entrer le titre ‘nbm_project’, et uploader l’archive ia_data.zip.
 Patienter jusqu’à la fin du téléchargement de l’archive, puis clicker sur ‘create’.
 Enfin, clicker sur ‘Go to dataset’.
 
-<img title="" src="file://./002_create_new_dataset_button.png" alt="" data-align="inline">
+![](./002_create_new_dataset_button.png)
 
 ![](./003_upload_dataset.png)
 
