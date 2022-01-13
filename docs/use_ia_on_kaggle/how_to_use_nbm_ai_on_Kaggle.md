@@ -64,7 +64,7 @@ Enfin, dans une dernière cellule du notebook, ajouter ce code:
 # Sound file path
 directory = '/kaggle/input/nbm-project/'
 #######
-file = 'pluvier_dore_20201104_02h53.wav' ### insert file name here
+file = 'pluvier_dore.wav' ### insert file name here
 #######
 wav_path = os.path.join(directory, file)
 # Model execution
@@ -75,7 +75,7 @@ print(time.time() - t)
 # Import bird dictionary here
 dict_dir = '/kaggle/input/nbm-project/ia_data/ia_data'
 with open(os.path.join(dict_dir, 'bird_dict.json'), 'r') as f:
-birds_dict = json.load(f)
+    birds_dict = json.load(f)
 
 birds_dict.update({'Non bird sound': 0, 'Other': len(birds_dict) + 1})
 reverse_dict = {id: bird_name for bird_name, id in birds_dict.items()}
@@ -85,12 +85,40 @@ output = {reverse_dict[idx]: {key: value.cpu().numpy().tolist() for key, value i
 
 # Save class_bbox, output and spectrogram
 
-with open(os.path.join('/kaggle/working', 'class_bbox'), 'wb') as f:
-    pickle.dump(class_bbox, f)
-with open(os.path.join('/kaggle/working', 'spectrogram'), 'wb') as f:
-    pickle.dump(spectrogram, f)
-with open(os.path.join('/kaggle/working', 'output.json'), 'w') as f:
-    json.dump(output, f, indent=4)
+# Convert to table
+table = []
+table.append(["label", "score", "x1", "y1", "x2", "y2"])
+
+for species_entry in output.items():
+    for i in range(len(species_entry[1]["bbox_coord"])):
+        label = species_entry[0]
+        bbox = species_entry[1]["bbox_coord"][i]
+        score = species_entry[1]["scores"][i]
+        row = [label, score] + bbox
+        table.append(row)
+
+# Sort table by bbox position
+table[1:].sort(key=lambda entry: float(entry[2]))
+
+# Convert to audacity txt format
+data = ""
+for row in table[1:]:
+    label = row[0]
+    score = row[1]
+    if label == "Non bird sound":
+        continue
+    x1, y1, x2, y2 = row[2:]
+    # Convert coordinates
+    y1 = y1 * 33.3 + 500
+    y2 = y2 * 33.3 + 500
+    x1 *= 0.00299319728
+    x2 *= 0.00299319728
+    # Format data
+    entry = f"{x1}\t{x2}\t{label}\n\\\t{y1}\t{y2}\n"
+    data += entry
+
+with open("audacity_labels.txt", "w") as f:
+    f.write(data)
 ```
 
 ## 4. Executer le modèle; analyser un fichier son
@@ -114,5 +142,7 @@ Modifier le nom du fichier à traiter dans la dernière cellule du NoteBook et c
 ## 5. Analyser les résultats
 
 Télécharger les sorties du modèle dans l'arborescence, sur la droite.
+
+Le fichier 'audacity_labels.txt', peut être ouvert avec audacity.
 
 ![](/home/ortion/Documents/Projects/NBM/doc/007_get_output_results.png)
