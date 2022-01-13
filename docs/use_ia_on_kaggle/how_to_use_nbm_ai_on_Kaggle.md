@@ -12,9 +12,9 @@ Bien noter vos identifiants et mot de passe.
 
 Télécharger l'archive ia\_data.zip disponible à l'adressse []().
 
-Dans le menu à gauche, clicker sur dataset, puis sur le bouton ‘New dataset’.
+Dans le menu à gauche, clicker sur dataset (2.1), puis sur le bouton ‘New dataset’ (2.2).
 Entrer le titre ‘nbm_project’, et uploader l’archive ia_data.zip.
-Patienter jusqu’à la fin du téléchargement de l’archive, puis clicker sur ‘create’.
+Patienter jusqu’à la fin du téléchargement de l’archive, puis clicker sur ‘create’ (2.3).
 Enfin, clicker sur ‘Go to dataset’.
 
 ![](./002_create_new_dataset_button.png)
@@ -23,7 +23,7 @@ Enfin, clicker sur ‘Go to dataset’.
 
 ## 3. Créer un notebook et charger le modèle
 
-Dans l'onglet nbm_project nouvellement créé, clicker sur 'New Notebook'.
+Dans l'onglet nbm_project nouvellement créé, clicker sur 'New Notebook' (3.1).
 
 ![](./004_create_new_notebook.png)
 
@@ -50,9 +50,9 @@ model_path = '/kaggle/input/nbm-project/ia_data/ia_data'
 bird_call_detection = load_model(model_path, post_nms_topN_eval=50, device='cuda')
 ```
 
-Dans le menu à droite, clicker sur le menu déroulant 'Accelerator' et activer le GPU.
+Dans le menu à droite, clicker sur le menu déroulant 'Accelerator' et activer le GPU (3.2).
 
-Executer les deux premières cellules de code afin de charger le modèle.
+Executer les deux premières cellules de code afin de charger le modèle (3.3).
 
 ![](./005_run_first_part_code_and_activate_gpu.png)
 
@@ -143,6 +143,6 @@ Modifier le nom du fichier à traiter dans la dernière cellule du NoteBook et c
 
 Télécharger les sorties du modèle dans l'arborescence, sur la droite.
 
-Le fichier 'audacity_labels.txt', peut être ouvert avec audacity.
+![](./007_get_output_labels_audacity.png)
 
-![](./007_get_output_results.png)
+Le fichier 'audacity_labels.txt', peut être ouvert avec audacity.
