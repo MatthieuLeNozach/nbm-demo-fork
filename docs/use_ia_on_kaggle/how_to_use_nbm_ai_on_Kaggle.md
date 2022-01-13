@@ -6,7 +6,7 @@ Aller sur https://kaggle.com/ et se créer un compte.
 
 Bien noter vos identifiants et mot de passe.
 
-<img title="" src="file:///home/ortion/Documents/Projects/NBM/doc/000_kaggle_login.png" alt="./000_kaggle_login.png" width="405">
+<img title="" src="file://./000_kaggle_login.png" alt="./000_kaggle_login.png" width="405">
 
 ## 2. Téléverser l’archive ia_data.zip sur Kaggle
 
@@ -17,15 +17,15 @@ Entrer le titre ‘nbm_project’, et uploader l’archive ia_data.zip.
 Patienter jusqu’à la fin du téléchargement de l’archive, puis clicker sur ‘create’.
 Enfin, clicker sur ‘Go to dataset’.
 
-<img title="" src="file:///home/ortion/Documents/Projects/NBM/doc/002_create_new_dataset_button.png" alt="" data-align="inline">
+<img title="" src="file://./002_create_new_dataset_button.png" alt="" data-align="inline">
 
-![](/home/ortion/Documents/Projects/NBM/doc/003_upload_dataset.png)
+![](./003_upload_dataset.png)
 
 ## 3. Créer un notebook et charger le modèle
 
 Dans l'onglet nbm_project nouvellement créé, clicker sur 'New Notebook'.
 
-![](/home/ortion/Documents/Projects/NBM/doc/004_create_new_notebook.png)
+![](./004_create_new_notebook.png)
 
 Dans les cellules du NoteBook, ajouter le code suivant pour télécharger le package python nécessaire pour le traitement des fichiers audios.
 
@@ -54,7 +54,7 @@ Dans le menu à droite, clicker sur le menu déroulant 'Accelerator' et activer 
 
 Executer les deux premières cellules de code afin de charger le modèle.
 
-![](/home/ortion/Documents/Projects/NBM/doc/005_run_first_part_code_and_activate_gpu.png)
+![](./005_run_first_part_code_and_activate_gpu.png)
 
 Votre environnement de travail est prêt.
 
@@ -137,7 +137,7 @@ Retourner sur le notebook, clicker sur le point noir, et sur update pour que le 
 
 Modifier le nom du fichier à traiter dans la dernière cellule du NoteBook et clicker sur 'Run'.
 
-![](/home/ortion/Documents/Projects/NBM/doc/006_run_modele.png)
+![](./006_run_modele.png)
 
 ## 5. Analyser les résultats
 
@@ -145,4 +145,4 @@ Télécharger les sorties du modèle dans l'arborescence, sur la droite.
 
 Le fichier 'audacity_labels.txt', peut être ouvert avec audacity.
 
-![](/home/ortion/Documents/Projects/NBM/doc/007_get_output_results.png)
+![](./007_get_output_results.png)
