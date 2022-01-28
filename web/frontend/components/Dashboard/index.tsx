@@ -8,6 +8,7 @@ import Site from "../Icon/Site";
 import User from "../Icon/User";
 import Record from "../Icon/Record";
 import { useTranslation } from "react-i18next";
+import Item from "./Item";
 
 const useStyles = makeStyles({
   dashboard: {
@@ -20,14 +21,6 @@ const useStyles = makeStyles({
     "& > div:last-child": {
       borderRight: 0,
     },
-  },
-  item: {
-    [theme.breakpoints.up("md")]: {
-      borderRight: "1px solid #ddd",
-    },
-  },
-  box: {
-    minWidth: "6.5rem",
   },
 });
 
@@ -79,6 +72,7 @@ const Dashboard: React.FC<Props> = ({
       icon: <Bird />,
       total: species,
       label: t("species"),
+      href: "/statistics/species",
     },
     {
       icon: <Site />,
@@ -104,18 +98,13 @@ const Dashboard: React.FC<Props> = ({
         {items
           .filter((item) => item.total !== null)
           .map((item) => (
-            <Grid className={classes.item} item key={`${item.label}`}>
-              <Grid
-                className={classes.box}
-                container
-                direction="column"
-                alignItems="center"
-              >
-                <Grid item>{item.icon}</Grid>
-                <Grid item> {item.total || "N/A"} </Grid>
-                <Grid item>{item.label} </Grid>
-              </Grid>
-            </Grid>
+            <Item
+              key={item.label}
+              label={item.label}
+              total={item.total}
+              icon={item.icon}
+              href={item.href}
+            />
           ))}
       </Grid>
     </Box>

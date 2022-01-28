@@ -38,6 +38,7 @@ function AuthProvider({ children }: Props): ReactElement {
     "/contact",
     "/welcome",
     "/reset-password",
+    "/statistics/species"
   ];
 
   const callMe = async (token) => {

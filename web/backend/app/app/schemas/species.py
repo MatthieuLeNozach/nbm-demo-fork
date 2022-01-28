@@ -7,6 +7,10 @@ class SpeciesBase(BaseModel):
     code: int
     is_bird: Optional[bool]
 
+class SpeciesUser(SpeciesBase):
+    total: int
+    total_user: int
+
 # Properties to receive on StandardlLabel creation
 class SpeciesCreate(SpeciesBase):
     pass

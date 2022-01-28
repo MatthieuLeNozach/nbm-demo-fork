@@ -12,9 +12,9 @@
 
 ## Next cloud configuration
 
-### Beginning 
+### Beginning
 
-As long as MinIO is not installed in NBM we use NextCloud server and therefore need to configure it. To do so : 
+As long as MinIO is not installed in NBM we use NextCloud server and therefore need to configure it. To do so :
 
 Go to localhost:8080
 
@@ -24,27 +24,30 @@ Enter choosen USER and PASSWORD (default "test" for both) that you set also in .
 NEXTCLOUD_HOST="http://nextcloud"
 NEXTCLOUD_USER="USER"
 NEXTCLOUD_PASSWORD="PASSWORD"
-````
+```
 
-Create `/mediae/audio` folder in nextcloud interface 
+Create `/mediae/audio` folder in nextcloud interface
 
-### Run sh 
+### Run sh
 
 ```console
 docker-compose exec nextcloud sh
-````
+```
+
 ### Install VIM
 
 ```console
 apt-get update
 apt-get install vim
-````
+```
+
 ### Edit config/config.php file
 
 ```console
 vim config/config.php
-````
-### Set array of trusted domains 
+```
+
+### Set array of trusted domains
 
 Press `a` to insert <br>
 Change the array `'trusted_domains'` by adding `1 => 'nextcloud', ` <br>
@@ -53,13 +56,31 @@ Press `:` <br>
 Press `x` <br>
 Press `Enter` to validate <br>
 
-
 ## Backend local development
 
 - Start the stack with Docker Compose:
 
 ```bash
 docker-compose up -d
+```
+
+- How to build all docker images base
+
+```bash
+./scripts/build-dev.sh
+```
+
+- How to rebuild the development images
+
+```bash
+# for the backend
+docker-compose build --no-cache --pull backend
+
+# for the celery worker
+docker-compose build --no-cache --pull celeryworker
+
+# for the frontend
+docker-compose build --no-cache --pull frontend
 ```
 
 - Now you can open your browser and interact with these URLs:
@@ -175,6 +196,7 @@ Nevertheless, if it doesn't detect a change but a syntax error, it will just sto
 ...this previous detail is what makes it useful to have the container alive doing nothing and then, in a Bash session, make it run the live reload server.
 
 ### Backend tests
+
 The `./backend/app` directory is mounted as a "host volume" inside the docker container (set in the file `docker-compose.dev.volumes.yml`).
 To test the backend in docker environment run (when `docker-compose up` was launched):
 
