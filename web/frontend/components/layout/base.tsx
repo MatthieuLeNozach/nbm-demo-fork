@@ -1,39 +1,48 @@
-import { Container, Grid, makeStyles } from "@material-ui/core";
+import { Container, Grid, makeStyles, Theme } from "@material-ui/core";
 import LayoutHeader from "@/components/layout/header";
 import LayoutFooter from "@/components/layout/footer";
-import React from "react";
+import { FC } from "react";
 
-const useStyles = makeStyles({
+interface LayoutBaseProps {
+  centered?: boolean;
+}
+
+const useStyles = makeStyles<Theme, LayoutBaseProps>({
   root: {
     height: "100vh",
     flexWrap: "nowrap",
+    gap: "10px",
   },
+  main: ({ centered }) => ({
+    flex: centered ? 0 : 1,
+  }),
 });
 
-interface Props {
-  children: React.ReactElement;
-}
+const LayoutBase: FC<LayoutBaseProps> = ({ centered = true, children }) => {
+  const classes = useStyles({ centered });
 
-const LayoutBase: React.FC<Props> = ({ children }) => {
-  const classes = useStyles();
   return (
-    <>
-      <Grid
-        container
-        direction="column"
-        justify="space-between"
-        alignItems="stretch"
-        className={classes.root}
-      >
+    <Grid
+      container
+      className={classes.root}
+      direction="column"
+      justify="space-between"
+      alignItems="stretch"
+    >
+      <Grid item>
         <Grid container alignItems="flex-start">
           <LayoutHeader />
         </Grid>
+      </Grid>
+      <Grid item className={classes.main}>
         <Container fixed>{children}</Container>
+      </Grid>
+      <Grid item>
         <Grid container alignItems="flex-end">
           <LayoutFooter />
         </Grid>
       </Grid>
-    </>
+    </Grid>
   );
 };
 

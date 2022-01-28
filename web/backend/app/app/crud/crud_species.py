@@ -5,8 +5,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 
 from app.crud.base import CRUDBase
-from app.models import Species, MediaLabel, StandardLabel
-from app.schemas.species import SpeciesCreate, SpeciesUpdate
+from app.models import Species, MediaLabel, StandardLabel, User
+from app.schemas.species import SpeciesCreate, SpeciesUpdate, SpeciesUser
 
 
 class CRUDSpecies(CRUDBase[Species, SpeciesCreate, SpeciesUpdate]):
@@ -20,6 +20,9 @@ class CRUDSpecies(CRUDBase[Species, SpeciesCreate, SpeciesUpdate]):
             query = query.filter(MediaLabel.created_by == annotated_by)
 
         return query.count()
+
+    def read_all_species_with_user_information(self, db: Session, user: User, skip: int = 0, limit: int = 100) -> List[SpeciesUser]:
+        pass
 
     def get_multi_by_name(
         self, db: Session, *, name: str, skip: int = 0, limit: int = 100
