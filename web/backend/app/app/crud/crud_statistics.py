@@ -1,6 +1,6 @@
 from typing import List
 
-from sqlalchemy import select
+from sqlalchemy import select, text
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 
@@ -15,6 +15,7 @@ class CRUDStatistics:
             .join(StandardLabel, MediaLabel.label_id == StandardLabel.id)
             .join(Species, StandardLabel.species_id == Species.id)
             .group_by(Species.id)
+            .order_by(text('total DESC'))
         )
 
         return db.execute(query).all()
