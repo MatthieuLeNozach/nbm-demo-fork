@@ -10,7 +10,7 @@ Bien noter vos identifiants et mot de passe.
 
 ## 2. Téléverser l’archive ia_data.zip sur Kaggle
 
-Télécharger l'archive ia\_data.zip disponible à l'adressse []().
+Télécharger l'archive ia\_data.zip disponible à l'adresse [drive](https://drive.google.com/file/d/18-zrQV73ju6NkQkjBRWGIfICcHhai8H7/view?usp=sharing)
 
 Dans le menu à gauche, clicker sur dataset (2.1), puis sur le bouton ‘New dataset’ (2.2).
 Entrer le titre ‘nbm_project’, et uploader l’archive ia_data.zip.
@@ -69,7 +69,7 @@ file = 'pluvier_dore.wav' ### insert file name here
 wav_path = os.path.join(directory, file)
 # Model execution
 t = time.time()
-class_bbox, spectrogram = bird_call_detection.process_wav(wav_path)
+class_bbox, spectrogram, temp_res = bird_call_detection.process_wav(wav_path, min_score=0.5)
 print(time.time() - t)
 
 # Import bird dictionary here
@@ -111,10 +111,10 @@ for row in table[1:]:
     # Convert coordinates
     y1 = y1 * 33.3 + 500
     y2 = y2 * 33.3 + 500
-    x1 *= 0.00299319728
-    x2 *= 0.00299319728
+    x1 *= temp_res
+    x2 *= temp_res
     # Format data
-    entry = f"{x1}\t{x2}\t{label}\n\\\t{y1}\t{y2}\n"
+    entry = f"{x1}\t{x2}\t{label} {score:.2f}\n\\\t{y1}\t{y2}\n"
     data += entry
 
 with open("audacity_labels.txt", "w") as f:
