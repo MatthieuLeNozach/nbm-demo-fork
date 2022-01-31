@@ -14,18 +14,16 @@ After having recorded the night, you need will have a file to upload on your com
 This where magic starts ! 
 
 If you want details on how, what and why, you should find everything you need on the nocmig website : https://nocmig.com/
-For further questions, social network are full of group of people that would be happy to share their knowledge with you. 
+For further questions, social network are full of group of people that would be happy to share their knowledge with you.
+
 ## Second step : Annotate your sound file ! ## 
 
-Image à droite 
+*Confer* to the documentation [Audiofile_annotation_methods_NBM.pdf](https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/blob/dev/docs/Audiofile_annotation_methods_NBM.pdf)
+
+The list of labels in use is available in the folder [nocturnal-bird-migration/app/[..]/db](https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/tree/dev/web/backend/app/app/db/initial_data), in species.json and standardlabels.json.
 
 ## Third step : Upload your annoation and sound files ! ##
 
-Image à droite 
-
-For the moment it is : 
-
-Soon it will be : 
 
 ## Parallel step : Help us to design, conceptualize, imagine the platform ## 
 
