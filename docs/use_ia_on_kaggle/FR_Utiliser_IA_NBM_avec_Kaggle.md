@@ -10,7 +10,7 @@ Bien noter vos identifiants et mot de passe.
 
 ## 2. Téléverser l’archive ia_data.zip sur Kaggle
 
-Télécharger l'archive ia\_data.zip disponible à l'adresse [drive](https://drive.google.com/file/d/18-zrQV73ju6NkQkjBRWGIfICcHhai8H7/view?usp=sharing)
+Télécharger l'archive ia\_data.zip disponible à l'adresse [drive](https://drive.google.com/drive/folders/15k_wi3ci1QbVysdBDAmXE_ZGj4NnXmk1?usp=sharing)
 
 Dans le menu à gauche, clicker sur dataset (2.1), puis sur le bouton ‘New dataset’ (2.2).
 Entrer le titre ‘nbm_project’, et uploader l’archive ia_data.zip.
