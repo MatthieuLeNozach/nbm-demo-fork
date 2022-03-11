@@ -121,7 +121,7 @@ Votre environnement de travail est prêt.
 
 ### 4.1 Téléverser le fichier son
 
-Munissez vous d'un fichier son au format wav.
+Munissez vous d'un fichier son au format wav. Pour le moment seules les fréquences d'échantillonage à 44100 et 48000 Hz sont acceptées. 
 
 Passez votre souris sur nbm-project à droite de l'écran 4.1.1. 
 Cliquer ensuite sur les trois points verticaux (4.1.2) puis 'Open in a new tab'. 
