@@ -27,17 +27,11 @@ Dans l'onglet nbm_project nouvellement créé, clicker sur 'New Notebook' (3.1).
 
 ![](./004_create_new_notebook.png)
 
-Dans les cellules du NoteBook (supprimer le contenu par défaut si présent), ajouter le code suivant pour télécharger le package python nécessaire pour le traitement des fichiers audios.
+Dans les cellules du NoteBook (supprimer le contenu par défaut si présent), ajouter le code suivant.
 
 ```bash
 !pip install ffmpeg-python
-```
 
-Grâce au triangle à gauche de la cellule ou avec le raccourci MAJ+Entrée, éxecuter la cellule.
-
-Puis dans une nouvelle cellule, ce morceau de code permettant de charger le modèle de l'IA.
-
-```python
 import os
 
 # change directory to the dataset where our
