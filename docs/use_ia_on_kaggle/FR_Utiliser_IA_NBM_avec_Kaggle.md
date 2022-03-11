@@ -46,13 +46,11 @@ model_path = '/kaggle/input/nbm-project/ia_data'
 bird_call_detection = load_model(model_path, post_nms_topN_eval=50, device='cuda')
 ```
 
-Dans le menu à droite, clicker sur le menu déroulant 'Settings' pour le champ 'Accelerator' cliquer sur 'None' : un menu déroulant apparait --> sélectionner GPU. Une fenêtre s'affiche, valider en cliquant sur 'Turn on GPU'. 
+Dans le menu à droite, clicker sur le menu déroulant 'Settings' pour le champ 'Accelerator' cliquer sur 'None' : un menu déroulant apparait --> sélectionner GPU. Une fenêtre s'affiche, valider en cliquant sur 'Turn on GPU'. Les préférences sont alors comme sur 4.1. 
 
-![](./005_run_first_part_code_and_activate_gpu.png)
+Ensuite, executer la cellule de code afin de charger le modèle (4.2) : soit sur le triangle à gauche de la cellule soit avec le raccourci MAJ+Entrée. 
 
-Ensuite, executer la cellule de code afin de charger le modèle (3.3) : soit sur le triangle à gauche de la cellule soit avec le raccourci MAJ+Entrée. 
-
-
+![Capture_d_écran_2022-03-11_à_19.48.37](/uploads/42da2a4f8c3777b6f6335573e869829a/Capture_d_écran_2022-03-11_à_19.48.37.png)
 
 Votre environnement de travail est prêt.
 
