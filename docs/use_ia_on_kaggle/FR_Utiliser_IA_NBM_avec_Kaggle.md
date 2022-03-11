@@ -153,7 +153,7 @@ Cliquer dessus puis cliquer sur 'update'.
 
 ### 4.2 Executer le modèle
 
-Modifier le nom du fichier à traiter (rectangle rouge) dans la seconde cellule du NoteBook. 
+Remplacer le nom du fichier par défaut à traiter par le nom de votre fichier (rectangle rouge) dans la seconde cellule du NoteBook. 
 Le nom doit contenir l'extension .wav . 
 
 ![](./006_run_modele.png)
