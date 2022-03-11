@@ -146,6 +146,9 @@ Fermer la fenêtre dans laquelle vous êtes.
 Revenir ensuite sur celle contenant le code. 
 
 Attendre le temps nécessaire pour qu'un point noir, à côté de nbm-project apparaisse. 4.2.1.
+
+![Capture_d_écran_2022-03-11_à_20.23.09](/uploads/f957d53dd02984aea4230d2622e6ec2b/Capture_d_écran_2022-03-11_à_20.23.09.png)
+
 Cliquer dessus puis cliquer sur 'update'. 
 
 ### 4.2 Executer le modèle
