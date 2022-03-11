@@ -67,7 +67,7 @@ class_bbox, spectrogram, temp_res = bird_call_detection.process_wav(wav_path, mi
 print(time.time() - t)
 
 # Import bird dictionary here
-dict_dir = '/kaggle/input/nbm-project/ia_data/ia_data'
+dict_dir = '/kaggle/input/nbm-project/ia_data'
 with open(os.path.join(dict_dir, 'bird_dict.json'), 'r') as f:
     birds_dict = json.load(f)
 
