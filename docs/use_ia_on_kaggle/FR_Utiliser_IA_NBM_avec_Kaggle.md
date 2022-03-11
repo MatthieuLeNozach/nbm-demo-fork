@@ -54,7 +54,7 @@ Ensuite, executer la cellule de code afin de charger le modèle (4.1) : soit sur
 
 Votre environnement de travail est prêt.
 
-Enfin, dans une dernière cellule du notebook, ajouter ce code:
+Enfin, cliquer sur '+ Code' qui se situe en dessous de la première cellule pour en ajouter une nouvelle. Dans cette seconde cellule, copier-coller ce code : 
 
 ```python
 # Sound file path
