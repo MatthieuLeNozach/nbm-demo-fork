@@ -1,4 +1,4 @@
-# Comment utiliser l'IA NBM sur Kaggle
+# Comment installer l'IA NBM sur Kaggle
 
 ## 1. Se créer un compte et se connecter sur Kaggle
 
