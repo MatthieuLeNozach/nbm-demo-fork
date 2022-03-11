@@ -23,6 +23,18 @@ def read_multiple_species(
     """
     return crud.species.get_multi(db, skip=skip, limit=limit)
 
+@router.get("/me", response_model=List[schemas.SpeciesUser])
+def read_all_species_with_user_information(
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+    current_user: models.User = Depends(deps.get_current_active_user),
+) -> Any:
+    """
+    Retrieve all species with the user information 
+    """
+    return crud.species.get_all_species_with_the_user_information(db, user=current_user, skip=skip, limit=limit)
+
 @router.post("/", response_model=schemas.Species)
 def create_species(
     *,

@@ -11,7 +11,6 @@ i18n
   .init({
     lng: "en",
     fallbackLng: "en",
-    keySeparator: false,
     ns: ["common"],
     nsSeparator: ".",
     defaultNS: "common",

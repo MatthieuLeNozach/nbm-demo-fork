@@ -125,7 +125,7 @@ const WelcomePage: NextPage = () => {
                 annotatedSeconds={globalCount.annotated_seconds}
               />
             ) : (
-              <div>Données globales irrécupérables</div>
+              <div>{t("WelcomePage_Dashboard_notFound")}</div>
             )}
           </Grid>
           <Grid

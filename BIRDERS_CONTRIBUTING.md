@@ -25,7 +25,7 @@ You can find it there : https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migr
 
 By following these methods, you will have one .txt file for each sound file you worked on.
 
-## Third step : Upload your annoation and sound files ! ##
+*Confer* to the documentation [Audiofile_annotation_methods_NBM.pdf](https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/blob/dev/docs/Audiofile_annotation_methods_NBM.pdf)
 
 Once you have one or more files that can be uploaded, don't hesitate to do it ! 
 
