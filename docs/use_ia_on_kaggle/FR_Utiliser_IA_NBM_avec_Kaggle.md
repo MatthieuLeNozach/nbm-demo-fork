@@ -158,7 +158,7 @@ Le nom doit contenir l'extension .wav .
 
 ![](./006_run_modele.png)
 
-Cliquer sur run.
+Cliquer sur run (flèche rouge).
 
 ## 5. Analyser les résultats
 
