@@ -27,7 +27,7 @@ Dans l'onglet nbm_project nouvellement créé, clicker sur 'New Notebook' (3.1).
 
 ![](./004_create_new_notebook.png)
 
-Dans les cellules du NoteBook (supprimer le contenu par défaut si présent), ajouter le code suivant.
+Dans la cellule du NoteBook (supprimer le contenu par défaut si présent), ajouter le code suivant.
 
 ```bash
 !pip install ffmpeg-python
