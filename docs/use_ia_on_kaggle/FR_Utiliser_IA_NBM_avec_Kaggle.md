@@ -52,8 +52,6 @@ Ensuite, executer la cellule de code afin de charger le modèle (4.1) : soit sur
 
 ![Capture_d_écran_2022-03-11_à_19.52.48](/uploads/a4924d0e4b9974546a34960dce1e7307/Capture_d_écran_2022-03-11_à_19.52.48.png)
 
-Votre environnement de travail est prêt.
-
 Enfin, cliquer sur '+ Code' qui se situe en dessous de la première cellule pour en ajouter une nouvelle. Dans cette seconde cellule, copier-coller ce code : 
 
 ```python
@@ -117,17 +115,38 @@ with open("audacity_labels.txt", "w") as f:
     f.write(data)
 ```
 
+Votre environnement de travail est prêt.
+
 ## 4. Executer le modèle; analyser un fichier son
 
 ### 4.1 Téléverser le fichier son
 
 Munissez vous d'un fichier son au format wav.
 
-Sur l'onglet du dataset, clicker sur les trois petits points à droite du bouton 'New Notebook', puis sur 'New version...'.
+Passez votre souris sur nbm-project à droite de l'écran 4.1.1. 
+Cliquer ensuite sur les trois points verticaux (4.1.2) puis 'Open in a new tab'. 
+Une nouvelle fenêtre s'ouvre.
 
-Charger votre son dans le dataset.
+![Capture_d_écran_2022-03-11_à_20.06.58](/uploads/def74278895c333026927061a996190d/Capture_d_écran_2022-03-11_à_20.06.58.png)
 
-Retourner sur le notebook, clicker sur le point noir, et sur update pour que le dataset soit mis à jour dans votre espace de travail.
+Descendre en bas de la fenêtre (scroller). 
+Cliquer sur '+ New Version' (4.1.3).
+
+![Capture_d_écran_2022-03-11_à_20.10.00](/uploads/37de3f68b993ad31ac776098b7792044/Capture_d_écran_2022-03-11_à_20.10.00.png)
+
+Une pop-up s'affiche. Cliquer sur 'Upload File'. 
+
+Choisir le fichier son que vous souhaitez analyser.
+
+Cliquer sur 'Create'. 
+
+### 4.2 Retourner sur le Notebook
+
+Fermer la fenêtre dans laquelle vous êtes. 
+Revenir ensuite sur celle contenant le code. 
+
+Attendre le temps nécessaire pour qu'un point noir, à côté de nbm-project apparaisse. 4.2.1.
+Cliquer dessus puis cliquer sur 'update'. 
 
 ### 4.2 Executer le modèle
 
