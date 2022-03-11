@@ -43,7 +43,7 @@ Cliquer sur run (flèche rouge).
 
 ## 5. Analyser les résultats
 
-Télécharger les sorties du modèle dans l'arborescence, sur la droite.
+Télécharger les sorties du modèle dans l'arborescence, sur la droite (flèche rouge). Si la sortie ne s'est pas affichée alors cliquer sur refresh (icône double flèche en rond à droite de output)
 
 ![](./007_get_output_labels_audacity.png)
 
