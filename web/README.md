@@ -1,62 +1,43 @@
-# nbm-web
+# NBM web documentation
 
-## Backend Requirements
+## Install NBM 
 
+Clone the repository :
+
+```console
+git clone https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration.git
+```
+
+### Start with Docker 
+
+To install application and start developing you need : 
 - [Docker](https://www.docker.com/).
 - [Docker Compose](https://docs.docker.com/compose/install/).
+
+To start the process and build all containers :
+```console
+docker-compose up -d
+```
+
+### Start without Docker (not advised and not tested)
+
+#### Backend Requirements
+
 - [Poetry](https://python-poetry.org/) for Python package and environment management.
 
-## Frontend Requirements
+#### Frontend Requirements
 
 - Node.js (with `npm`).
 
-## Next cloud configuration
+### Configure NextCloud
 
-### Beginning
+As long as MinIO is not installed in NBM we use NextCloud server and therefore need to configure it. To do so : 
 
-As long as MinIO is not installed in NBM we use NextCloud server and therefore need to configure it. To do so :
+Go to : docs/nextcloud_configuration.md (put link after)
 
-Go to localhost:8080
+## Start developing 
 
-Enter choosen USER and PASSWORD (default "test" for both) that you set also in .env file with :
-
-```console
-NEXTCLOUD_HOST="http://nextcloud"
-NEXTCLOUD_USER="USER"
-NEXTCLOUD_PASSWORD="PASSWORD"
-```
-
-Create `/mediae/audio` folder in nextcloud interface
-
-### Run sh
-
-```console
-docker-compose exec nextcloud sh
-```
-
-### Install VIM
-
-```console
-apt-get update
-apt-get install vim
-```
-
-### Edit config/config.php file
-
-```console
-vim config/config.php
-```
-
-### Set array of trusted domains
-
-Press `a` to insert <br>
-Change the array `'trusted_domains'` by adding `1 => 'nextcloud', ` <br>
-Press `echap` <br>
-Press `:` <br>
-Press `x` <br>
-Press `Enter` to validate <br>
-
-## Backend local development
+### Backend local development
 
 - Start the stack with Docker Compose:
 
@@ -64,26 +45,7 @@ Press `Enter` to validate <br>
 docker-compose up -d
 ```
 
-- How to build all docker images base
-
-```bash
-./scripts/build-dev.sh
-```
-
-- How to rebuild the development images
-
-```bash
-# for the backend
-docker-compose build --no-cache --pull backend
-
-# for the celery worker
-docker-compose build --no-cache --pull celeryworker
-
-# for the frontend
-docker-compose build --no-cache --pull frontend
-```
-
-- Now you can open your browser and interact with these URLs:
+- Now you can open your browser and interact with these development URLs:
 
 Frontend, built with Docker, with routes handled based on the path: http://localhost
 
@@ -195,8 +157,49 @@ Nevertheless, if it doesn't detect a change but a syntax error, it will just sto
 
 ...this previous detail is what makes it useful to have the container alive doing nothing and then, in a Bash session, make it run the live reload server.
 
-### Backend tests
+### Database migrations
 
+As during local development your app directory is mounted as a volume inside the container, you can also run the migrations with `alembic` commands inside the container and the migration code will be in your app directory (instead of being only inside the container). So you can add it to your git repository.
+
+Make sure you create a "revision" of your models and that you "upgrade" your database with that revision every time you change them. As this is what will update the tables in your database. Otherwise, your application will have errors.
+
+- Start an interactive session in the backend container:
+
+```console
+$ docker-compose exec backend bash
+```
+
+- If you created a new model in `./backend/app/app/models/`, make sure to import it in `./backend/app/app/db/base.py`, that Python module (`base.py`) that imports all the models will be used by Alembic.
+
+- After changing a model (for example, adding a column), inside the container, create a revision, e.g.:
+
+```console
+$ alembic revision --autogenerate -m "Add column last_name to User model"
+```
+
+- Commit to the git repository the files generated in the alembic directory.
+
+- After creating the revision, run the migration in the database (this is what will actually change the database):
+
+```console
+$ alembic upgrade head
+```
+
+If you don't want to use migrations at all, uncomment the line in the file at `./backend/app/app/db/init_db.py` with:
+
+```python
+Base.metadata.create_all(bind=engine)
+```
+
+and comment the line in the file `prestart.sh` that contains:
+
+```console
+$ alembic upgrade head
+```
+
+If you don't want to start with the default models and want to remove them / modify them, from the beginning, without having any previous revision, you can remove the revision files (`.py` Python files) under `./backend/app/alembic/versions/`. And then create a first migration as described above.
+
+### Backend tests
 The `./backend/app` directory is mounted as a "host volume" inside the docker container (set in the file `docker-compose.dev.volumes.yml`).
 To test the backend in docker environment run (when `docker-compose up` was launched):
 
@@ -240,148 +243,25 @@ docker-compose exec backend bash /app/tests-start.sh --cov-report=html
 
 ### Live development with Python Jupyter Notebooks
 
-If you know about Python [Jupyter Notebooks](http://jupyter.org/), you can take advantage of them during local development.
-
-The `docker-compose.override.yml` file sends a variable `env` with a value `dev` to the build process of the Docker image (during local development) and the `Dockerfile` has steps to then install and configure Jupyter inside your Docker container.
-
-So, you can enter into the running Docker container:
-
-```bash
-docker-compose exec backend bash
-```
-
-And use the environment variable `$JUPYTER` to run a Jupyter Notebook with everything configured to listen on the public port (so that you can use it from your browser).
-
-It will output something like:
-
-```console
-root@73e0ec1f1ae6:/app# $JUPYTER
-[I 12:02:09.975 NotebookApp] Writing notebook server cookie secret to /root/.local/share/jupyter/runtime/notebook_cookie_secret
-[I 12:02:10.317 NotebookApp] Serving notebooks from local directory: /app
-[I 12:02:10.317 NotebookApp] The Jupyter Notebook is running at:
-[I 12:02:10.317 NotebookApp] http://(73e0ec1f1ae6 or 127.0.0.1):8888/?token=f20939a41524d021fbfc62b31be8ea4dd9232913476f4397
-[I 12:02:10.317 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
-[W 12:02:10.317 NotebookApp] No web browser found: could not locate runnable browser.
-[C 12:02:10.317 NotebookApp]
-
-    Copy/paste this URL into your browser when you connect for the first time,
-    to login with a token:
-        http://(73e0ec1f1ae6 or 127.0.0.1):8888/?token=f20939a41524d021fbfc62b31be8ea4dd9232913476f4397
-```
-
-you can copy that URL and modify the "host" to be `localhost` or the domain you are using for development (e.g. `local.dockertoolbox.tiangolo.com`), in the case above, it would be, e.g.:
-
-```
-http://localhost:8888/token=f20939a41524d021fbfc62b31be8ea4dd9232913476f4397
-```
-
-and then open it in your browser.
-
-You will have a full Jupyter Notebook running inside your container that has direct access to your database by the container name (`db`), etc. So, you can just run sections of your backend code directly, for example with [VS Code Python Jupyter Interactive Window](https://code.visualstudio.com/docs/python/jupyter-support-py) or [Hydrogen](https://github.com/nteract/hydrogen).
-
-### Migrations
-
-As during local development your app directory is mounted as a volume inside the container, you can also run the migrations with `alembic` commands inside the container and the migration code will be in your app directory (instead of being only inside the container). So you can add it to your git repository.
-
-Make sure you create a "revision" of your models and that you "upgrade" your database with that revision every time you change them. As this is what will update the tables in your database. Otherwise, your application will have errors.
-
-- Start an interactive session in the backend container:
-
-```console
-$ docker-compose exec backend bash
-```
-
-- If you created a new model in `./backend/app/app/models/`, make sure to import it in `./backend/app/app/db/base.py`, that Python module (`base.py`) that imports all the models will be used by Alembic.
-
-- After changing a model (for example, adding a column), inside the container, create a revision, e.g.:
-
-```console
-$ alembic revision --autogenerate -m "Add column last_name to User model"
-```
-
-- Commit to the git repository the files generated in the alembic directory.
-
-- After creating the revision, run the migration in the database (this is what will actually change the database):
-
-```console
-$ alembic upgrade head
-```
-
-If you don't want to use migrations at all, uncomment the line in the file at `./backend/app/app/db/init_db.py` with:
-
-```python
-Base.metadata.create_all(bind=engine)
-```
-
-and comment the line in the file `prestart.sh` that contains:
-
-```console
-$ alembic upgrade head
-```
-
-If you don't want to start with the default models and want to remove them / modify them, from the beginning, without having any previous revision, you can remove the revision files (`.py` Python files) under `./backend/app/alembic/versions/`. And then create a first migration as described above.
+If you know about Python [Jupyter Notebooks](http://jupyter.org/), you can take advantage of them during local development. See : [NBM_Jupyter](https://gitlab.com/nbm.challenge/nbm-nocturnal-bird-migration/-/blob/62-improve-web-documentation-in-readme/web/docs/jupyter_readme.md) --> link to change when on master
 
 ### Development with Docker Toolbox
 
 If you are using **Docker Toolbox** in Windows or macOS instead of **Docker for Windows** or **Docker for Mac**, Docker will be running in a VirtualBox Virtual Machine, and it will have a local IP different than `127.0.0.1`, which is the IP address for `localhost` in your machine.
 
-The address of your Docker Toolbox virtual machine would probably be `192.168.99.100` (that is the default).
-
-As this is a common case, the domain `local.dockertoolbox.tiangolo.com` points to that (private) IP, just to help with development (actually `dockertoolbox.tiangolo.com` and all its subdomains point to that IP). That way, you can start the stack in Docker Toolbox, and use that domain for development. You will be able to open that URL in Chrome and it will communicate with your local Docker Toolbox directly as if it was a cloud server, including CORS (Cross Origin Resource Sharing).
-
-If you used the default CORS enabled domains while generating the project, `local.dockertoolbox.tiangolo.com` was configured to be allowed. If you didn't, you will need to add it to the list in the variable `BACKEND_CORS_ORIGINS` in the `.env` file.
-
-To configure it in your stack, follow the section **Change the development "domain"** below, using the domain `local.dockertoolbox.tiangolo.com`.
-
-After performing those steps you should be able to open: http://local.dockertoolbox.tiangolo.com and it will be server by your stack in your Docker Toolbox virtual machine.
-
-Check all the corresponding available URLs in the section at the end.
+In that case, follow : docs/development_with_docker_toolbox.md (link)
 
 ### Development in `localhost` with a custom domain
 
 You might want to use something different than `localhost` as the domain. For example, if you are having problems with cookies that need a subdomain, and Chrome is not allowing you to use `localhost`.
 
-In that case, you have two options: you could use the instructions to modify your system `hosts` file with the instructions below in **Development with a custom IP** or you can just use `localhost.tiangolo.com`, it is set up to point to `localhost` (to the IP `127.0.0.1`) and all its subdomains too. And as it is an actual domain, the browsers will store the cookies you set during development, etc.
-
-If you used the default CORS enabled domains while generating the project, `localhost.tiangolo.com` was configured to be allowed. If you didn't, you will need to add it to the list in the variable `BACKEND_CORS_ORIGINS` in the `.env` file.
-
-To configure it in your stack, follow the section **Change the development "domain"** below, using the domain `localhost.tiangolo.com`.
-
-After performing those steps you should be able to open: http://localhost.tiangolo.com and it will be server by your stack in `localhost`.
-
-Check all the corresponding available URLs in the section at the end.
+In that case, follow : docs/development_localhost_with_custom_domain.md (link)
 
 ### Development with a custom IP
 
 If you are running Docker in an IP address different than `127.0.0.1` (`localhost`) and `192.168.99.100` (the default of Docker Toolbox), you will need to perform some additional steps. That will be the case if you are running a custom Virtual Machine, a secondary Docker Toolbox or your Docker is located in a different machine in your network.
 
-In that case, you will need to use a fake local domain (`dev.nocturnal-bird-migration.org`) and make your computer think that the domain is is served by the custom IP (e.g. `192.168.99.150`).
-
-If you used the default CORS enabled domains, `dev.nocturnal-bird-migration.org` was configured to be allowed. If you want a custom one, you need to add it to the list in the variable `BACKEND_CORS_ORIGINS` in the `.env` file.
-
-- Open your `hosts` file with administrative privileges using a text editor:
-
-  - **Note for Windows**: If you are in Windows, open the main Windows menu, search for "notepad", right click on it, and select the option "open as Administrator" or similar. Then click the "File" menu, "Open file", go to the directory `c:\Windows\System32\Drivers\etc\`, select the option to show "All files" instead of only "Text (.txt) files", and open the `hosts` file.
-  - **Note for Mac and Linux**: Your `hosts` file is probably located at `/etc/hosts`, you can edit it in a terminal running `sudo nano /etc/hosts`.
-
-- Additional to the contents it might have, add a new line with the custom IP (e.g. `192.168.99.150`) a space character, and your fake local domain: `dev.nocturnal-bird-migration.org`.
-
-The new line might look like:
-
-```
-192.168.99.100    dev.nocturnal-bird-migration.org
-```
-
-- Save the file.
-  - **Note for Windows**: Make sure you save the file as "All files", without an extension of `.txt`. By default, Windows tries to add the extension. Make sure the file is saved as is, without extension.
-
-...that will make your computer think that the fake local domain is served by that custom IP, and when you open that URL in your browser, it will talk directly to your locally running server when it is asked to go to `dev.nocturnal-bird-migration.org` and think that it is a remote server while it is actually running in your computer.
-
-To configure it in your stack, follow the section **Change the development "domain"** below, using the domain `dev.nocturnal-bird-migration.org`.
-
-After performing those steps you should be able to open: http://dev.nocturnal-bird-migration.org and it will be server by your stack in `localhost`.
-
-Check all the corresponding available URLs in the section at the end.
+Follow docs/development_with_custom_IP.md (link)
 
 ### Change the development "domain"
 
@@ -780,78 +660,6 @@ PGAdmin: https://pgadmin.stag.nocturnal-bird-migration.org
 
 Flower: https://flower.stag.nocturnal-bird-migration.org
 
-### Development URLs
-
-Development URLs, for local development.
-
-Frontend: http://localhost
-
-Backend: http://localhost/api/
-
-Automatic Interactive Docs (Swagger UI): https://localhost/docs
-
-Automatic Alternative Docs (ReDoc): https://localhost/redoc
-
-PGAdmin: http://localhost:5050
-
-Flower: http://localhost:5555
-
-Traefik UI: http://localhost:8090
-
-### Development with Docker Toolbox URLs
-
-Development URLs, for local development.
-
-Frontend: http://local.dockertoolbox.tiangolo.com
-
-Backend: http://local.dockertoolbox.tiangolo.com/api/
-
-Automatic Interactive Docs (Swagger UI): https://local.dockertoolbox.tiangolo.com/docs
-
-Automatic Alternative Docs (ReDoc): https://local.dockertoolbox.tiangolo.com/redoc
-
-PGAdmin: http://local.dockertoolbox.tiangolo.com:5050
-
-Flower: http://local.dockertoolbox.tiangolo.com:5555
-
-Traefik UI: http://local.dockertoolbox.tiangolo.com:8090
-
-### Development with a custom IP URLs
-
-Development URLs, for local development.
-
-Frontend: http://dev.nocturnal-bird-migration.org
-
-Backend: http://dev.nocturnal-bird-migration.org/api/
-
-Automatic Interactive Docs (Swagger UI): https://dev.nocturnal-bird-migration.org/docs
-
-Automatic Alternative Docs (ReDoc): https://dev.nocturnal-bird-migration.org/redoc
-
-PGAdmin: http://dev.nocturnal-bird-migration.org:5050
-
-Flower: http://dev.nocturnal-bird-migration.org:5555
-
-Traefik UI: http://dev.nocturnal-bird-migration.org:8090
-
-### Development in localhost with a custom domain URLs
-
-Development URLs, for local development.
-
-Frontend: http://localhost.tiangolo.com
-
-Backend: http://localhost.tiangolo.com/api/
-
-Automatic Interactive Docs (Swagger UI): https://localhost.tiangolo.com/docs
-
-Automatic Alternative Docs (ReDoc): https://localhost.tiangolo.com/redoc
-
-PGAdmin: http://localhost.tiangolo.com:5050
-
-Flower: http://localhost.tiangolo.com:5555
-
-Traefik UI: http://localhost.tiangolo.com:8090
-
 ## Project generation and updating, or re-generating
 
 This project was generated using https://github.com/tiangolo/full-stack-fastapi-postgresql with:
@@ -861,22 +669,4 @@ pip install cookiecutter
 cookiecutter https://github.com/tiangolo/full-stack-fastapi-postgresql
 ```
 
-You can check the variables used during generation in the file `cookiecutter-config-file.yml`.
-
-You can generate the project again with the same configurations used the first time.
-
-That would be useful if, for example, the project generator (`tiangolo/full-stack-fastapi-postgresql`) was updated and you wanted to integrate or review the changes.
-
-You could generate a new project with the same configurations as this one in a parallel directory. And compare the differences between the two, without having to overwrite your current code but being able to use the same variables used for your current project.
-
-To achieve that, the generated project includes the file `cookiecutter-config-file.yml` with the current variables used.
-
-You can use that file while generating a new project to reuse all those variables.
-
-For example, run:
-
-```console
-$ cookiecutter --config-file ./cookiecutter-config-file.yml --output-dir ../project-copy https://github.com/tiangolo/full-stack-fastapi-postgresql
-```
-
-That will use the file `cookiecutter-config-file.yml` in the current directory (in this project) to generate a new project inside a sibling directory `project-copy`.
+For more informations : see web/docs/project_generation_cookiecutter.md
