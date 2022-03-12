@@ -15,7 +15,6 @@ import StatisticsSpeciesList from "@/components/Statistics/Species/List";
 import StatisticsSpeciesItem from "@/components/Statistics/Species/Item";
 import { useTranslation } from "react-i18next";
 
-
 const useStyles = makeStyles((theme) => ({
   title: {
     fontSize: "xx-large",
@@ -30,12 +29,15 @@ const useStyles = makeStyles((theme) => ({
 const StatisticsSpeciesPage: NextPage = () => {
   const router = useRouter();
   const classes = useStyles();
-  const {t} = useTranslation()
-  const { accessToken } = useAuth();
-  const { data: species = [] } = useSWR(["/statistics/species_annotations", accessToken]);
+  const { t } = useTranslation();
+  const { accessToken, user } = useAuth();
+  const { data: species = [] } = useSWR([
+    "/statistics/species_annotations",
+    accessToken,
+  ]);
 
   const handleGoToDashboard = () => {
-    router.push("/home");
+    router.push(user ? "/home" : "/");
   };
 
   return (
@@ -50,7 +52,7 @@ const StatisticsSpeciesPage: NextPage = () => {
           <Grid container>
             <Grid item>
               <Button variant="outlined" onClick={handleGoToDashboard}>
-                 {t("StatisticsSpeciesPage_backHome")}
+                {t("StatisticsSpeciesPage_backHome")}
               </Button>
             </Grid>
           </Grid>
@@ -59,7 +61,14 @@ const StatisticsSpeciesPage: NextPage = () => {
           <StatisticsSpeciesList>
             <StatisticsSpeciesHeader />
             <Divider />
-            {species.map((s) => ( <StatisticsSpeciesItem total={s.total} name={s.name} id={s.id} />))}
+            {species.map((s) => (
+              <StatisticsSpeciesItem
+                total={s.total}
+                name={s.name}
+                id={s.id}
+                total_by_user={s.total_by_user}
+              />
+            ))}
           </StatisticsSpeciesList>
         </Grid>
       </Grid>

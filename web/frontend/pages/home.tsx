@@ -46,10 +46,9 @@ const HomePage: NextPage = () => {
   const router = useRouter();
   const { user, accessToken } = useAuth();
   const { data: globalCount } = useSWR(["/utils/count", accessToken]);
-  const { data: personalCount } = useSWR([
-    "/utils/personal-count",
-    accessToken,
-  ]);
+  const { data: personalCount } = useSWR(
+    user ? ["/utils/personal-count", accessToken] : null
+  );
 
   return (
     <>

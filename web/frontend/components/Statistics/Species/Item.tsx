@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { ListItem, Grid, makeStyles, Typography } from "@material-ui/core";
+import { useAuth } from "@/components/Providers/AuthProvider";
 
 const useStyles = makeStyles({
   root: {
@@ -14,13 +15,17 @@ export interface StatisticsSpeciesItemProps {
   id: number;
   name: string;
   total: number;
-  totalUser?: number
+  total_by_user?: number | undefined;
 }
 
 const StatisticsSpeciesItem: FC<StatisticsSpeciesItemProps> = ({
-  id, name, total, totalUser
+  id,
+  name,
+  total,
+  total_by_user,
 }) => {
   const classes = useStyles();
+  const { user } = useAuth();
 
   return (
     <ListItem button>
@@ -34,9 +39,11 @@ const StatisticsSpeciesItem: FC<StatisticsSpeciesItemProps> = ({
         <Grid item className={classes.fixed}>
           <Typography align="right">{total}</Typography>
         </Grid>
-        <Grid item className={classes.fixed}>
-          <Typography align="right">{totalUser}</Typography>
-        </Grid>
+        {user && (
+          <Grid item className={classes.fixed}>
+            <Typography align="right">{total_by_user}</Typography>
+          </Grid>
+        )}
       </Grid>
     </ListItem>
   );

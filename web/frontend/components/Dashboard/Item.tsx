@@ -12,11 +12,18 @@ export interface DashboardItemProps {
 const useStyles = makeStyles((theme) => ({
   box: {
     minWidth: "6.5rem",
-    cursor: (props: DashboardItemProps) => props.href ? 'pointer' : 'auto'
+    cursor: (props: DashboardItemProps) => (props.href ? "pointer" : "auto"),
   },
+
   [theme.breakpoints.up("md")]: {
     item: {
       borderRight: "1px solid #ddd",
+
+      "&:hover": {
+        background: (props: DashboardItemProps) =>
+          props.href ? "#0721363b" : "transparent",
+        transition: ".3s background",
+      },
     },
   },
 }));
