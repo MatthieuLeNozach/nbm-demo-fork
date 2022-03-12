@@ -1,4 +1,4 @@
-version: "3.6"
+version: "3.8"
 services:
   proxy:
     ports:
@@ -33,10 +33,6 @@ services:
   pgadmin:
     ports:
       - "5050:5050"
-
-  flower:
-    ports:
-      - "5555:5555"
 
   dbnxt:
     image: mariadb
@@ -116,7 +112,7 @@ services:
       - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.rule=PathPrefix(`/`)
       - traefik.http.services.${STACK_NAME?Variable not set}-frontend.loadbalancer.server.port=3000
     volumes:
-      - ./frontend:/usr/app
+      - ./frontend:/usr/app:cached
 
 volumes:
   nextcloud:

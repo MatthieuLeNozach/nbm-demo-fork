@@ -38,7 +38,7 @@ function AuthProvider({ children }: Props): ReactElement {
     "/contact",
     "/welcome",
     "/reset-password",
-    "/statistics/species"
+    "/statistics/species",
   ];
 
   const callMe = async (token) => {
@@ -64,7 +64,7 @@ function AuthProvider({ children }: Props): ReactElement {
   };
 
   useEffect(() => {
-    if (!accessToken && !anonymousLoginRoutes.includes(router.route)) {
+    if (!accessToken && !anonymousLoginRoutes.includes(router.pathname)) {
       destroyCookie(null, "accessToken");
       setUser(null);
       router.push("/signin");
@@ -151,10 +151,15 @@ function AuthProvider({ children }: Props): ReactElement {
   };
 
   const logout = () => {
-    destroyCookie(null, "accessToken");
+    document.cookie.split(";").forEach((c) => {
+      document.cookie = c
+        .replace(/^ +/, "")
+        .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+    });
     setUser(null);
     router.push("/");
   };
+
   return (
     <AuthContext.Provider
       value={{ user, accessToken, login, register, logout }}
@@ -163,5 +168,6 @@ function AuthProvider({ children }: Props): ReactElement {
     </AuthContext.Provider>
   );
 }
+
 const useAuth = (): AuthProviderData => useContext(AuthContext);
 export { AuthProvider, useAuth };

@@ -16,6 +16,7 @@ const LayoutHeader: React.FC = () => {
   const router = useRouter();
   const { t } = useTranslation();
   const { logout } = useAuth();
+  const { user } = useAuth();
 
   const handlerOnClickHome = () => {
     router.push("/home");
@@ -39,9 +40,15 @@ const LayoutHeader: React.FC = () => {
             alignItems="center"
           >
             <Grid item>
-              <Button name="Sign out" onClick={logout}>
-                {t("logout")}
-              </Button>
+              {user ? (
+                <Button name="Sign out" size="small" onClick={logout}>
+                  {t("logout")}
+                </Button>
+              ) : (
+                <Button size="small" onClick={() => router.push("/signin")}>
+                  {t("signIn")}
+                </Button>
+              )}
             </Grid>
           </Grid>
         </Box>
