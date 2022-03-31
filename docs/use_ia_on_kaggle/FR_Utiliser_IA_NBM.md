@@ -51,8 +51,11 @@ Le nom doit contenir l'extension .wav .
 Cliquer sur run (flèche rouge).
 
 ATTENTION : Des fois une erreur os.path ou de ce type apparait quand vous executez la cellule 2 disant que le chemin n'existe pas : "path does not exist". 
+
 Le chemin est `dict_dir = '/kaggle/input/nbm-project/ia_data'`
+
 Le remplacer par `dict_dir = '/kaggle/input/nbm-project/ia_data/ia_data'`
+
 Dans la cellule 2. 
 
 ## 5. Analyser les résultats
