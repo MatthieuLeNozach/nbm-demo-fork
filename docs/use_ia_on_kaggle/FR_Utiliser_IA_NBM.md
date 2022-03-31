@@ -15,9 +15,13 @@ Cliquer sur '+ New Version' (4.1.3).
 
 ![Capture_d_écran_2022-03-11_à_20.10.00](/uploads/37de3f68b993ad31ac776098b7792044/Capture_d_écran_2022-03-11_à_20.10.00.png)
 
-Une pop-up s'affiche. Cliquer sur 'Upload File'. 
+Une pop-up s'affiche. Cliquer sur 'Upload File'. (4.1.4)
 
 Choisir le fichier son que vous souhaitez analyser.
+
+En profiter pour supprimer le(s) fichier(s) sons déjà analysé(s) en cliquant sur la croix (4.1.5), c'est plus écologique !
+
+![Capture_d_écran_2022-03-31_à_20.28.41](/uploads/11ca255edcd881cc42d88c6bce0dfb74/Capture_d_écran_2022-03-31_à_20.28.41.png)
 
 Cliquer sur 'Create'. 
 
