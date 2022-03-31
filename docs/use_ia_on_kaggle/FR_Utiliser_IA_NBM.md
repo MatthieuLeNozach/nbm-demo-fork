@@ -52,7 +52,7 @@ Le nom doit contenir l'extension .wav .
 
 ![](./006_run_modele.png)
 
-Cliquer sur run (flèche rouge).
+Cliquer sur run pour la cellule 1 puis pour la cellule 2 (exemple pour la cellule 2 avec la flèche rouge).
 
 ATTENTION : Des fois une erreur os.path ou de ce type apparait quand vous executez la cellule 2 disant que le chemin n'existe pas : "path does not exist". 
 
