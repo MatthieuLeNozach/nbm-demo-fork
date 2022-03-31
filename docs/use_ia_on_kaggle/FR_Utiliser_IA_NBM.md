@@ -26,11 +26,20 @@ Cliquer sur 'Create'.
 Fermer la fenêtre dans laquelle vous êtes. 
 Revenir ensuite sur celle contenant le code. 
 
-Attendre le temps nécessaire pour qu'un point noir, à côté de nbm-project apparaisse. 4.2.1.
+Deux options : 
+1/ Attendre le temps nécessaire pour qu'un point noir, à côté de nbm-project apparaisse. 4.2.1. 
 
 ![Capture_d_écran_2022-03-11_à_20.23.09](/uploads/f957d53dd02984aea4230d2622e6ec2b/Capture_d_écran_2022-03-11_à_20.23.09.png)
 
 Cliquer dessus puis cliquer sur 'update'. 
+
+2/ En haut à droite à côté de nbm-project, cliquer sur les trois points verticaux (4.2.2.1).
+![Capture_d_écran_2022-03-31_à_20.17.26](/uploads/8e65530225c3c96b800297af3f6f3fa3/Capture_d_écran_2022-03-31_à_20.17.26.png)
+
+Sélectionner "Check for updates" (4.2.2.2).
+![Capture_d_écran_2022-03-31_à_20.17.31](/uploads/b8678e90663105a3c8904af9d449adf2/Capture_d_écran_2022-03-31_à_20.17.31.png)
+
+Normalement, celui-ci doit vous proposer de passer à une nouvelle version, (V2 si c'est votre premier enregistrement chargé puis +1 à chaque fois que vous chargez un enregistrement). Si ce n'est pas le cas, relancer l'opération jusqu'à que ce soit le cas. 
 
 ### 4.2 Executer le modèle
 
